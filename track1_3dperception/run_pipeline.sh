@@ -18,7 +18,14 @@ CAMERAS=""
 MAX_FRAMES=""
 DEVICE="cuda"
 OUT="track1.txt"
-MODEL="yolo11n.pt"
+# prefer the warehouse fine-tuned detector when it exists; COCO yolo11n is
+# only the fallback for runs before/without fine-tuning
+FINETUNED="runs_finetune/warehouse72/weights/best.pt"
+if [[ -f "$FINETUNED" ]]; then
+  MODEL="$FINETUNED"
+else
+  MODEL="yolo11n.pt"
+fi
 CONF="0.25"
 
 while [[ $# -gt 0 ]]; do
@@ -59,10 +66,13 @@ python3 track2d.py --scene "$SCENE" "${CAM_ARGS[@]}"
 echo "=== [3/5] project3d.py ==="
 python3 project3d.py --scene "$SCENE" --split "$SPLIT" "${CAM_ARGS[@]}"
 
-echo "=== [4/5] fuse_mtmc.py ==="
+echo "=== [4/6] fuse_mtmc.py ==="
 python3 fuse_mtmc.py --scene "$SCENE"
 
-echo "=== [5/5] export_submission.py ==="
+echo "=== [5/6] estimate_yaw.py ==="
+python3 estimate_yaw.py --scene "$SCENE"
+
+echo "=== [6/6] export_submission.py ==="
 python3 export_submission.py --scene "$SCENE" --out "$OUT"
 
 echo "=== done: $OUT ==="

@@ -58,6 +58,8 @@ def main():
                      help="Only process the first N *videos* (for smoke testing).")
     ap.add_argument("--resume", action="store_true",
                      help="Skip item_index values already present in --out.")
+    ap.add_argument("--samples", type=int, default=1,
+                     help="Self-consistency samples for bcq/mcq (majority vote). 1 = greedy only.")
     args = ap.parse_args()
 
     items = load_items(args.test_json)
@@ -122,7 +124,7 @@ def main():
                 results[idx] = fallback_answer(task_type)
                 continue
             try:
-                ans = backend.answer(video_path, task_type, question)
+                ans = backend.answer(video_path, task_type, question, samples=args.samples)
                 if not ans.strip():
                     ans = fallback_answer(task_type)
                 results[idx] = ans

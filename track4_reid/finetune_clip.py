@@ -8,6 +8,7 @@ import argparse
 import json
 import os
 import random
+import time
 
 import torch
 from PIL import Image
@@ -17,7 +18,7 @@ from common import DEVICE, MODEL_NAME
 from transformers import CLIPModel, CLIPProcessor
 
 TRAIN_ROOT = "data/train"
-ANNOTATION = "data/train_annotation_14.jsonl"
+ANNOTATION = "data/train_annotation_all.jsonl"
 
 
 class PairDataset(Dataset):
@@ -61,6 +62,9 @@ def main():
     ap.add_argument("--batch-size", type=int, default=32)
     ap.add_argument("--val-frac", type=float, default=0.1)
     ap.add_argument("--out", default="clip_finetuned")
+    ap.add_argument("--freeze-vision", action="store_true")
+    ap.add_argument("--num-workers", type=int, default=4)
+    ap.add_argument("--step-sleep", type=float, default=0.0, help="seconds to sleep after each step, to pace disk/GPU load")
     args = ap.parse_args()
 
     records = [json.loads(l) for l in open(ANNOTATION) if l.strip()]
@@ -72,26 +76,25 @@ def main():
     model = CLIPModel.from_pretrained(MODEL_NAME).to(DEVICE)
     processor = CLIPProcessor.from_pretrained(MODEL_NAME)
 
-    # Freeze the vision tower: 13.5k pairs is too little to safely tune a 300M-param
-    # ViT without overfitting/forgetting, and it's most of the OOM-driving memory.
-    # Only the text tower + projections adapt to the domain vocabulary (falls,
-    # anomalous actions, etc).
-    for param in model.vision_model.parameters():
-        param.requires_grad = False
+    if args.freeze_vision:
+        # 13.5k pairs is too little to safely tune a 300M-param ViT without
+        # overfitting/forgetting -- only the text tower + projections adapt.
+        for param in model.vision_model.parameters():
+            param.requires_grad = False
 
     train_loader = DataLoader(
         PairDataset(train_records),
         batch_size=args.batch_size,
         shuffle=True,
         collate_fn=lambda b: collate(b, processor),
-        num_workers=4,
+        num_workers=args.num_workers,
     )
     val_loader = DataLoader(
         PairDataset(val_records),
         batch_size=args.batch_size,
         shuffle=False,
         collate_fn=lambda b: collate(b, processor),
-        num_workers=2,
+        num_workers=max(1, args.num_workers // 2),
     )
 
     optim = torch.optim.AdamW(model.parameters(), lr=args.lr)
@@ -105,6 +108,8 @@ def main():
             loss.backward()
             optim.step()
             total_loss += loss.item()
+            if args.step_sleep > 0:
+                time.sleep(args.step_sleep)
             if step % 50 == 0:
                 print(f"epoch {epoch} step {step}/{len(train_loader)} loss {loss.item():.4f}")
         print(f"epoch {epoch} train loss avg {total_loss / len(train_loader):.4f}")

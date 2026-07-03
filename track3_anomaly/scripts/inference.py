@@ -15,6 +15,7 @@ Usage:
 
 import argparse
 import os
+import re
 import sys
 
 import torch
@@ -84,7 +85,42 @@ class QwenVLBackend:
             print(f"[QwenVLBackend] {msg}", file=sys.stderr)
 
     @torch.inference_mode()
-    def answer(self, video_path: str, task_type: str, question: str) -> str:
+    def _generate_once(self, inputs, max_new_tokens, do_sample):
+        gen_kwargs = dict(max_new_tokens=max_new_tokens)
+        if do_sample:
+            gen_kwargs.update(do_sample=True, temperature=0.7, top_p=0.9)
+        else:
+            gen_kwargs.update(do_sample=False, temperature=None, top_p=None, top_k=None)
+        output_ids = self.model.generate(**inputs, **gen_kwargs)
+        trimmed = [
+            out[len(inp):] for inp, out in zip(inputs.input_ids, output_ids)
+        ]
+        out_text = self.processor.batch_decode(
+            trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False
+        )[0]
+        return out_text.strip()
+
+    @staticmethod
+    def _extract_final(text, kind):
+        """Pull the token after the last 'Final answer:' marker; fall back to
+        scanning the whole text. Returns None if nothing extractable."""
+        m = re.findall(r"final answer\s*:\s*\(?([A-Za-z]+)\)?", text, re.IGNORECASE)
+        cand = m[-1] if m else None
+        if kind == "yesno":
+            if cand and cand.lower() in ("yes", "no"):
+                return cand.capitalize()
+            m2 = re.findall(r"\b(yes|no)\b", text, re.IGNORECASE)
+            return m2[-1].capitalize() if m2 else None
+        if kind == "letter":
+            if cand and re.fullmatch(r"[A-Da-d]", cand):
+                return cand.upper()
+            m2 = re.findall(r"\b([A-D])\b", text)
+            return m2[-1] if m2 else None
+        return None
+
+    @torch.inference_mode()
+    def answer(self, video_path: str, task_type: str, question: str,
+               samples: int = 1) -> str:
         spec = build_prompt(task_type, question)
         messages = [
             {"role": "system", "content": spec.system},
@@ -119,21 +155,27 @@ class QwenVLBackend:
             **video_kwargs,
         ).to(self.model.device)
 
-        gen_kwargs = dict(
-            max_new_tokens=spec.max_new_tokens,
-            do_sample=False,
-            temperature=None,
-            top_p=None,
-            top_k=None,
-        )
-        output_ids = self.model.generate(**inputs, **gen_kwargs)
-        trimmed = [
-            out[len(inp):] for inp, out in zip(inputs.input_ids, output_ids)
-        ]
-        out_text = self.processor.batch_decode(
-            trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False
-        )[0]
-        return out_text.strip()
+        # Reason-then-extract path (bcq/mcq): the model reasons freely, we
+        # submit only the clean final token so the organizers' extraction
+        # regex can never latch onto a stray yes/no inside the reasoning.
+        if spec.final_answer:
+            n = max(1, samples) if spec.self_consistency else 1
+            votes = []
+            for i in range(n):
+                out = self._generate_once(inputs, spec.max_new_tokens, do_sample=(i > 0))
+                tok = self._extract_final(out, spec.final_answer)
+                if tok:
+                    votes.append(tok)
+            if not votes:
+                return ""
+            # majority vote; ties broken by first (greedy) sample
+            counts = {}
+            for v in votes:
+                counts[v] = counts.get(v, 0) + 1
+            best = max(counts.items(), key=lambda kv: (kv[1], kv[0] == votes[0]))
+            return best[0]
+
+        return self._generate_once(inputs, spec.max_new_tokens, do_sample=False)
 
 
 def main():
