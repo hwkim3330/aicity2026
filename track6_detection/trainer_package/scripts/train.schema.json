@@ -2,7 +2,7 @@
   "$comment": "Hand-written placeholder. Hafnia normally AUTO-GENERATES this file from scripts/train.py's argparse definitions via `hafnia trainer create-zip` / `hafnia trainer view-zip` -- regenerate with the real CLI once logged in and diff against this file rather than trusting it blindly.",
   "type": "object",
   "properties": {
-    "dataset-name": {"type": "string", "default": "REPLACE_ME_TRACK6_DATASET_NAME"},
+    "dataset-name": {"type": "string", "default": "eccv-cross-city"},
     "dataset-version": {"type": "string", "default": "1.0.0"},
     "arch": {"type": "string", "enum": ["yolo11n.pt", "yolo11s.pt", "yolo11m.pt", "yolo11l.pt", "yolo11x.pt", "rtdetr-l.pt", "rtdetr-x.pt"], "default": "yolo11m.pt"},
     "epochs": {"type": "integer", "default": 100, "minimum": 1},

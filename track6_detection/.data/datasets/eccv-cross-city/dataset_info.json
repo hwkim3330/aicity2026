@@ -1,0 +1,75 @@
+{
+    "tasks": [
+        {
+            "primitive": "Bbox",
+            "classes": [
+                {
+                    "name": "Vehicle.Car",
+                    "attributes": null
+                },
+                {
+                    "name": "Vehicle.Pickup Truck",
+                    "attributes": null
+                },
+                {
+                    "name": "Vehicle.Single Truck",
+                    "attributes": null
+                },
+                {
+                    "name": "Vehicle.Combo Truck",
+                    "attributes": null
+                },
+                {
+                    "name": "Vehicle.Heavy Duty Vehicle",
+                    "attributes": null
+                },
+                {
+                    "name": "Vehicle.Trailer",
+                    "attributes": null
+                },
+                {
+                    "name": "Vehicle.Motorcycle",
+                    "attributes": null
+                },
+                {
+                    "name": "Vehicle.Bicycle",
+                    "attributes": null
+                },
+                {
+                    "name": "Vehicle.Van",
+                    "attributes": null
+                },
+                {
+                    "name": "Person",
+                    "attributes": [
+                        {
+                            "primitive": "Classification",
+                            "classes": [
+                                {
+                                    "name": "Yes",
+                                    "attributes": null
+                                },
+                                {
+                                    "name": "No",
+                                    "attributes": null
+                                }
+                            ],
+                            "name": "Pedestrian"
+                        }
+                    ]
+                }
+            ],
+            "name": "object_detection"
+        }
+    ],
+    "dataset_name": "eccv-cross-city",
+    "version": "1.0.0",
+    "dataset_title": null,
+    "description": null,
+    "reference_bibtex": "@misc{hafnia-dataset-eccv-cross-city,\n    author = {Milestone Systems},\n    title = {Hafnia Dataset: ECCV Cross City Object Detection Dataset},\n    url = https://mdi.milestonesys.com/datasets/070b3bd5-0266-4446-a318-052c993558ef,\n    note = {Part of the Hafnia project},\n    version = {0.0.1},\n    address = {Copenhagen, Denmark},\n    year = { 2024 },\n    month = { dec },\n}",
+    "reference_paper_url": null,
+    "reference_dataset_page": null,
+    "meta": {},
+    "format_version": "0.3.1",
+    "updated_at": "2026-06-04T09:14:59.314984"
+}

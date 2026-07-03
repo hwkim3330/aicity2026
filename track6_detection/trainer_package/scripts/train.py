@@ -68,8 +68,13 @@ from pathlib import Path
 
 import yaml
 
-TRACK6_DATASET_NAME = os.environ.get("TRACK6_DATASET_NAME", "REPLACE_ME_TRACK6_DATASET_NAME")
+TRACK6_DATASET_NAME = os.environ.get("TRACK6_DATASET_NAME", "eccv-cross-city")
 TRACK6_DATASET_VERSION = os.environ.get("TRACK6_DATASET_VERSION", "1.0.0")
+
+# hafnia's experiment logger uses mlflow; mlflow >= 3.x refuses its default
+# file-store backend unless this is set. Harmless when a real tracking
+# backend is configured (the env var is only consulted for file stores).
+os.environ.setdefault("MLFLOW_ALLOW_FILE_STORE", "true")
 
 
 def parse_args():
@@ -148,7 +153,12 @@ def load_dataset_as_yolo_yaml(args) -> str:
         return args.local_yolo_yaml
 
     try:
-        from hafnia.dataset import HafniaDataset  # noqa: F401
+        # SDK >= 0.7.14 moved HafniaDataset into a submodule; older docs used
+        # `from hafnia.dataset import HafniaDataset`. Support both.
+        try:
+            from hafnia.dataset.hafnia_dataset import HafniaDataset
+        except ImportError:
+            from hafnia.dataset import HafniaDataset
     except ImportError:
         print("[train.py] hafnia SDK not importable and no --local-yolo-yaml given. "
               "Install `hafnia` (pip install hafnia) and run `hafnia configure` + "
@@ -156,14 +166,63 @@ def load_dataset_as_yolo_yaml(args) -> str:
               "an offline dry run.", file=sys.stderr)
         raise
 
-    ds = HafniaDataset.from_name(args.dataset_name, version=args.dataset_version)
-    # `to_yolo_format()` is documented in the hafnia SDK (see docs/dataset.md
-    # in github.com/milestone-hafnia/hafnia) as a converter to Ultralytics-
-    # style image/label folders + yaml; exact kwarg names should be
-    # reconfirmed against the installed SDK version once available.
-    yolo_root = Path(args.output_path) / "hafnia_dataset_yolo"
-    data_yaml_path = ds.to_yolo_format(output_dir=str(yolo_root))
-    print(f"[train.py] hafnia dataset '{args.dataset_name}' -> {data_yaml_path}", file=sys.stderr)
+    import yaml
+
+    from hafnia.utils import get_dataset_path_in_hafnia_cloud, is_hafnia_cloud_job
+
+    if is_hafnia_cloud_job():
+        # Inside a Hafnia job (or `hafnia runc launch-local`) the dataset is
+        # already mounted; from_name would need platform credentials that
+        # don't exist in the container.
+        mount = get_dataset_path_in_hafnia_cloud()
+        print(f"[train.py] HAFNIA_CLOUD=true, loading mounted dataset from {mount}", file=sys.stderr)
+        ds = HafniaDataset.from_path(mount)
+    else:
+        ds = HafniaDataset.from_name(args.dataset_name, version=args.dataset_version)
+    # SDK 0.7.x `to_yolo_format(dataset, path_output)` emits darknet-style
+    # splits (images.txt + obj.names per split), NOT an Ultralytics data.yaml,
+    # so we generate the yaml ourselves from the returned YoloSplitPaths.
+    # absolute paths throughout: Ultralytics resolves relative yaml paths
+    # against its own datasets_dir, which double-joins and breaks the lookup
+    yolo_root = (Path(args.output_path) / "hafnia_dataset_yolo").resolve()
+    split_paths = HafniaDataset.to_yolo_format(ds, path_output=yolo_root)
+
+    by_split = {sp.split: sp for sp in split_paths}
+    train_sp = by_split.get("train") or split_paths[0]
+    val_sp = by_split.get("validation") or by_split.get("val") or by_split.get("test") or train_sp
+
+    class_names = [
+        line.strip() for line in train_sp.path_class_names.read_text().splitlines() if line.strip()
+    ]
+
+    def absolutize_images_txt(sp):
+        # SDK writes lines relative to the split root (e.g. "data/xxx.png");
+        # Ultralytics txt lists need absolute lines. Labels live side-by-side
+        # in the same data/ folder, which Ultralytics' images->labels fallback
+        # already handles.
+        root = sp.path_root.resolve()
+        lines = [
+            str(root / line.strip())
+            for line in sp.path_images_txt.read_text().splitlines()
+            if line.strip()
+        ]
+        abs_txt = root / "images_abs.txt"
+        abs_txt.write_text("\n".join(lines))
+        return abs_txt
+
+    data_yaml = {
+        "path": str(yolo_root),
+        "train": str(absolutize_images_txt(train_sp)),
+        "val": str(absolutize_images_txt(val_sp)),
+        "nc": len(class_names),
+        "names": {i: n for i, n in enumerate(class_names)},
+    }
+    data_yaml_path = yolo_root / "dataset.yaml"
+    data_yaml_path.parent.mkdir(parents=True, exist_ok=True)
+    data_yaml_path.write_text(yaml.safe_dump(data_yaml))
+    print(f"[train.py] hafnia dataset '{args.dataset_name}' "
+          f"(splits: {sorted(by_split)}, {len(class_names)} classes) -> {data_yaml_path}",
+          file=sys.stderr)
     return str(data_yaml_path)
 
 

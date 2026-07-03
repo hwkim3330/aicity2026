@@ -21,13 +21,33 @@ from pathlib import Path
 import yaml
 
 
-def _iter_label_files(images_dir: Path):
-    labels_dir = Path(str(images_dir).replace("images", "labels"))
-    for img_path in sorted(images_dir.rglob("*")):
-        if img_path.suffix.lower() not in (".jpg", ".jpeg", ".png", ".bmp"):
+IMG_SUFFIXES = (".jpg", ".jpeg", ".png", ".bmp")
+
+
+def _label_for(img_path: Path) -> Path:
+    """Labels either live side-by-side with the image (Hafnia's darknet-style
+    export: data/xxx.png + data/xxx.txt) or in a parallel labels/ tree."""
+    sibling = img_path.with_suffix(".txt")
+    if sibling.exists():
+        return sibling
+    return Path(str(img_path.parent).replace("images", "labels")) / (img_path.stem + ".txt")
+
+
+def _iter_label_files(train_source: Path):
+    """Yield (image, label) pairs from either an image directory or an
+    Ultralytics-style .txt list of image paths."""
+    if train_source.is_file() and train_source.suffix == ".txt":
+        img_paths = [
+            Path(line.strip())
+            for line in train_source.read_text().splitlines()
+            if line.strip()
+        ]
+    else:
+        img_paths = sorted(train_source.rglob("*"))
+    for img_path in img_paths:
+        if img_path.suffix.lower() not in IMG_SUFFIXES:
             continue
-        lbl_path = labels_dir / (img_path.stem + ".txt")
-        yield img_path, lbl_path
+        yield img_path, _label_for(img_path)
 
 
 def compute_class_counts(images_dir: Path, nc: int) -> Counter:
