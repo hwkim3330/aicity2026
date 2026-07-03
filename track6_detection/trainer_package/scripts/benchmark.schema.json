@@ -1,0 +1,12 @@
+{
+  "$comment": "Hand-written placeholder, same caveat as train.schema.json -- regenerate via the real Hafnia CLI once available.",
+  "type": "object",
+  "properties": {
+    "weights": {"type": "array", "items": {"type": "string"}},
+    "images": {"type": "string"},
+    "imgsz": {"type": "integer", "default": 960},
+    "conf": {"type": "number", "default": 0.15},
+    "iou": {"type": "number", "default": 0.6},
+    "out": {"type": "string", "default": "submission.json"}
+  }
+}

@@ -1,0 +1,17 @@
+# large/binary data — never commit
+*.zip
+*.pt
+*.pth
+*.safetensors
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.mp4
+*.db3
+data/
+*/data/
+clip_finetuned/
+*.log
+__pycache__/
+*.pyc

@@ -1,0 +1,13 @@
+[Unit]
+Description=GPU/NVMe thermal guard (auto power-limit stepdown + temp alerts)
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStartPre=/usr/bin/nvidia-smi -pl 300
+ExecStart=/usr/local/bin/thermal-guard.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

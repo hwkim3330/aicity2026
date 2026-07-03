@@ -1,0 +1,12 @@
+# Mirrors .dockerignore; excluded from the zip `hafnia trainer create-zip`
+# uploads to the platform. Keeps the package well under the 2GB cap and
+# guarantees no dataset content is accidentally bundled (against the rules).
+runs/
+*.pt
+*.pth
+*.onnx
+__pycache__/
+*.pyc
+.git/
+.venv/
+tests/

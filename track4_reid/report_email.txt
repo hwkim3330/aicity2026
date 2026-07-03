@@ -1,0 +1,30 @@
+To: aicitychallenges@gmail.com
+Subject: [Track 4 / PAB] Possible anonymization gap in test-set filenames (name-masked_test-set.zip)
+
+Hello,
+
+We are Team "Korea Drive" (Team ID 277), participating in Track 4 (Text-Based Person Anomaly Search / PAB benchmark).
+
+While building our baseline, we noticed something in the released name-masked test set (query_index.txt, query_text.json, gallery.zip) that we think is worth flagging to the organizers, in case it affects leaderboard fairness.
+
+**Observation**
+
+The PAB README states that all query texts and gallery images were renamed to random strings for the test set. However, when we inspected the actual filenames:
+
+- 328 of 1,978 query IDs (16.6%) are purely 15-digit numeric strings (e.g. "100018684969009").
+- 6,396 of 36,773 gallery IDs (17.4%) are also purely 15-digit numeric strings (e.g. "000056836690093").
+- The remaining IDs in both sets look like genuine random alphanumeric strings (e.g. "IGMVCNHLXVJKBLN").
+
+If IDs were truly drawn as uniform random alphanumeric strings, the probability of any given 15-character ID landing on "all digits" by chance is astronomically small. The fact that ~17% of both the query and gallery IDs are purely numeric, at the same fixed length (15), suggests this subset was not independently randomized — it looks more like the original numeric identifiers were preserved as-is, or passed through a simple substitution rather than a fresh random draw.
+
+**Why we're raising this**
+
+We have not attempted to exploit this pattern, and we don't know for certain whether it is exploitable. But if the original numeric IDs (or a reversible transformation of them) leaked through, it could in principle let a team correlate query/gallery pairs (e.g. by shared video/frame numbering) without doing any actual text-to-image matching. We noticed this while trying to understand why the current top leaderboard scores for Track 4 are at or near 100% mAP, which seemed unusually high for a fine-grained natural-language retrieval task with ~35k distractors, and wanted to flag the possibility rather than assume it's simply a very easy benchmark.
+
+We're happy to share the exact file lists / a small reproduction script if useful. Let us know if you'd like more detail, or if this is already a known/non-issue.
+
+Thanks for organizing the challenge.
+
+Best,
+Team Korea Drive (Team ID 277)
+hwkim3@keti.re.kr

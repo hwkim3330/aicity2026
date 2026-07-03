@@ -1,0 +1,18 @@
+{
+  "$comment": "Hand-written placeholder. Hafnia normally AUTO-GENERATES this file from scripts/train.py's argparse definitions via `hafnia trainer create-zip` / `hafnia trainer view-zip` -- regenerate with the real CLI once logged in and diff against this file rather than trusting it blindly.",
+  "type": "object",
+  "properties": {
+    "dataset-name": {"type": "string", "default": "REPLACE_ME_TRACK6_DATASET_NAME"},
+    "dataset-version": {"type": "string", "default": "1.0.0"},
+    "arch": {"type": "string", "enum": ["yolo11n.pt", "yolo11s.pt", "yolo11m.pt", "yolo11l.pt", "yolo11x.pt", "rtdetr-l.pt", "rtdetr-x.pt"], "default": "yolo11m.pt"},
+    "epochs": {"type": "integer", "default": 100, "minimum": 1},
+    "imgsz": {"type": "integer", "default": 960},
+    "batch": {"type": "integer", "default": -1},
+    "class-weighted-sampling": {"type": "boolean", "default": true},
+    "fl-gamma": {"type": "number", "default": 1.5, "minimum": 0},
+    "copy-paste": {"type": "number", "default": 0.3, "minimum": 0, "maximum": 1},
+    "mixup": {"type": "number", "default": 0.15, "minimum": 0, "maximum": 1},
+    "close-mosaic": {"type": "integer", "default": 10},
+    "dry-run": {"type": "boolean", "default": false}
+  }
+}

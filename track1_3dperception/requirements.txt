@@ -1,0 +1,9 @@
+torch==2.5.1
+torchvision==0.20.1
+ultralytics>=8.3
+opencv-python
+numpy
+scipy
+lap
+motmetrics
+pandas

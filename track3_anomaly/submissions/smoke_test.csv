@@ -1,0 +1,37 @@
+item_index,prediction
+bfaa0b67a0385860,No
+41dcf77f800ebcae,Yes
+b944ca5ad1567362,No. The white van does not flip over; it remains upright but is involved in a collision with another vehicle.
+51350fb685ecb0d0,Yes. A white van collides with another vehicle at the intersection.
+07e4aac751a43a90,"The car that was hit by the truck at 00:04.80 came to a stop after the impact, resulting in the situation shown at 00:07.62 where the car is stationary on the road."
+fcc257a9dfd308b8,A
+b87aed2fa70c0a9c,"B) A white van parked in the second lane suddenly pulled out into traffic, causing a blue SUV to swerve and collide."
+9ac7e6090030d0cf,"A white van and a blue sedan collide at the intersection of 4th Ave S & S Royal Brougham Way West. The sedan flips over onto its side, landing on its roof with significant damage to both vehicles. Debris is scattered across the road, and emergency responders are seen approaching the scene."
+422e96a911799e5e,"The video shows a street intersection at 4th Ave S & S Royal Brougham Way West. The road layout includes a main road with a crosswalk and a smaller side road leading into a parking garage. Trees line the sides of the roads, and there is a white van parked on the side of the main road. The environment appears to be urban, with clear skies and daylight conditions."
+a949af85bcc2e5a1,"A white van and a blue car collide at the intersection of 4th Ave S & S Royal Brougham Way West. The vehicles skid across the road, causing significant damage to both cars."
+b22a0fcaac174951,"{""start"": ""00:01"", ""end"": ""00:06""}"
+02272c4f125ceb46,"A white van is driving on a street when it collides with another vehicle, causing both to crash into a parked car. The vehicles end up on their sides, and smoke begins to rise from the impact area."
+dc43f9cdfd60cb88,No
+f88c6f7f1bd362d0,No
+b2f50337aeaa97c8,No. There is no indication of a T-bone collision occurring at the intersection in this frame.
+c29d8edc9baf6f64,No. The vehicles involved in the collision appear to be stationary after the impact.
+db37a931753bf54f,"At 00:03.20, a car is seen turning left onto the main road from a side street. By 00:05.61, this car has completed its turn and is now driving straight ahead on the main road, following the flow of traffic. The turn was the initial action that led to the car's current position on the main road."
+1efff1b0dc9e6ec4,B
+82788d851c92f36d,D) The black sedan attempted to make an illegal left turn across the path of the white SUV.
+f6b9f2fa593b6a6d,"Cars at the intersection wait for the light to turn green. As the light changes, vehicles begin to move forward, with some turning left and others continuing straight. A few seconds later, a pedestrian crosses the crosswalk on the left side of the intersection."
+bbb49259bb326ff2,"The video shows a multi-lane road intersection at 1st Ave NE & NGW South. Vehicles are moving through the intersection under a cloudy sky. A bridge spans the road on the right side, and construction cranes are visible in the background, indicating ongoing development. The area is surrounded by greenery and urban infrastructure."
+fa2f092ec5675266,A car accelerates through a red light at the intersection of 1st Ave NE & NGW South.
+27d312eebfe58c51,"{""start"": ""00:00"", ""end"": ""00:05""}"
+75782ddc62692ceb,"The video shows a busy intersection with multiple lanes of traffic moving in both directions. Vehicles are stopped at a red light on the left side of the frame, while others proceed through the intersection. A pedestrian crossing is visible but no pedestrians are seen crossing. There are no significant anomalies noted; the traffic flow appears to be orderly and within normal conditions for a busy urban intersection."
+c422fbd2e3164dca,No
+7c679713e9a63641,No
+f786e32824d04b22,No. The white sedan does not collide with the red sedan; it makes a left turn without incident.
+cfe8d75abc06cba4,No. The parked black SUV is not involved in the collision; it remains stationary while the white car veers off the road.
+49726e226e62d65c,"At 00:02.93, a white car is turning left onto Cherry Street from 23rd Avenue East. By 00:04.20, the red car has completed its turn onto Cherry Street, following the white car's path. The red car's movement is a direct result of the white car's left turn, indicating that the red car is likely following the white car's lead to navigate the intersection safely."
+2f0f6c696becaedc,A
+5ba136ad570dee03,A) The white sedan failed to yield the right-of-way while making a left turn.
+00993f5eb83dc0ae,"The red sedan collides with the white sedan at the intersection. The white sedan skids across the crosswalk, coming to a stop partially on the pedestrian crossing. The red sedan continues moving forward after the impact."
+acb23484096150de,"The video shows a four-way intersection at 23rd Ave E & E Cherry St, viewed from above. The crosswalks are clearly marked with white stripes, and vehicles are navigating through the intersection. Surrounding the intersection are buildings, street signs, and a bicycle lane symbol indicating a designated bike path. The environment appears to be urban, likely during daytime given the lighting conditions."
+916a097a08fee8b5,A white car is stopped at a red light on a crosswalk. A red car approaches from behind and stops behind the white car.
+cddad0655dfeee32,"{""start"": ""00:02"", ""end"": ""00:10""}"
+b4b070276d0ea753,"A white car is seen crossing a pedestrian crosswalk at an intersection of 23rd Ave E & E Cherry St. As it approaches the center of the crosswalk, another red car enters from the right, nearly colliding with the white car. The red car then continues straight through the intersection without stopping."

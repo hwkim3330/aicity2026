@@ -1,0 +1,17 @@
+[
+  {
+    "id": "20230707_18_CY23_T1__environment__0",
+    "correct": "b",
+    "_gt": "a"
+  },
+  {
+    "id": "20230707_18_CY23_T1__environment__1",
+    "correct": "b",
+    "_gt": "d"
+  },
+  {
+    "id": "20230707_18_CY23_T1__environment__2",
+    "correct": "a",
+    "_gt": "b"
+  }
+]

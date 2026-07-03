@@ -1,0 +1,32 @@
+# AI City Challenge 2026 - Track 6 (Cross-City Object Detection)
+# Ultralytics-style dataset config: LOCAL-DEV FALLBACK ONLY.
+#
+# Confirmed platform fact: inside a real Hafnia job, dataset access goes
+# through the `hafnia` SDK (HafniaDataset.from_name(...) -> to_yolo_format()),
+# NOT a hand-authored yaml -- see scripts/train.py's load_dataset_as_yolo_yaml().
+# This file exists purely so scripts/train.py --local-yolo-yaml data.yaml
+# can be pointed at a toy/manually-assembled folder of images+labels for
+# fully offline pipeline testing before the hafnia SDK/sample dataset is
+# set up. Point `path:` at wherever you put that toy data.
+#
+# The class list/order below is fixed by the AI City 2026 Track 6 task
+# definition (per the public Track 6 page) and MUST match the order used
+# when generating submission result files (index-sensitive).
+
+path: ./local_dev/yolo_sample
+train: images/train
+val: images/val
+test: images/test
+
+nc: 10
+names:
+  0: Vehicle.Car
+  1: Pickup Truck
+  2: Single Truck
+  3: Combo Truck
+  4: Heavy Duty Vehicle
+  5: Trailer
+  6: Motorcycle
+  7: Bicycle
+  8: Van
+  9: Person
