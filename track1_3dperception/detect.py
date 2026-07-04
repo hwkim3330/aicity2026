@@ -28,6 +28,7 @@ import time
 import cv2
 
 from common import (
+    CLASS_NAME_TO_ID,
     COCO_TO_TARGET,
     video_path,
     list_cameras,
@@ -46,7 +47,10 @@ def run_detection(scene, camera, split="train", max_frames=None, device="cuda",
         raise FileNotFoundError(vpath)
 
     model = YOLO(model_name)
-    names = model.names  # id -> coco class name
+    names = model.names  # id -> class name (COCO if pretrained, target classes if fine-tuned)
+    # A fine-tuned checkpoint predicts target classes directly; routing those
+    # through the COCO proxy mapping silently drops every detection.
+    is_target_model = any(n in CLASS_NAME_TO_ID for n in names.values())
 
     cap = cv2.VideoCapture(vpath)
     frames = {}
@@ -66,14 +70,17 @@ def run_detection(scene, camera, split="train", max_frames=None, device="cuda",
             conf = r.boxes.conf.cpu().numpy()
             cls = r.boxes.cls.cpu().numpy().astype(int)
             for box, c, k in zip(xyxy, conf, cls):
-                coco_name = names.get(int(k), str(k))
-                target = COCO_TO_TARGET.get(coco_name)
+                pred_name = names.get(int(k), str(k))
+                if is_target_model:
+                    target = pred_name if pred_name in CLASS_NAME_TO_ID else None
+                else:
+                    target = COCO_TO_TARGET.get(pred_name)
                 if target is None:
                     continue  # not a class of interest -- drop
                 dets.append({
                     "bbox": [round(float(v), 2) for v in box],
                     "conf": round(float(c), 4),
-                    "coco_class": coco_name,
+                    "coco_class": pred_name,
                     "target_class": target,
                 })
         frames[str(idx)] = dets
