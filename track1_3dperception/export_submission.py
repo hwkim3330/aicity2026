@@ -30,14 +30,25 @@ def export_scene(scene, global_tracks_path, out_path="track1.txt"):
     lines = []
     for fk, dets in sorted(data["frames"].items(), key=lambda kv: int(kv[0])):
         frame_id = int(fk)
+        # A fused global_id can have one member detection per camera in the
+        # same frame; a tracking submission needs exactly ONE box per object
+        # per frame, so collapse members to their centroid.
+        by_gid = {}
         for d in dets:
             cls_id = CLASS_NAME_TO_ID.get(d["target_class"])
             if cls_id is None:
                 continue
+            by_gid.setdefault((d["global_id"], cls_id), []).append(d)
+        for (gid, cls_id), members in by_gid.items():
+            n = len(members)
+            x = sum(m["x"] for m in members) / n
+            y = sum(m["y"] for m in members) / n
+            z = sum(m["z"] for m in members) / n
+            m0 = members[0]  # w/l/h are class priors, yaw is per-gid -- identical across members
             line = (
-                f"{scene_id} {cls_id} {d['global_id']} {frame_id} "
-                f"{d['x']:.2f} {d['y']:.2f} {d['z']:.2f} "
-                f"{d['w']:.2f} {d['l']:.2f} {d['h']:.2f} {d['yaw']:.2f}"
+                f"{scene_id} {cls_id} {gid} {frame_id} "
+                f"{x:.2f} {y:.2f} {z:.2f} "
+                f"{m0['w']:.2f} {m0['l']:.2f} {m0['h']:.2f} {m0['yaw']:.2f}"
             )
             lines.append(line)
 
