@@ -37,11 +37,15 @@ COPY pyproject.toml uv.lock* .python-version ./
 RUN uv sync --no-cache --locked || uv sync --no-cache
 
 COPY . .
+# Re-sync now that the full source tree exists so the project package (src/)
+# lands in the venv -- the pre-COPY sync only installed third-party deps, and
+# plain `python` (unlike `uv run`) won't re-install the project at runtime.
+RUN uv sync --no-cache --locked || uv sync --no-cache
 
-# Hafnia's dashboard is expected to invoke scripts/train.py (training
-# experiments) or scripts/benchmark.py (benchmarking jobs) with CLI flags
-# derived from the paired *.schema.json files. This ENTRYPOINT defaults to
-# training; benchmarking jobs override the CMD/args at launch time
-# (confirm exact invocation convention via `hafnia runc launch-local`).
-ENTRYPOINT ["uv", "run", "python3", "scripts/train.py"]
-CMD []
+# The platform launches the container with a full command like
+# "python scripts/train.py --arch ...". Baking that same invocation into
+# ENTRYPOINT duplicated it (the platform cmd became argparse positionals) and
+# failed the first cloud experiment -- so: no ENTRYPOINT, and put the uv venv
+# on PATH so the platform's bare `python` resolves to the project env.
+ENV PATH="/workspace/.venv/bin:${PATH}"
+CMD ["python", "scripts/train.py"]
