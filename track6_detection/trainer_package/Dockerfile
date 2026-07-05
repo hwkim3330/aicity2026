@@ -24,7 +24,8 @@ ENV PYTHONUNBUFFERED=1 \
     UV_LINK_MODE=copy \
     UV_PYTHON_PREFERENCE=only-managed
 
-WORKDIR /workspace
+WORKDIR /opt/recipe
+ENV TRAINER_PACKAGE_DIR=/opt/recipe
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         curl ca-certificates libgl1 libglib2.0-0 ffmpeg \
@@ -47,5 +48,5 @@ RUN uv sync --no-cache --locked || uv sync --no-cache
 # ENTRYPOINT duplicated it (the platform cmd became argparse positionals) and
 # failed the first cloud experiment -- so: no ENTRYPOINT, and put the uv venv
 # on PATH so the platform's bare `python` resolves to the project env.
-ENV PATH="/workspace/.venv/bin:${PATH}"
+ENV PATH="/opt/recipe/.venv/bin:${PATH}"
 CMD ["python", "scripts/train.py"]
