@@ -291,6 +291,27 @@ def main():
     arch = "yolo11n.pt" if args.dry_run else args.arch
     epochs = 1 if args.dry_run else args.epochs
 
+    # Training instances have NO internet ("Environment is not online" --
+    # shakeout v6 died timing out on the yolo11n.pt download). All pretrained
+    # checkpoints ship inside the trainer package under weights/, and the
+    # Arial font ultralytics fetches for plots is pre-seeded into its config
+    # dir. yolo11n.pt is also copied to CWD for ultralytics' AMP check, which
+    # always resolves that exact filename.
+    import shutil
+    pkg_root = Path(__file__).resolve().parent.parent
+    weights_dir = pkg_root / "weights"
+    bundled = weights_dir / arch
+    if bundled.exists():
+        arch = str(bundled)
+    if (weights_dir / "yolo11n.pt").exists() and not Path("yolo11n.pt").exists():
+        shutil.copy2(weights_dir / "yolo11n.pt", "yolo11n.pt")
+    font_src = weights_dir / "Arial.ttf"
+    if font_src.exists():
+        font_dst = Path.home() / ".config" / "Ultralytics" / "Arial.ttf"
+        font_dst.parent.mkdir(parents=True, exist_ok=True)
+        if not font_dst.exists():
+            shutil.copy2(font_src, font_dst)
+
     model = YOLO(arch)
 
     if args.fl_gamma > 0:
