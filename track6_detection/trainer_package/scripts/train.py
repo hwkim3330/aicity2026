@@ -264,8 +264,24 @@ def main():
     args = parse_args()
 
     from ultralytics import YOLO
+    from ultralytics import settings as ul_settings
     from src.class_balance import maybe_reweight_dataset
     from src.focal_patch import apply_focal_loss
+
+    # Platform integration: HafniaLogger registers this job's mlflow run with
+    # the platform's tracking backend (in cloud jobs MLFLOW_TRACKING_URI etc.
+    # are injected). Without this registration the platform has no signal the
+    # job is alive -- shakeout v4/v5 were both killed at exactly ~6 minutes.
+    # Ultralytics' own mlflow callback would fight over the same run, so
+    # disable it and let HafniaLogger own mlflow.
+    ul_settings.update({"mlflow": False})
+    from hafnia.experiment import HafniaLogger
+    logger = HafniaLogger(project_name="track6-cross-city")
+    logger.log_hparams({
+        "arch": args.arch, "epochs": args.epochs, "imgsz": args.imgsz,
+        "batch": args.batch, "fl_gamma": args.fl_gamma,
+        "copy_paste": args.copy_paste, "mixup": args.mixup,
+    })
 
     data_yaml = load_dataset_as_yolo_yaml(args)
 
@@ -300,18 +316,28 @@ def main():
         exist_ok=True,
     )
 
-    # Consolidate artifacts. TODO once logged in: check whether Hafnia's
-    # HafniaLogger (github.com/milestone-hafnia/hafnia) should be used
-    # instead of/alongside this plain-json summary for metrics to surface
-    # correctly on the platform's experiment dashboard.
     run_dir = Path(args.output_path) / args.name
     best_pt = run_dir / "weights" / "best.pt"
+    metrics = getattr(results, "results_dict", {}) or {}
+
+    # Surface final metrics on the platform dashboard and store the model
+    # where Hafnia's result collection expects it (/opt/ml/model in cloud).
+    for k, v in metrics.items():
+        try:
+            logger.log_metric(name=str(k), value=float(v), step=epochs)
+        except (TypeError, ValueError):
+            pass
+    if best_pt.exists():
+        import shutil
+        shutil.copy2(best_pt, logger.path_model() / "best.pt")
+    logger.end_run()
+
     summary = {
         "arch": arch,
         "epochs": epochs,
         "imgsz": args.imgsz,
         "best_weights": str(best_pt),
-        "metrics": getattr(results, "results_dict", {}),
+        "metrics": metrics,
     }
     with open(run_dir / "hafnia_summary.json", "w") as f:
         json.dump(summary, f, indent=2, default=str)
