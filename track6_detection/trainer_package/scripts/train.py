@@ -103,7 +103,7 @@ def parse_args():
                          "bicycle, person) -> train above the default 640 if credits allow.")
     p.add_argument("--batch", type=int, default=-1, help="-1 = Ultralytics auto-batch")
     p.add_argument("--device", type=str, default=os.environ.get("HAFNIA_DEVICE", "0"))
-    p.add_argument("--workers", type=int, default=8)
+    p.add_argument("--workers", type=int, default=4)  # Lite tier has 4 vCPUs
     p.add_argument("--output-path", type=str,
                     default=os.environ.get("HAFNIA_OUTPUT_PATH", "runs"),
                     help="Root output dir for weights/logs. Hafnia's result-collection "
@@ -174,54 +174,72 @@ def load_dataset_as_yolo_yaml(args) -> str:
         # Inside a Hafnia job (or `hafnia runc launch-local`) the dataset is
         # already mounted; from_name would need platform credentials that
         # don't exist in the container.
-        mount = get_dataset_path_in_hafnia_cloud()
-        print(f"[train.py] HAFNIA_CLOUD=true, loading mounted dataset from {mount}", file=sys.stderr)
-        ds = HafniaDataset.from_path(mount)
+        mount = Path(get_dataset_path_in_hafnia_cloud())
+        print(f"[train.py] HAFNIA_CLOUD=true, using mounted dataset at {mount}", file=sys.stderr)
     else:
-        ds = HafniaDataset.from_name(args.dataset_name, version=args.dataset_version)
-    # SDK 0.7.x `to_yolo_format(dataset, path_output)` emits darknet-style
-    # splits (images.txt + obj.names per split), NOT an Ultralytics data.yaml,
-    # so we generate the yaml ourselves from the returned YoloSplitPaths.
-    # absolute paths throughout: Ultralytics resolves relative yaml paths
-    # against its own datasets_dir, which double-joins and breaks the lookup
+        HafniaDataset.from_name(args.dataset_name, version=args.dataset_version)  # ensures download
+        from hafnia.utils import PATH_DATASETS
+        mount = Path(PATH_DATASETS) / args.dataset_name
+
+    # Zero-copy conversion straight from annotations.jsonl: symlink images and
+    # write YOLO label txts only. The SDK's to_yolo_format() re-encodes a full
+    # copy of every image, which doubles ~70GB on the full dataset and
+    # exhausted the Lite instance's disk mid-run (shakeout v3, 67 min in).
+    ann_path = mount / "annotations.jsonl"
+    records = [json.loads(l) for l in ann_path.read_text().splitlines() if l.strip()]
+
+    class_names = {}
+    for r in records:
+        for b in (r.get("bboxes") or []):
+            if b.get("class_name") is not None and b.get("class_idx") is not None:
+                class_names[int(b["class_idx"])] = b["class_name"]
+    nc = max(class_names) + 1 if class_names else 0
+
     yolo_root = (Path(args.output_path) / "hafnia_dataset_yolo").resolve()
-    split_paths = HafniaDataset.to_yolo_format(ds, path_output=yolo_root)
+    split_txt = {}
+    counts = {}
+    for r in records:
+        split = r["split"]
+        img_src = (mount / r["file_path"]).resolve()
+        split_dir = yolo_root / split
+        img_dir = split_dir / "images"
+        lbl_dir = split_dir / "labels"
+        img_dir.mkdir(parents=True, exist_ok=True)
+        lbl_dir.mkdir(parents=True, exist_ok=True)
 
-    by_split = {sp.split: sp for sp in split_paths}
-    train_sp = by_split.get("train") or split_paths[0]
-    val_sp = by_split.get("validation") or by_split.get("val") or by_split.get("test") or train_sp
+        img_link = img_dir / img_src.name
+        if not img_link.exists():
+            img_link.symlink_to(img_src)
 
-    class_names = [
-        line.strip() for line in train_sp.path_class_names.read_text().splitlines() if line.strip()
-    ]
+        lines = []
+        for b in (r.get("bboxes") or []):
+            cx = b["top_left_x"] + b["width"] / 2.0
+            cy = b["top_left_y"] + b["height"] / 2.0
+            lines.append(f'{int(b["class_idx"])} {cx:.6f} {cy:.6f} {b["width"]:.6f} {b["height"]:.6f}')
+        (lbl_dir / (img_link.stem + ".txt")).write_text("\n".join(lines))
 
-    def absolutize_images_txt(sp):
-        # SDK writes lines relative to the split root (e.g. "data/xxx.png");
-        # Ultralytics txt lists need absolute lines. Labels live side-by-side
-        # in the same data/ folder, which Ultralytics' images->labels fallback
-        # already handles.
-        root = sp.path_root.resolve()
-        lines = [
-            str(root / line.strip())
-            for line in sp.path_images_txt.read_text().splitlines()
-            if line.strip()
-        ]
-        abs_txt = root / "images_abs.txt"
-        abs_txt.write_text("\n".join(lines))
-        return abs_txt
+        split_txt.setdefault(split, []).append(str(img_link))
+        counts[split] = counts.get(split, 0) + 1
+
+    txt_paths = {}
+    for split, paths in split_txt.items():
+        p = yolo_root / f"{split}_images.txt"
+        p.write_text("\n".join(paths))
+        txt_paths[split] = str(p)
+
+    train_txt = txt_paths.get("train") or next(iter(txt_paths.values()))
+    val_txt = txt_paths.get("validation") or txt_paths.get("val") or txt_paths.get("test") or train_txt
 
     data_yaml = {
         "path": str(yolo_root),
-        "train": str(absolutize_images_txt(train_sp)),
-        "val": str(absolutize_images_txt(val_sp)),
-        "nc": len(class_names),
-        "names": {i: n for i, n in enumerate(class_names)},
+        "train": train_txt,
+        "val": val_txt,
+        "nc": nc,
+        "names": {i: class_names.get(i, f"class_{i}") for i in range(nc)},
     }
     data_yaml_path = yolo_root / "dataset.yaml"
-    data_yaml_path.parent.mkdir(parents=True, exist_ok=True)
     data_yaml_path.write_text(yaml.safe_dump(data_yaml))
-    print(f"[train.py] hafnia dataset '{args.dataset_name}' "
-          f"(splits: {sorted(by_split)}, {len(class_names)} classes) -> {data_yaml_path}",
+    print(f"[train.py] zero-copy YOLO conversion: splits {counts}, {nc} classes -> {data_yaml_path}",
           file=sys.stderr)
     return str(data_yaml_path)
 
