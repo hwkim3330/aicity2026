@@ -124,6 +124,12 @@ TASK_CONFIG = {
         ),
         "max_new_tokens": 176,
     },
+    "fetv_structured": {
+        # Track 7 (FETV OOD leaderboard): one combined structured-JSON call
+        # per clip, prompt built in fetv_submission.py.
+        "suffix": "",
+        "max_new_tokens": 512,
+    },
     "temporal_localization": {
         "suffix": (
             "\nRespond with ONLY a JSON object in the form "
