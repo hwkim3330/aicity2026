@@ -128,7 +128,7 @@ def main():
     records = list(done.values())
     t0 = time.time()
     for i, clip in enumerate(clips, 1):
-        clip_name = os.path.splitext(clip)[0]
+        clip_name = clip  # keep .mp4 -- evaluator matches ^\d{3}_\d{3}\.mp4$
         if clip_name in done:
             continue
         video_path = os.path.join(args.clips, clip)
