@@ -345,7 +345,9 @@ def main():
     # where Hafnia's result collection expects it (/opt/ml/model in cloud).
     for k, v in metrics.items():
         try:
-            logger.log_metric(name=str(k), value=float(v), step=epochs)
+            # mlflow rejects parens in metric names ("metrics/mAP50(B)")
+            safe_name = str(k).replace("(", "_").replace(")", "").replace("/", "_")
+            logger.log_metric(name=safe_name, value=float(v), step=epochs)
         except (TypeError, ValueError):
             pass
     if best_pt.exists():
