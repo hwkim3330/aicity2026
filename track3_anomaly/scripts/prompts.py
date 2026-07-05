@@ -53,12 +53,13 @@ TASK_CONFIG = {
         "self_consistency": True,
     },
     "bcq_openended": {
+        # v2's "2-3 sentences of evidence" dropped F1 0.470->0.359: the GT
+        # style is short. One sentence maximum.
         "suffix": (
-            "\nStart your response with exactly 'Yes.' or 'No.' and then give "
-            "2-3 sentences of visual evidence for that verdict: which road "
-            "user(s) are involved, what they do, and what outcome is visible."
+            "\nStart your response with exactly 'Yes.' or 'No.' followed by "
+            "one short sentence of explanation."
         ),
-        "max_new_tokens": 160,
+        "max_new_tokens": 64,
     },
     "mcq": {
         "suffix": (
@@ -72,20 +73,22 @@ TASK_CONFIG = {
         "self_consistency": True,
     },
     "mcq_openended": {
+        # leaders score 0.958 F1 here, which is only possible if the GT is
+        # essentially "X) <option text>" verbatim -- restate exactly, no
+        # added explanation (v2's added evidence sentence dropped us
+        # 0.631->0.548).
         "suffix": (
-            "\nRespond in the format 'X) <text of the chosen option>' -- the "
-            "correct option letter, a closing parenthesis, and then restate the "
-            "chosen option's text, followed by one sentence of visual evidence."
+            "\nRespond with exactly the correct option letter, a closing "
+            "parenthesis, and the chosen option's text verbatim -- "
+            "'X) <option text>' -- and nothing else."
         ),
-        "max_new_tokens": 128,
+        "max_new_tokens": 64,
     },
     "open_qa": {
-        "suffix": (
-            "\nAnswer in 3-5 sentences describing the concrete visual events: "
-            "name the road users involved (vehicle types/colors, pedestrians), "
-            "what each does over the course of the clip, and the outcome."
-        ),
-        "max_new_tokens": 224,
+        # v2's longer 3-5 sentence answers scored worse (0.250->0.216);
+        # back to the terser v1 style.
+        "suffix": "\nAnswer in 2-4 concise sentences describing concrete visual events.",
+        "max_new_tokens": 160,
     },
     "scene_description": {
         "suffix": (
