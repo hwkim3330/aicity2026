@@ -181,12 +181,27 @@ def load_dataset_as_yolo_yaml(args) -> str:
         from hafnia.utils import PATH_DATASETS
         mount = Path(PATH_DATASETS) / args.dataset_name
 
-    # Zero-copy conversion straight from annotations.jsonl: symlink images and
-    # write YOLO label txts only. The SDK's to_yolo_format() re-encodes a full
-    # copy of every image, which doubles ~70GB on the full dataset and
-    # exhausted the Lite instance's disk mid-run (shakeout v3, 67 min in).
+    # Diagnostic for cloud-side failures: the platform logs capture stdout, so
+    # print what the mount actually contains before touching it.
+    try:
+        entries = sorted(p.name for p in mount.iterdir())
+        print(f"[train.py] mount contents ({mount}): {entries[:20]}", file=sys.stderr)
+    except Exception as e:  # noqa: BLE001
+        print(f"[train.py] cannot list mount {mount}: {e}", file=sys.stderr)
+
+    # Zero-copy conversion: symlink images and write YOLO label txts only.
+    # The SDK's to_yolo_format() re-encodes a full copy of every image, which
+    # doubles ~70GB on the full dataset and exhausted the Lite instance's
+    # disk mid-run (shakeout v3, 67 min in). Records come from
+    # annotations.jsonl when present, else via the SDK's parquet loader.
     ann_path = mount / "annotations.jsonl"
-    records = [json.loads(l) for l in ann_path.read_text().splitlines() if l.strip()]
+    if ann_path.exists():
+        records = [json.loads(l) for l in ann_path.read_text().splitlines() if l.strip()]
+        print(f"[train.py] loaded {len(records)} records from annotations.jsonl", file=sys.stderr)
+    else:
+        ds = HafniaDataset.from_path(mount)
+        records = list(ds.samples.iter_rows(named=True))
+        print(f"[train.py] loaded {len(records)} records via HafniaDataset (parquet)", file=sys.stderr)
 
     class_names = {}
     for r in records:
@@ -200,7 +215,8 @@ def load_dataset_as_yolo_yaml(args) -> str:
     counts = {}
     for r in records:
         split = r["split"]
-        img_src = (mount / r["file_path"]).resolve()
+        fp = Path(r["file_path"])
+        img_src = fp.resolve() if fp.is_absolute() else (mount / fp).resolve()
         split_dir = yolo_root / split
         img_dir = split_dir / "images"
         lbl_dir = split_dir / "labels"
