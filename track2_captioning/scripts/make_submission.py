@@ -64,8 +64,9 @@ def run_captions(backend, items, out_path, limit=None, resume=False):
 def run_vqa(backend, items, out_path, limit=None, resume=False):
     out = []
     done_ids = set()
-    if resume and os.path.exists(out_path):
-        with open(out_path) as f:
+    debug_path = out_path.rsplit(".", 1)[0] + "_debug.json"
+    if resume and os.path.exists(debug_path):
+        with open(debug_path) as f:
             out = json.load(f)
         done_ids = {r["id"] for r in out}
         print(f"[resume] {len(out)} vqa items already done, skipping them", file=sys.stderr)
@@ -90,14 +91,26 @@ def run_vqa(backend, items, out_path, limit=None, resume=False):
             {
                 "id": item_id,
                 "correct": pred,
-                "_gt": q.get("correct"),  # kept for local accuracy calc; strip before real submission
+                "_gt": q.get("correct"),  # local-accuracy only; _write_vqa_submission() strips this
             }
         )
-        with open(out_path, "w") as f:
-            json.dump(out, f, indent=2)
+        _write_vqa_submission(out, out_path)
         if (i + 1) % 10 == 0 or i + 1 == n:
             print(f"[{i+1}/{n}] {time.time()-t0:.1f}s elapsed", file=sys.stderr)
     return out
+
+
+def _write_vqa_submission(records, out_path):
+    """Write the actual submission file with only {id, correct} -- some
+    evaluators reject unknown keys, and _gt is None on the real test split
+    anyway (no ground truth released). Full records (with _gt, for local
+    accuracy) are kept in a sibling *_debug.json file instead."""
+    clean = [{"id": r["id"], "correct": r["correct"]} for r in records]
+    with open(out_path, "w") as f:
+        json.dump(clean, f, indent=2)
+    debug_path = out_path.rsplit(".", 1)[0] + "_debug.json"
+    with open(debug_path, "w") as f:
+        json.dump(records, f, indent=2)
 
 
 def main():
