@@ -46,3 +46,14 @@ off bicycle" style anomaly descriptions. Rule check: PAB's own README says
 nothing forbids using the released *training* set (only the *test*
 distribution is off-limits for tuning/thresholds) — reconfirm against the
 official rules page before relying on this.
+
+## Tried and abandoned: Qwen3-VL-Embedding
+
+Benchmarks looked promising (0.945 vs CLIP's 0.768 on hard cross-modal retrieval,
+per arxiv 2601.04720), but the sentence-transformers integration for
+`Qwen/Qwen3-VL-Embedding-2B` fails to load checkpoint weights (every
+language_model/visual layer comes back "newly initialized" -- confirmed
+reproducible across two transformers versions, 4.57.0 and the model's own
+required 4.57.1). Retrieval output is unrelated to query content, consistent
+with random weights. Not pursued further given the time budget; the CLIP
+pipeline (answer_rerank.txt / answer_ensemble.txt) stands.
