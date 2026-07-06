@@ -59,11 +59,18 @@ def main():
     ap.add_argument("--pred", required=True)
     ap.add_argument("--split", default="train")
     ap.add_argument("--max-dist", type=float, default=2.0, help="meters, gating distance")
+    ap.add_argument("--max-frames", type=int, default=None,
+                     help="Only score frames [0, max_frames) -- for comparing a partial-run "
+                          "prediction fairly against a full-length GT (else every frame beyond "
+                          "the prediction's range counts as 100%% missed).")
     args = ap.parse_args()
 
     scene_id = scene_to_id(args.scene)
     gt_by_frame = load_gt(args.scene, args.split)
     pred_by_frame = load_pred(args.pred, scene_id)
+    if args.max_frames is not None:
+        gt_by_frame = {f: v for f, v in gt_by_frame.items() if f < args.max_frames}
+        pred_by_frame = {f: v for f, v in pred_by_frame.items() if f < args.max_frames}
 
     acc = mm.MOTAccumulator(auto_id=True)
     frames = sorted(set(gt_by_frame) | set(pred_by_frame))

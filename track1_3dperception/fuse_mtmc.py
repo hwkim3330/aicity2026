@@ -1,20 +1,27 @@
 """
 fuse_mtmc.py -- cross-camera identity fusion for the MTMC baseline.
 
-v1 approach (no ReID -- documented limitation, see README.md):
+v2: geometric distance + ReID appearance cost (see extract_reid_embeds.py).
   For each frame, gather every camera's 3D-projected detections. Two detections from
   DIFFERENT cameras in the SAME frame are considered a candidate match if:
-    - same target_class, and
-    - Euclidean distance between (x,y) world positions <= DIST_THRESH meters.
+    - same target_class,
+    - Euclidean distance between (x,y) world positions <= DIST_THRESH meters, and
+    - (if embeddings are available for both tracks) cosine appearance distance
+      <= REID_DIST_THRESH.
+  Cost = ALPHA_GEOM * geom_dist + ALPHA_REID * (1 - cos_sim), falling back to
+  pure geometry when no embedding exists for one/both sides (e.g. extraction
+  wasn't run for that scene). This is the fix for the fragmentation seen in a
+  local proxy eval on Warehouse_000 (a local proxy IDF1 of only ~38-51%
+  depending on gating distance, with detection counts already close to GT --
+  the problem is cross-camera identity linking, not detection quality) and
+  matches what public top Track 1 solutions do (e.g. the AIC24 runner-up,
+  github.com/riips/AIC24_Track1_YACHIYO_RIIPS, fuses BoT-SORT tracking with
+  deep-person-reid features).
   Candidate matches are solved frame-by-frame as a bipartite assignment (Hungarian,
   via `lap`) between every camera pair, greedily merged. A Union-Find (disjoint set)
   over (camera, local_track_id) keys accumulates these per-frame matches over the
   whole video, so two per-camera tracks that were matched in ANY frame end up under
   the same global object_id.
-
-  This is intentionally simple. Code is structured so a ReID embedding distance can
-  be added as an extra edge-weight term later (see `pair_cost()` -- currently pure
-  geometric distance, would become `alpha*dist + beta*(1-cos_sim(embed_a,embed_b))`).
 
 Output: cache/global_tracks/<scene>.json
 {
@@ -34,6 +41,10 @@ import lap
 DIST_THRESH_M = 2.0  # meters; two detections in the same frame within this distance
                       # (and same class) from different cameras are considered the
                       # same physical object.
+REID_DIST_THRESH = 0.4   # cosine distance (1 - cos_sim) gate when embeddings exist
+ALPHA_GEOM = 1.0
+ALPHA_REID = 2.0          # weighted higher: appearance is the more discriminative
+                          # signal once two candidates are already within DIST_THRESH_M
 
 
 class UnionFind:
@@ -64,43 +75,75 @@ def load_all_camera_tracks(scene, tracks3d_dir):
     return cams
 
 
-def pair_cost(det_a, det_b):
-    """Geometric-only cost; hook point for adding ReID embedding distance later."""
+def load_reid_embeds(scene, cameras, reid_dir="cache/reid_embeds"):
+    """Returns {camera: {track_id: np.array}}. Missing files -> empty dict for
+    that camera (pair_cost falls back to pure geometry)."""
+    out = {}
+    for cam in cameras:
+        path = os.path.join(reid_dir, f"{scene}__{cam}.json")
+        if os.path.isfile(path):
+            with open(path) as f:
+                raw = json.load(f)
+            out[cam] = {int(k): np.array(v) for k, v in raw.items()}
+        else:
+            out[cam] = {}
+    return out
+
+
+def pair_cost(det_a, det_b, embed_a=None, embed_b=None):
+    """Geometric distance, blended with ReID appearance cosine distance when
+    embeddings are available for both sides (see extract_reid_embeds.py)."""
     if det_a["target_class"] != det_b["target_class"]:
         return None
     d = np.hypot(det_a["x"] - det_b["x"], det_a["y"] - det_b["y"])
     if d > DIST_THRESH_M:
         return None
-    return d
+    if embed_a is None or embed_b is None:
+        return ALPHA_GEOM * d
+    cos_dist = 1.0 - float(np.dot(embed_a, embed_b))
+    if cos_dist > REID_DIST_THRESH:
+        return None
+    return ALPHA_GEOM * d + ALPHA_REID * cos_dist
 
 
-def match_frame_across_cameras(frame_dets_by_cam, uf):
+def match_frame_across_cameras(frame_dets_by_cam, uf, reid_embeds=None):
     """frame_dets_by_cam: {camera: [detection dicts]}. Updates uf in-place with matches."""
     cams = list(frame_dets_by_cam.keys())
+    max_cost = DIST_THRESH_M + ALPHA_REID  # loosest possible cost still admissible
     for i in range(len(cams)):
         for j in range(i + 1, len(cams)):
             ca, cb = cams[i], cams[j]
             da, db = frame_dets_by_cam[ca], frame_dets_by_cam[cb]
             if not da or not db:
                 continue
-            cost = np.full((len(da), len(db)), DIST_THRESH_M + 1.0)
+            embeds_a = reid_embeds.get(ca, {}) if reid_embeds else {}
+            embeds_b = reid_embeds.get(cb, {}) if reid_embeds else {}
+            cost = np.full((len(da), len(db)), max_cost + 1.0)
             for ii, dda in enumerate(da):
+                ea = embeds_a.get(dda["track_id"])
                 for jj, ddb in enumerate(db):
-                    c = pair_cost(dda, ddb)
+                    eb = embeds_b.get(ddb["track_id"])
+                    c = pair_cost(dda, ddb, ea, eb)
                     if c is not None:
                         cost[ii, jj] = c
-            _, x, _ = lap.lapjv(cost, extend_cost=True, cost_limit=DIST_THRESH_M)
+            _, x, _ = lap.lapjv(cost, extend_cost=True, cost_limit=max_cost)
             for ii, jj in enumerate(x):
-                if jj >= 0 and cost[ii, jj] <= DIST_THRESH_M:
+                if jj >= 0 and cost[ii, jj] <= max_cost:
                     key_a = (ca, da[ii]["track_id"])
                     key_b = (cb, db[jj]["track_id"])
                     uf.union(key_a, key_b)
 
 
-def fuse_scene(scene, tracks3d_dir="cache/tracks3d", out_dir="cache/global_tracks"):
+def fuse_scene(scene, tracks3d_dir="cache/tracks3d", out_dir="cache/global_tracks",
+               reid_dir="cache/reid_embeds"):
     cams_data = load_all_camera_tracks(scene, tracks3d_dir)
     if not cams_data:
         raise RuntimeError(f"no tracks3d found for scene {scene} in {tracks3d_dir}")
+
+    reid_embeds = load_reid_embeds(scene, cams_data.keys(), reid_dir)
+    n_embedded = sum(len(v) for v in reid_embeds.values())
+    print(f"[fuse_mtmc] {scene}: {n_embedded} ReID-embedded tracks across {len(cams_data)} cams"
+          + (" (none -- falling back to pure geometry)" if n_embedded == 0 else ""))
 
     # collect union of frame keys
     all_frame_keys = set()
@@ -122,7 +165,7 @@ def fuse_scene(scene, tracks3d_dir="cache/tracks3d", out_dir="cache/global_track
             if dets:
                 frame_dets_by_cam[cam] = dets
         if len(frame_dets_by_cam) >= 2:
-            match_frame_across_cameras(frame_dets_by_cam, uf)
+            match_frame_across_cameras(frame_dets_by_cam, uf, reid_embeds)
 
     # assign compact global ids
     root_to_gid = {}
