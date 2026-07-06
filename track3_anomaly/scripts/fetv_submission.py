@@ -25,9 +25,10 @@ VIOLATOR_TYPES = ["bus", "truck", "car", "motorcycle", "pedestrian", "na"]
 COLORS = ["dark", "light", "red", "green", "yellow", "blue", "mixed", "na"]
 POSITIONS = ["Top-Left", "Top-Center", "Top-Right", "Middle-Left", "Middle-Center",
              "Middle-Right", "Bottom-Left", "Bottom-Center", "Bottom-Right", "na"]
-INTERSECTIONS = ["T-intersection", "four-way"]
-WEATHERS = ["clear", "cloudy", "rain", "snow", "fog"]
-LIGHTS = ["day", "night", "dawn_dusk"]
+INTERSECTIONS = ["T-intersection", "four-way intersection"]
+WEATHERS = ["clear", "rainy", "cloudy"]
+LIGHTS = ["daylight", "night"]
+LANES = ["1", "2", "3", "4", "na"]
 
 PROMPT = f"""You are analyzing a fisheye traffic-surveillance clip for traffic violations.
 
@@ -41,13 +42,23 @@ Look carefully at the entire clip and answer ALL of the following as one JSON ob
   "answer_color": "violator's color, one of {COLORS}",
   "answer_initial_position": "where the violator STARTS in a 3x3 grid over the square center crop, one of {POSITIONS}",
   "answer_final_position": "where the violator ENDS/exits, same options",
-  "answer_initial_lane": "lane number where violator starts, 1 = left-most lane from driver perspective, or 'na'",
-  "answer_final_lane": "lane number where violator ends, or 'na'",
+  "answer_initial_lane": "one of {LANES} -- lane where violator starts, 1 = left-most lane from driver perspective",
+  "answer_final_lane": "one of {LANES} -- lane where violator ends",
   "answer_intersection_type": "one of {INTERSECTIONS}",
   "answer_weather": "one of {WEATHERS}",
   "answer_light": "one of {LIGHTS}",
   "answer_description": "2-4 sentence description of the scene and the violation (or of normal traffic if no violation)"
 }}}}
+
+Before answering, briefly reason (1-2 sentences) about which violation_type best fits, since these are easy to confuse:
+- wrong_way: vehicle travels opposite to the flow of traffic in its lane
+- uturn: vehicle makes a U-turn where prohibited
+- lane_use_control: vehicle uses a lane restricted to a different purpose (turn-only lane going straight, bus lane, etc.)
+- lane_discipline: vehicle drifts across/straddles lane lines without a clear turn/violation purpose
+- jaywalking: a PEDESTRIAN crosses outside a marked crosswalk or against a signal
+- red_light: vehicle/pedestrian proceeds through an intersection against a red light
+- no_violation: normal traffic flow, nothing unlawful visible
+Do not default to wrong_way -- most clips are evenly split across all seven types, so weigh each option against what is actually visible before deciding.
 
 Pay close attention to: any timestamp text overlay (read it exactly), the direction of traffic flow (for wrong_way), traffic-light state (for red_light), pedestrians in the roadway (jaywalking), and lane markings."""
 
@@ -61,9 +72,9 @@ DEFAULTS = {
     "answer_final_position": "na",
     "answer_initial_lane": "na",
     "answer_final_lane": "na",
-    "answer_intersection_type": "four-way",
+    "answer_intersection_type": "four-way intersection",
     "answer_weather": "clear",
-    "answer_light": "day",
+    "answer_light": "daylight",
     "answer_description": "Traffic moves through the intersection without a visible violation.",
 }
 
@@ -76,6 +87,8 @@ VALID = {
     "answer_intersection_type": INTERSECTIONS,
     "answer_weather": WEATHERS,
     "answer_light": LIGHTS,
+    "answer_initial_lane": LANES,
+    "answer_final_lane": LANES,
 }
 
 
