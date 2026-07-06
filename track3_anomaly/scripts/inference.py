@@ -31,9 +31,9 @@ HF_CACHE = os.environ.get(
 
 # Video sampling knobs. Kept conservative (short clips, <=20s typical) so a
 # single 3090 handles it comfortably at 4-bit.
-MAX_FRAMES = 16
+MAX_FRAMES = int(os.environ.get("TAR_MAX_FRAMES", 16))
 MIN_FRAMES = 4
-MAX_PIXELS_PER_FRAME = 360 * 420  # keeps token count per frame low
+MAX_PIXELS_PER_FRAME = int(os.environ.get("TAR_MAX_PIXELS", 360 * 420))  # per-frame token budget
 
 
 class QwenVLBackend:
