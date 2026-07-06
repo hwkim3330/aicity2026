@@ -1,71 +1,146 @@
 #!/usr/bin/env python3
 """
-Inference / submission-file generator for Track 6.
+Inference / submission-file generator for Track 6 (Hafnia benchmark job).
 
-Runs the fine-tuned model over a directory of test images and writes
-predictions in the AI City Challenge evaluation format.
+Applies every platform lesson learned the hard way during the training
+shakeouts (v1-v7):
+  - no internet on instances: weights must be local (bundled or trained)
+  - dataset arrives as a mounted HafniaDataset (annotations + data/), not a
+    raw image dir
+  - HafniaLogger must register the job with the platform's tracking or the
+    job is killed at ~6 minutes
+  - outputs must land in the collected artifact dir (/opt/ml/output/data)
+    to be downloadable after the job
 
-CONFIRMED WORKFLOW (from the public Track 6 page): benchmarking is a
-two-step process --
-  (1) This script runs INSIDE the Hafnia platform against the hidden
-      benchmark set (Hafnia's convention: scripts/benchmark.py, paired
-      with scripts/benchmark.schema.json for its CLI args -- see
-      docs/benchmark.md in github.com/milestone-hafnia/hafnia). Hafnia's
-      own SDK represents predictions as "hafnia primitives"
-      (`Bbox(..., confidence=..., ground_truth=False)`) attached to the
-      dataset's `/predictions` task -- if the `hafnia` SDK is importable,
-      prefer emitting via that representation so Hafnia's own result
-      collection recognizes it (see write_hafnia_predictions() below).
-  (2) The participant then manually DOWNLOADS the generated prediction
-      file(s) from the Hafnia platform and uploads them to the separate
-      official AI City evaluation portal: https://eval.aicitychallenge.org/aicity2026/
-      (login-gated; exact upload file schema for Track 6 not confirmed
-      publicly -- see README.md "Remaining steps"). The plain-JSON
-      COCO-ish writer below (write_submission()) is kept as a
-      framework-agnostic fallback/local-inspection format and should be
-      ADAPTED once the eval-portal's exact expected schema is visible
-      after logging in.
+Two-step Track 6 workflow: this runs inside Hafnia against the hidden
+benchmark set; the participant then downloads the prediction JSON from the
+platform and uploads it to eval.aicitychallenge.org.
 
-Also supports simple ensembling (multiple --weights) via NMS-fused boxes,
-executed as a single process/pipeline so it complies with the "ensembles
-must run as a single inference pipeline" rule.
+Usage (cloud benchmark job):
+    python scripts/benchmark.py --weights /opt/ml/model/best.pt
+Usage (local, sample dataset):
+    python scripts/benchmark.py --weights runs/main/weights/best.pt --split test
 """
 import argparse
 import json
 import os
+import sys
 from pathlib import Path
 
-CLASS_NAMES = [
-    "Vehicle.Car", "Pickup Truck", "Single Truck", "Combo Truck",
-    "Heavy Duty Vehicle", "Trailer", "Motorcycle", "Bicycle", "Van", "Person",
+os.environ.setdefault("MLFLOW_ALLOW_FILE_STORE", "true")
+
+# fallback only -- real order is derived from the mounted dataset's class_idx
+FALLBACK_CLASS_NAMES = [
+    "Vehicle.Car", "Vehicle.Pickup Truck", "Vehicle.Single Truck",
+    "Vehicle.Combo Truck", "Vehicle.Heavy Duty Vehicle", "Vehicle.Trailer",
+    "Vehicle.Motorcycle", "Vehicle.Bicycle", "Vehicle.Van", "Person",
+]
+
+# where a trained checkpoint might live, in preference order (the exact
+# convention Hafnia uses to hand a trained model to a benchmark job is
+# undocumented -- search broadly and log what was found)
+WEIGHT_SEARCH_PATHS = [
+    "/opt/ml/model/best.pt",
+    "/opt/ml/checkpoints/best.pt",
+    "/opt/ml/input/model/best.pt",
+    "runs/main/weights/best.pt",
+    "runs/track6_run/weights/best.pt",
 ]
 
 
 def parse_args():
     p = argparse.ArgumentParser()
-    p.add_argument("--weights", nargs="+", required=True,
-                    help="One or more .pt checkpoints; >1 triggers ensemble mode.")
-    p.add_argument("--images", type=str, required=True, help="Dir of test images")
+    p.add_argument("--weights", nargs="+", default=None,
+                    help="One or more .pt checkpoints; >1 = ensemble. "
+                         "Default: search WEIGHT_SEARCH_PATHS.")
+    p.add_argument("--images", type=str, default=None,
+                    help="Optional explicit dir of test images; default = "
+                         "resolve from the mounted Hafnia dataset.")
+    p.add_argument("--split", type=str, default="test",
+                    help="Dataset split to run on when resolving from the "
+                         "mounted dataset ('all' = every sample).")
     p.add_argument("--imgsz", type=int, default=960)
     p.add_argument("--conf", type=float, default=0.15)
-    p.add_argument("--iou", type=float, default=0.6, help="NMS IoU, also used for ensemble box fusion")
-    p.add_argument("--device", type=str, default="0")
+    p.add_argument("--iou", type=float, default=0.6)
+    p.add_argument("--device", type=str, default=os.environ.get("HAFNIA_DEVICE", "0"))
     p.add_argument("--out", type=str, default="submission.json")
     return p.parse_args()
 
 
-def run_single(weight, images_dir, imgsz, conf, iou, device):
+def get_mount():
+    from hafnia.utils import get_dataset_path_in_hafnia_cloud, is_hafnia_cloud_job
+    if is_hafnia_cloud_job():
+        return Path(get_dataset_path_in_hafnia_cloud())
+    # local fallback: the downloaded sample dataset
+    from hafnia.utils import PATH_DATASETS
+    return Path(PATH_DATASETS) / os.environ.get("TRACK6_DATASET_NAME", "eccv-cross-city")
+
+
+def load_records(mount):
+    ann = mount / "annotations.jsonl"
+    if ann.exists():
+        return [json.loads(l) for l in ann.read_text().splitlines() if l.strip()]
+    from hafnia.dataset.hafnia_dataset import HafniaDataset
+    return list(HafniaDataset.from_path(mount).samples.iter_rows(named=True))
+
+
+def resolve_images_and_classes(args, mount):
+    records = load_records(mount)
+    class_names = {}
+    for r in records:
+        for b in (r.get("bboxes") or []):
+            if b.get("class_name") is not None and b.get("class_idx") is not None:
+                class_names[int(b["class_idx"])] = b["class_name"]
+    nc = max(class_names) + 1 if class_names else len(FALLBACK_CLASS_NAMES)
+    names = [class_names.get(i, FALLBACK_CLASS_NAMES[i] if i < len(FALLBACK_CLASS_NAMES) else f"class_{i}")
+             for i in range(nc)]
+
+    if args.images:
+        return args.images, names, None
+
+    wanted = None if args.split == "all" else args.split
+    image_paths = []
+    id_of = {}
+    for r in records:
+        if wanted and r.get("split") != wanted:
+            continue
+        fp = Path(r["file_path"])
+        img = fp if fp.is_absolute() else mount / fp
+        image_paths.append(str(img))
+        id_of[img.stem] = {
+            "file_path": r.get("file_path"),
+            "sample_index": r.get("sample_index"),
+            "remote_path": r.get("remote_path"),
+        }
+    print(f"[benchmark.py] resolved {len(image_paths)} images (split={args.split}) "
+          f"from {mount}, {len(names)} classes", file=sys.stderr)
+    return image_paths, names, id_of
+
+
+def find_weights(args):
+    if args.weights:
+        return args.weights
+    for cand in WEIGHT_SEARCH_PATHS:
+        if Path(cand).exists():
+            print(f"[benchmark.py] auto-discovered weights: {cand}", file=sys.stderr)
+            return [cand]
+    tried = "\n  ".join(WEIGHT_SEARCH_PATHS)
+    raise FileNotFoundError(
+        f"No --weights given and none of the default checkpoint locations exist:\n  {tried}"
+    )
+
+
+def run_single(weight, source, imgsz, conf, iou, device):
     from ultralytics import YOLO
     model = YOLO(weight)
-    results = model.predict(source=images_dir, imgsz=imgsz, conf=conf, iou=iou,
+    results = model.predict(source=source, imgsz=imgsz, conf=conf, iou=iou,
                              device=device, stream=True, verbose=False)
     per_image = {}
     for r in results:
         stem = Path(r.path).stem
         boxes = []
         for b in r.boxes:
-            xyxy = b.xyxy[0].tolist()
-            x1, y1, x2, y2 = xyxy
+            x1, y1, x2, y2 = b.xyxy[0].tolist()
             boxes.append({
                 "category_id": int(b.cls.item()),
                 "bbox": [x1, y1, x2 - x1, y2 - y1],
@@ -76,112 +151,84 @@ def run_single(weight, images_dir, imgsz, conf, iou, device):
 
 
 def fuse_ensemble(per_model_results, iou_thresh):
-    """Simple weighted-box-fusion-lite: concatenate all models' boxes per
-    image, then greedy-NMS across the union so the ensemble still emits a
-    single deduplicated detection list (keeps this a single inference
-    pipeline as required by the Track 6 rules)."""
-    import numpy as np
+    """Greedy cross-model NMS so an ensemble still emits one deduplicated
+    detection list (single-inference-pipeline rule)."""
+    def iou(a, b):
+        ax1, ay1, aw, ah = a["bbox"]; ax2, ay2 = ax1 + aw, ay1 + ah
+        bx1, by1, bw, bh = b["bbox"]; bx2, by2 = bx1 + bw, by1 + bh
+        ix1, iy1 = max(ax1, bx1), max(ay1, by1)
+        ix2, iy2 = min(ax2, bx2), min(ay2, by2)
+        inter = max(0, ix2 - ix1) * max(0, iy2 - iy1)
+        union = aw * ah + bw * bh - inter
+        return inter / union if union > 0 else 0
 
-    def nms(boxes):
-        if not boxes:
-            return []
-        boxes_sorted = sorted(boxes, key=lambda b: -b["score"])
-        kept = []
-
-        def iou(a, b):
-            ax1, ay1, aw, ah = a["bbox"]; ax2, ay2 = ax1 + aw, ay1 + ah
-            bx1, by1, bw, bh = b["bbox"]; bx2, by2 = bx1 + bw, by1 + bh
-            ix1, iy1 = max(ax1, bx1), max(ay1, by1)
-            ix2, iy2 = min(ax2, bx2), min(ay2, by2)
-            iw, ih = max(0, ix2 - ix1), max(0, iy2 - iy1)
-            inter = iw * ih
-            union = aw * ah + bw * bh - inter
-            return inter / union if union > 0 else 0
-
-        for b in boxes_sorted:
-            if all(iou(b, k) < iou_thresh or b["category_id"] != k["category_id"] for k in kept):
-                kept.append(b)
-        return kept
-
-    all_images = set()
-    for res in per_model_results:
-        all_images.update(res.keys())
     fused = {}
+    all_images = set().union(*(r.keys() for r in per_model_results))
     for img in all_images:
-        combined = []
-        for res in per_model_results:
-            combined.extend(res.get(img, []))
-        fused[img] = nms(combined)
+        combined = sorted(
+            (b for res in per_model_results for b in res.get(img, [])),
+            key=lambda b: -b["score"],
+        )
+        kept = []
+        for b in combined:
+            if all(b["category_id"] != k["category_id"] or iou(b, k) < iou_thresh for k in kept):
+                kept.append(b)
+        fused[img] = kept
     return fused
 
 
-def write_submission(per_image, out_path):
-    """Framework-agnostic fallback writer (COCO-ish). See module docstring:
-    the real AI City eval-portal schema for Track 6 is not confirmed
-    publicly -- inspect the portal after login and adapt this function."""
-    records = []
-    for image_id, boxes in per_image.items():
-        for b in boxes:
-            records.append({
-                "image_id": image_id,
-                "category_id": b["category_id"],
-                "category_name": CLASS_NAMES[b["category_id"]],
-                "bbox": [round(v, 2) for v in b["bbox"]],
-                "score": round(b["score"], 4),
-            })
-    with open(out_path, "w") as f:
-        json.dump(records, f)
-    print(f"[benchmark.py] wrote {len(records)} detections across {len(per_image)} images -> {out_path}")
-
-
-def write_hafnia_predictions(per_image, dataset_name, dataset_version):
-    """Best-effort writer using the hafnia SDK's own prediction primitives,
-    so that when this script runs inside a real Hafnia benchmarking job
-    the platform's own result-collection recognizes the output without a
-    separate conversion step. Falls back silently (caller should also
-    call write_submission()) if the SDK isn't importable, e.g. during a
-    local/offline dry run.
-
-    NOT YET VERIFIED end-to-end against a live Hafnia job -- the hafnia
-    SDK's exact `Bbox`/dataset-attach API should be reconfirmed against
-    docs/benchmark.md in github.com/milestone-hafnia/hafnia once logged
-    in, then this function adjusted accordingly.
-    """
-    try:
-        from hafnia.dataset import HafniaDataset
-        from hafnia.data.primitives import Bbox  # name unconfirmed, adjust after login
-    except ImportError:
-        print("[benchmark.py] hafnia SDK not importable, skipping hafnia-native "
-              "prediction export (use write_submission() output instead)")
-        return None
-
-    ds = HafniaDataset.from_name(dataset_name, version=dataset_version)
-    predictions = []
-    for image_id, boxes in per_image.items():
-        for b in boxes:
-            x, y, w, h = b["bbox"]
-            predictions.append(Bbox(
-                image_id=image_id,
-                top_left_x=x, top_left_y=y, width=w, height=h,
-                class_name=CLASS_NAMES[b["category_id"]],
-                confidence=b["score"],
-                ground_truth=False,
-            ))
-    # Exact attach-to-dataset call unconfirmed; placeholder:
-    # ds.attach_predictions(predictions, task="predictions")
-    print(f"[benchmark.py] built {len(predictions)} hafnia-native prediction primitives "
-          f"(attach-to-dataset call is a placeholder, verify after login)")
-    return predictions
+def artifact_dir():
+    from hafnia.utils import is_hafnia_cloud_job
+    if is_hafnia_cloud_job():
+        d = Path("/opt/ml/output/data")
+        d.mkdir(parents=True, exist_ok=True)
+        return d
+    return Path(".")
 
 
 def main():
     args = parse_args()
-    per_model = [run_single(w, args.images, args.imgsz, args.conf, args.iou, args.device)
-                 for w in args.weights]
+
+    from hafnia.experiment import HafniaLogger
+    logger = HafniaLogger(project_name="track6-cross-city-benchmark")
+
+    mount = get_mount()
+    source, class_names, id_of = resolve_images_and_classes(args, mount)
+    weights = find_weights(args)
+    logger.log_configuration({"weights": [str(w) for w in weights],
+                              "split": args.split, "imgsz": args.imgsz,
+                              "conf": args.conf})
+
+    per_model = [run_single(w, source, args.imgsz, args.conf, args.iou, args.device)
+                 for w in weights]
     fused = per_model[0] if len(per_model) == 1 else fuse_ensemble(per_model, args.iou)
-    write_submission(fused, args.out)
-    write_hafnia_predictions(fused, dataset_name=os.environ.get("TRACK6_DATASET_NAME", ""),
-                              dataset_version=os.environ.get("TRACK6_DATASET_VERSION", "1.0.0"))
+
+    records = []
+    for stem, boxes in fused.items():
+        meta = (id_of or {}).get(stem, {})
+        for b in boxes:
+            records.append({
+                "image_id": stem,
+                "file_path": meta.get("file_path"),
+                "sample_index": meta.get("sample_index"),
+                "category_id": b["category_id"],
+                "category_name": class_names[b["category_id"]] if b["category_id"] < len(class_names) else str(b["category_id"]),
+                "bbox": [round(v, 2) for v in b["bbox"]],
+                "score": round(b["score"], 4),
+            })
+
+    out_local = Path(args.out)
+    out_artifact = artifact_dir() / out_local.name
+    for path in {out_local.resolve(), out_artifact.resolve()}:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with open(path, "w") as f:
+            json.dump(records, f)
+    n_img = len(fused)
+    print(f"[benchmark.py] wrote {len(records)} detections across {n_img} images -> "
+          f"{out_local} and {out_artifact}")
+    logger.log_metric(name="benchmark_images", value=float(n_img), step=0)
+    logger.log_metric(name="benchmark_detections", value=float(len(records)), step=0)
+    logger.end_run()
 
 
 if __name__ == "__main__":

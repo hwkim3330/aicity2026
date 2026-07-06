@@ -11,7 +11,24 @@
 *.db3
 data/
 */data/
+.data/
+*/.data/
 clip_finetuned/
+clip_finetuned_big/
+runs_finetune/
+cache/
+test_outputs/
+yolo_finetune/
+hf_cache/
+*.jsonl
+*.parquet
 *.log
 __pycache__/
 *.pyc
+state.json
+*.state.json
+
+# cloned external reference repos (nested .git -- not our code)
+track2_captioning/wts_test_repo/
+track4_reid/repo/
+track3_anomaly/data/fetv/fetv_repo/

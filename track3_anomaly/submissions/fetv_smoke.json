@@ -1,0 +1,34 @@
+[
+ {
+  "clip_name": "001_000",
+  "answer_date": "2018-07-17",
+  "answer_time": "06:03:46",
+  "answer_violation_type": "wrong_way",
+  "answer_violator_type": "car",
+  "answer_color": "dark",
+  "answer_initial_position": "Bottom-Left",
+  "answer_final_position": "Middle-Right",
+  "answer_initial_lane": "1",
+  "answer_final_lane": "3",
+  "answer_intersection_type": "four-way",
+  "answer_weather": "clear",
+  "answer_light": "dawn_dusk",
+  "answer_description": "A dark-colored car enters the intersection from the bottom-left lane and proceeds to cross into the opposite direction of traffic flow, violating the one-way lane marked by the road sign. The car exits the frame moving toward the middle-right of the intersection. The scene is captured during dawn with clear weather and visible lane markings."
+ },
+ {
+  "clip_name": "001_001",
+  "answer_date": "2018-07-17",
+  "answer_time": "06:04:55",
+  "answer_violation_type": "wrong_way",
+  "answer_violator_type": "car",
+  "answer_color": "light",
+  "answer_initial_position": "Middle-Right",
+  "answer_final_position": "Bottom-Left",
+  "answer_initial_lane": "3",
+  "answer_final_lane": "na",
+  "answer_intersection_type": "four-way",
+  "answer_weather": "clear",
+  "answer_light": "dawn_dusk",
+  "answer_description": "A light-colored car enters the intersection from the right side and proceeds to drive across the center median, which is marked with '\u8eca\u884c\u7981\u884c' (No Vehicle Crossing) and a no-left-turn sign. The car then exits the frame to the left, indicating a wrong-way maneuver across the median. The scene is captured during dawn with clear weather and minimal traffic."
+ }
+]

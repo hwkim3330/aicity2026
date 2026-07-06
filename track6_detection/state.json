@@ -1,7 +1,0 @@
-{
-  "dockerfile": "/tmp/tmpbf1wjd81/recipe/Dockerfile",
-  "docker_context": "/tmp/tmpbf1wjd81/recipe",
-  "digest": "78b3c8c0",
-  "image_tag": "localhost:78b3c8c0",
-  "image_exists": false
-}
