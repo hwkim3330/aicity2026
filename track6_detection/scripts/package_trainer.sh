@@ -4,6 +4,11 @@
 # caches, and (deliberately) any dataset files that might get dropped in
 # by accident -- uploading dataset content is against the rules and would
 # also blow the size cap instantly.
+#
+# NOTE: do NOT blanket-exclude *.pt/*.pth -- trainer_package/weights/ ships
+# the pretrained checkpoints (yolo11*.pt, rf-detr-base.pth) that training
+# instances need since they have no internet access. Only runs/ output
+# checkpoints should be excluded, which "*/runs/*" already covers.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -13,7 +18,7 @@ MAX_BYTES=$((2 * 1024 * 1024 * 1024))
 
 rm -f "$OUT"
 zip -r "$OUT" "$SRC" \
-    -x "*/runs/*" "*.pt" "*.pth" "*__pycache__*" "*.pyc" "*/.git/*"
+    -x "*/runs/*" "*__pycache__*" "*.pyc" "*/.git/*"
 
 SIZE=$(stat -c%s "$OUT")
 echo "Package size: $SIZE bytes ($((SIZE / 1024 / 1024)) MiB)"

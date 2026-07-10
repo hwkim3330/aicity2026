@@ -14,6 +14,9 @@ dependencies = [
     "pillow>=11.1.0",
     "tqdm==4.67.1",
     "hafnia",
+    # RF-DETR: leaderboard-confirmed choice (top 3 Track 6 teams all run
+    # RF-DETR variants, not YOLO -- see scripts/train_rfdetr.py).
+    "rfdetr[train,loggers]",
 ]
 
 [build-system]

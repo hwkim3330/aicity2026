@@ -27,8 +27,12 @@ ENV PYTHONUNBUFFERED=1 \
 WORKDIR /opt/recipe
 ENV TRAINER_PACKAGE_DIR=/opt/recipe
 
+# build-essential: rfdetr[train] pulls in albumentations -> albucore ->
+# stringzilla, which has no prebuilt wheel for this base image and compiles
+# a C extension at install time -- fails with "cc: No such file or
+# directory" without a compiler present.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        curl ca-certificates libgl1 libglib2.0-0 ffmpeg \
+        curl ca-certificates libgl1 libglib2.0-0 ffmpeg build-essential \
     && rm -rf /var/lib/apt/lists/* \
     && curl -LsSf https://astral.sh/uv/install.sh | sh
 ENV PATH="/root/.local/bin:${PATH}"
