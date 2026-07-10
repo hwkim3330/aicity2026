@@ -13,4 +13,5 @@ tests/
 
 # bundled pretrained checkpoints + font (offline training instances)
 !weights/*.pt
+!weights/*.pth
 !weights/*.ttf

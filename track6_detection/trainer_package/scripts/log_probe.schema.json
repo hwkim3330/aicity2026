@@ -1,0 +1,5 @@
+{
+  "$comment": "Hand-written placeholder like the other *.schema.json files. log_probe.py takes no arguments -- it is a ~3-minute log-pipeline characterization job to run before any long retrain (see its docstring).",
+  "type": "object",
+  "properties": {}
+}

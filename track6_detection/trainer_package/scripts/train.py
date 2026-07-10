@@ -364,6 +364,15 @@ def main():
     }
     with open(run_dir / "hafnia_summary.json", "w") as f:
         json.dump(summary, f, indent=2, default=str)
+    # Also print to stdout: hafnia_summary.json itself lives only in the
+    # ephemeral run dir (same as best.pt, minus the explicit copy-to-
+    # path_model() best.pt gets), but per-line stdout IS retrievable after
+    # the container tears down via GET /experiments/{id}/logs?limit=5000
+    # (the default page size silently truncates -- learned this the hard
+    # way once already). The per-metric logger.log_metric() calls above
+    # already surface individually this way; this is just a single-line
+    # human-readable summary of the same data for convenience.
+    print(f"[train.py] hafnia_summary: {json.dumps(summary, default=str)}")
     print(f"[train.py] done. best weights: {best_pt}")
 
 
