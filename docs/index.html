@@ -12,7 +12,7 @@
     main{padding:32px 24px 56px}h2{font-size:23px;margin:34px 0 14px;letter-spacing:0}.summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
     .result{background:var(--white);border:1px solid var(--line);border-radius:6px;padding:20px}.result strong{display:block;font-size:34px}.result span{color:var(--muted)}.eyebrow{text-transform:uppercase;font-size:12px;font-weight:700;color:#96a6b2;margin-bottom:8px}
     .barset{background:#fff;border:1px solid var(--line);padding:20px;border-radius:6px}.bar{display:grid;grid-template-columns:100px 1fr 65px;gap:12px;align-items:center;margin:12px 0}.track{height:16px;background:#e7ebee}.fill{height:100%;background:var(--green)}
-    table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line)}th,td{text-align:left;border-bottom:1px solid var(--line);padding:12px}th{background:#e9eef1}.podium{font-weight:700;color:var(--green)}.failed{color:var(--red);font-weight:700}a{color:#075ea8}code{font-size:13px}.note{border-left:4px solid var(--red);padding:10px 14px;background:#fff}.split{display:grid;grid-template-columns:1fr 1fr;gap:16px}.small{font-size:13px;color:var(--muted)}
+    table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line)}th,td{text-align:left;border-bottom:1px solid var(--line);padding:12px}th{background:#e9eef1}.podium{font-weight:700;color:var(--green)}.failed{color:var(--red);font-weight:700}a{color:#075ea8}code{font-size:13px}.note{border-left:4px solid var(--red);padding:10px 14px;background:#fff}.split{display:grid;grid-template-columns:1fr 1fr;gap:16px}.small{font-size:13px;color:var(--muted)}details{background:#fff;border:1px solid var(--line);border-radius:6px;margin:10px 0;overflow-x:auto}summary{cursor:pointer;font-weight:700;padding:16px 18px;position:sticky;left:0;background:#fff}details table{border-width:1px 0 0;min-width:560px}details p{padding:0 18px 16px;margin:0;color:var(--muted)}
     footer{background:#e5eaed;padding:24px;color:var(--muted)}@media(max-width:700px){.summary,.split{grid-template-columns:1fr}.bar{grid-template-columns:82px 1fr 52px}th:nth-child(2),td:nth-child(2){display:none}}
   </style>
 </head>
@@ -24,17 +24,26 @@
       <div class="result"><span>Track 8 · PSI-VQA</span><strong>5th</strong><span>Official full-test score 57.0400</span></div>
     </section>
     <h2>All-track results</h2>
-    <table><thead><tr><th>Track</th><th>Task</th><th>Public rank</th><th>Primary score</th></tr></thead><tbody>
-      <tr><td>1</td><td>Multi-camera 3D perception</td><td>14</td><td>HOTA 5.4253</td></tr>
-      <tr><td>2</td><td>Safety captioning and VQA</td><td>21</td><td>S2 32.6404</td></tr>
-      <tr><td>3</td><td>Traffic anomaly reasoning</td><td>24</td><td>Mean 0.4256</td></tr>
-      <tr><td>4</td><td>Text-based person ReID</td><td>27</td><td>mAP 64.2005</td></tr>
-      <tr><td>5</td><td>Generative video forecasting</td><td>10</td><td>Final 70.3004</td></tr>
-      <tr><td>6</td><td>Cross-city object detection</td><td class="failed">No result</td><td>Two failed submissions</td></tr>
-      <tr><td>7</td><td>FETV out-of-domain</td><td class="podium">3</td><td class="podium">Final 0.4634</td></tr>
-      <tr><td>8</td><td>PSI-VQA out-of-domain</td><td>5</td><td>Final 57.0400</td></tr>
+    <table><thead><tr><th>Track</th><th>Task</th><th>Public rank</th><th>Status</th></tr></thead><tbody>
+      <tr><td>1</td><td>Multi-camera 3D perception</td><td>14</td><td>Scored</td></tr>
+      <tr><td>2</td><td>Safety captioning and VQA</td><td>21</td><td>Scored</td></tr>
+      <tr><td>3</td><td>Traffic anomaly reasoning</td><td>24</td><td>Scored</td></tr>
+      <tr><td>4</td><td>Text-based person ReID</td><td>27</td><td>Scored</td></tr>
+      <tr><td>5</td><td>Generative video forecasting</td><td>10</td><td>Scored</td></tr>
+      <tr><td>6</td><td>Cross-city object detection</td><td class="failed">No result</td><td>Portal evaluation failed</td></tr>
+      <tr><td>7</td><td>FETV out-of-domain</td><td class="podium">3</td><td class="podium">Podium</td></tr>
+      <tr><td>8</td><td>PSI-VQA out-of-domain</td><td>5</td><td>Scored</td></tr>
     </tbody></table>
     <p class="small">Ranks shown are Team 277 values returned by the final Public leaderboard API. Track 6 has no scored row because both portal submissions failed.</p>
+    <h2>Complete metrics</h2>
+    <details><summary>Track 1 · Multi-camera 3D perception</summary><table><tr><th>HOTA</th><th>DetA</th><th>AssA</th><th>LocA</th><th>Online</th></tr><tr><td>5.4253</td><td>5.1081</td><td>6.6976</td><td>47.6221</td><td>No</td></tr></table></details>
+    <details><summary>Track 2 · Safety captioning and VQA</summary><table><tr><th>S2</th><th>BLEU-4</th><th>METEOR</th><th>ROUGE-L</th><th>CIDEr</th><th>Accuracy</th></tr><tr><td>32.6404</td><td>0.1264</td><td>0.3102</td><td>0.3355</td><td>0.5108</td><td>44.7012</td></tr></table></details>
+    <details><summary>Track 3 · Traffic anomaly reasoning</summary><table><tr><th>Mean</th><th>BCQ</th><th>MCQ</th><th>BCQ OE</th><th>MCQ OE</th><th>Open QA</th></tr><tr><td>0.4256</td><td>0.5438</td><td>0.5875</td><td>0.4824</td><td>0.7664</td><td>0.3333</td></tr><tr><th>Causal</th><th>Scene</th><th>Temporal desc.</th><th>Summary</th><th>Temporal mIoU*</th><th></th></tr><tr><td>0.2874</td><td>0.3282</td><td>0.1856</td><td>0.3160</td><td>0.1990</td><td></td></tr></table><p>* Reported by the API but excluded from the final mean after the July 1 rule update.</p></details>
+    <details><summary>Track 4 · Text-based person ReID</summary><table><tr><th>mAP</th><th>R@1</th><th>R@5</th><th>R@10</th></tr><tr><td>64.2005</td><td>51.1122</td><td>81.0415</td><td>88.0688</td></tr></table></details>
+    <details><summary>Track 5 · Generative video forecasting</summary><table><tr><th>Final</th><th>PSNR</th><th>SSIM</th><th>LPIPS</th><th>CLIP</th><th>FID</th><th>FVD</th></tr><tr><td>70.3004</td><td>19.3013</td><td>0.6198</td><td>0.2789</td><td>0.9590</td><td>49.7246</td><td>33.6228</td></tr></table></details>
+    <details><summary>Track 6 · Cross-city object detection</summary><p>Hafnia training and hidden inference completed, but both portal evaluations failed. No official metrics exist. The recovered custom COCO-style export was not verified against the evaluator contract.</p></details>
+    <details open><summary>Track 7 · FETV out-of-domain</summary><table><tr><th>Final</th><th>Description</th><th>Categorical</th><th>Violation</th><th>Violator</th><th>Color</th></tr><tr><td>0.4634</td><td>0.4238</td><td>0.5031</td><td>0.1578</td><td>0.3127</td><td>0.2434</td></tr><tr><th>Start pos.</th><th>End pos.</th><th>Start lane</th><th>End lane</th><th>Intersection</th><th>Weather</th></tr><tr><td>0.1239</td><td>0.1278</td><td>0.1780</td><td>0.1694</td><td>0.7841</td><td>1.0000</td></tr><tr><th>Light</th><th>Date</th><th>Time</th><th></th><th></th><th></th></tr><tr><td>1.0000</td><td>1.0000</td><td>0.9400</td><td></td><td></td><td></td></tr></table></details>
+    <details open><summary>Track 8 · PSI-VQA out-of-domain</summary><table><tr><th>Final</th><th>BCQ F1</th><th>BCQ Acc.</th><th>Open QA</th><th>MCQ Acc.</th><th>Temporal</th></tr><tr><td>57.0400</td><td>0.5045</td><td>0.5636</td><td>0.6019</td><td>0.6044</td><td>0.5708</td></tr></table></details>
     <h2>PSI-VQA component results</h2>
     <div class="barset" aria-label="PSI-VQA score chart">
       <div class="bar"><span>BCQ</span><div class="track"><div class="fill" style="width:50.45%"></div></div><b>50.45</b></div>

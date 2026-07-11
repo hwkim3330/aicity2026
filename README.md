@@ -5,20 +5,85 @@ evaluation tracks of the 2026 AI City Challenge.
 
 ## Final results
 
-| Track | Public rank | Primary score | Status |
-|---:|---:|---:|---|
-| 1 | 14 | 3D HOTA 5.4253 | Scored |
-| 2 | 21 | S2 32.6404 | Scored |
-| 3 | 24 | Mean 0.4256 | Scored |
-| 4 | 27 | mAP 64.2005 | Scored |
-| 5 | 10 | Final 70.3004 | Scored |
-| 6 | - | - | Two submissions failed; no leaderboard result |
-| 7 | **3** | **Final 0.4634** | Official podium finish |
-| 8 | 5 | Final 57.0400 | Scored |
+| Track | Public rank | Status |
+|---:|---:|---|
+| 1 | 14 | Scored |
+| 2 | 21 | Scored |
+| 3 | 24 | Scored |
+| 4 | 27 | Scored |
+| 5 | 10 | Scored |
+| 6 | - | Hafnia benchmark completed; two portal evaluations failed |
+| 7 | **3** | **Official podium finish** |
+| 8 | 5 | Scored |
 
 Ranks are the values returned for Team 277 by the final Public leaderboard
 API. Track 6 had two before-deadline submissions, both marked `Failed`, and
 therefore has no scored leaderboard row.
+
+### Track 1 · Multi-camera 3D perception
+
+| 3D HOTA | DetA | AssA | LocA | Online |
+|---:|---:|---:|---:|---|
+| 5.4253 | 5.1081 | 6.6976 | 47.6221 | No |
+
+### Track 2 · Safety captioning and VQA
+
+| S2 | BLEU-4 | METEOR | ROUGE-L | CIDEr | Accuracy |
+|---:|---:|---:|---:|---:|---:|
+| 32.6404 | 0.1264 | 0.3102 | 0.3355 | 0.5108 | 44.7012 |
+
+### Track 3 · Traffic anomaly reasoning
+
+| Mean | BCQ | MCQ | BCQ OE F1 | MCQ OE F1 | Open QA F1 |
+|---:|---:|---:|---:|---:|---:|
+| 0.4256 | 0.5438 | 0.5875 | 0.4824 | 0.7664 | 0.3333 |
+
+| Causal F1 | Scene F1 | Temporal desc. F1 | Summary F1 | Temporal mIoU* |
+|---:|---:|---:|---:|---:|
+| 0.2874 | 0.3282 | 0.1856 | 0.3160 | 0.1990 |
+
+`*` Temporal localization was reported by the API but excluded from the final
+Track 3 mean after the July 1 rule update.
+
+### Track 4 · Text-based person ReID
+
+| mAP | R@1 | R@5 | R@10 |
+|---:|---:|---:|---:|
+| 64.2005 | 51.1122 | 81.0415 | 88.0688 |
+
+### Track 5 · Generative video forecasting
+
+| Final | PSNR | SSIM | LPIPS | CLIP | FID | FVD |
+|---:|---:|---:|---:|---:|---:|---:|
+| 70.3004 | 19.3013 | 0.6198 | 0.2789 | 0.9590 | 49.7246 | 33.6228 |
+
+### Track 6 · Cross-city object detection
+
+The RF-DETR Hafnia experiment and hidden benchmark inference completed, but
+both AI City portal evaluations were marked `Failed`; no mAP metrics exist.
+The reconstructed file contained 275,159 detections for 14,814 of 14,925
+benchmark images. It was a custom flat COCO-style list recovered from logs,
+not a verified Hafnia-generated evaluator artifact. See the postmortem.
+
+### Track 7 · FETV out-of-domain
+
+| Final | Description | Categorical mean |
+|---:|---:|---:|
+| **0.4634** | 0.4238 | 0.5031 |
+
+| Violation | Violator | Color | Start pos. | End pos. | Start lane | End lane |
+|---:|---:|---:|---:|---:|---:|---:|
+| 0.1578 | 0.3127 | 0.2434 | 0.1239 | 0.1278 | 0.1780 | 0.1694 |
+
+| Intersection | Weather | Light | Date | Time |
+|---:|---:|---:|---:|---:|
+| 0.7841 | 1.0000 | 1.0000 | 1.0000 | 0.9400 |
+
+### Track 8 · PSI-VQA out-of-domain
+
+| Final | BCQ Macro-F1 | BCQ Accuracy | Open QA Cue-F1 | MCQ Accuracy | Temporal mIoU |
+|---:|---:|---:|---:|---:|---:|
+| 57.0400 | 0.5045 | 0.5636 | 0.6019 | 0.6044 | 0.5708 |
 
 Track 8's official component scores were BCQ 0.5045, OpenQA 0.6019, MCQ
 0.6044, and temporal mIoU 0.5708. The post-deadline candidate is retained
