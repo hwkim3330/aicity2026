@@ -218,3 +218,27 @@ Training-video-based fine-tuning was not attempted (see limitations).
   the robust OpenQA prior reached 0.7816 held-out Cue-F1 under pessimistic
   one-to-one matching at k=2. These are local validation results, not an
   official leaderboard score.
+
+## Post-challenge structured FETV prototype
+
+`scripts/fetv_structured_pipeline.py` implements the Track 7 redesign from
+the postmortem as a detector-agnostic postprocessor. It consumes tracked boxes,
+lane polygons, OCR text, event flags, and scene metadata; then deterministically
+selects a violator, calculates official center-square 3x3 positions, assigns
+direction-relative lanes, applies conservative trajectory rules, and emits the
+official 14-field FETV record.
+
+```bash
+cd track3_anomaly/scripts
+python3 fetv_structured_pipeline.py \
+  ../examples/fetv_structured_scene.json \
+  --out /tmp/fetv_structured_output.json
+
+cd ../../
+python3 -m unittest discover -s track3_anomaly/tests \
+  -p 'test_fetv_structured_pipeline.py' -v
+```
+
+This is executable research code, not a retroactively scored submission. An
+upstream detector/tracker, lane segmenter, signal state estimator, and OCR
+engine still need to populate the scene JSON for real videos.
