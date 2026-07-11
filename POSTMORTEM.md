@@ -40,6 +40,21 @@ selection. Aggregate leaderboard feedback was insufficient to identify which
 rows or fields were wrong, and posterior corrections from a few submissions
 did not generalize reliably to position and lane.
 
+The final server's field-level scores make the bottleneck explicit:
+
+| Field | Score |
+|---|---:|
+| Violation type | 0.1578 |
+| Violator type | 0.3127 |
+| Color | 0.2434 |
+| Initial / final position | 0.1239 / 0.1278 |
+| Initial / final lane | 0.1780 / 0.1694 |
+| Intersection type | 0.7841 |
+| Weather / lighting | 1.0000 / 1.0000 |
+| Date / time | 1.0000 / 0.9400 |
+
+The metadata pipeline worked; actor-centric spatial reasoning did not.
+
 ### Redesign
 
 1. Detect and track all candidate road users with an object detector and
