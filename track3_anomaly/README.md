@@ -203,3 +203,17 @@ Training-video-based fine-tuning was not attempted (see limitations).
   no self-consistency/majority voting, no reasoning-then-answer
   two-stage prompting (the `reasoning` field in training data was not
   leveraged for chain-of-thought prompting in this baseline).
+
+## Final Track 7/8 results
+
+- Track 7 (FETV): Korea Drive finished 3rd on the full test set. The final
+  artifact is `submissions/fetv_submission_v11.json` (0.4691).
+- Track 8 (PSI-VQA): Korea Drive finished 5th with 57.0400: BCQ 0.5045,
+  OpenQA 0.6019, MCQ 0.6044, and temporal mIoU 0.5708.
+- `submissions/psi_vqa_submission_v8_final.csv` was built after the deadline
+  and was not submitted. It contains the robust two-cue OpenQA prior and 87
+  valid box-aware MCQ regenerations (39 answers differ from v7). The paired
+  held-out MCQ check improved from 3/24 to 9/24 with six wins and no losses;
+  the robust OpenQA prior reached 0.7816 held-out Cue-F1 under pessimistic
+  one-to-one matching at k=2. These are local validation results, not an
+  official leaderboard score.

@@ -83,6 +83,11 @@ Our status: working baseline in `/home/kim/aicity2026/track1_3dperception` (YOLO
 
 ## Traffic Violation Understanding (FETV) — Track 3 Out-of-Domain Evaluation
 
+Final result (full test set, 2026-07-11): **Korea Drive (Team 277) finished
+3rd**. The final submitted candidate is preserved as
+`track3_anomaly/submissions/fetv_submission_v11.json` (0.4691). UWIPL_ETRI
+finished 1st. The table below is the earlier public-leaderboard snapshot.
+
 | Rank | Team ID | Final Score | Description Score | Categorical Mean |
 |---|---|---|---|---|
 | 1 | 30 | 0.4513 | 0.4100 | 0.4926 |
@@ -93,8 +98,33 @@ Our status: working baseline in `/home/kim/aicity2026/track1_3dperception` (YOLO
 
 ## PSI-VQA: Pedestrian Situated Intent VQA — Track 3 Out-of-Domain Evaluation
 
+Final full-test leaderboard (2026-07-11):
+
+| Rank | Team ID | Team | Final Score | BCQ Macro-F1 | BCQ Accuracy | Open QA Cue-F1 | MCQ Accuracy | Temporal mIoU |
+|---|---|---|---|---|---|---|---|---|
+| 1 | 30 | UWIPL_ETRI | 70.6397 | 0.7084 | 0.7273 | 0.5833 | 0.7912 | 0.7427 |
+| 2 | 257 | MobilityAI | 69.0698 | 0.6136 | 0.6182 | 0.6674 | 0.7912 | 0.6906 |
+| 3 | 122 | OptimAI | 65.5476 | 0.6464 | 0.6727 | 0.5846 | 0.7253 | 0.6656 |
+| 4 | 139 | MR-CAS | 64.4161 | 0.5934 | 0.6000 | 0.6389 | 0.7692 | 0.5751 |
+| **5** | **277** | **Korea Drive** | **57.0400** | **0.5045** | **0.5636** | **0.6019** | **0.6044** | **0.5708** |
+| 6 | 97 | SMART Lab | 54.2445 | 0.5796 | 0.5818 | 0.5793 | 0.6154 | 0.3955 |
+| 7 | 127 | Team KODE | 53.1456 | 0.5796 | 0.5818 | 0.5793 | 0.5714 | 0.3955 |
+
+Post-deadline analysis produced `psi_vqa_submission_v8_final.csv`, combining
+the submitted temporal prior with a two-cue OpenQA prior and box-aware MCQ
+inference. It was **not submitted and has no official score**. Based on
+held-out training-video validation, its estimated score was 65--68.5, but
+that estimate must not be treated as a leaderboard result.
+
+Earlier snapshot retained below for development history.
+
+Snapshot captured: 2026-07-07 (updated -- team rankings shifted since 07-03 snapshot)
+
 | Rank | Team ID | Final Score | BCQ Macro-F1 | BCQ Accuracy | Open QA Cue-F1 | MCQ Accuracy | Temporal mIoU |
 |---|---|---|---|---|---|---|---|
-| 1 | 30 | 61.8896 | 0.5714 | 0.5926 | 0.6120 | 0.5870 | 0.7052 |
-| 2 | 84 | 61.8896 | 0.5714 | 0.5926 | 0.6120 | 0.5870 | 0.7052 |
-| 3 | 257 | 60.5229 | 0.5500 | 0.5556 | 0.6094 | 0.5652 | 0.6963 |
+| 1 | 139 | 62.3452 | 0.5159 | 0.5185 | 0.6458 | 0.8043 | 0.5278 |
+| 2 | 122 | 59.6801 | 0.5235 | 0.5556 | 0.5967 | 0.6522 | 0.6148 |
+| 3 | 97 | 44.3121 | 0.4000 | 0.6667 | 0.5612 | 0.4348 | 0.3765 |
+| **4 (us, 277)** | **277** | **41.3421** | **0.4631** | **0.4815** | **0.6001** | **0.5652** | **0.0253** |
+
+**Key gap**: BCQ/OpenQA/MCQ are all within striking distance of 3rd place (0.46/0.60/0.57 vs 0.40/0.56/0.43), but **Temporal mIoU is 0.0253 vs competitors' 0.38-0.71** -- roughly 15-25x lower. This is almost certainly the single highest-value fix for Track8: our temporal localization output format/logic is likely producing near-zero-overlap windows (e.g. wrong units, wrong reference frame, or a formatting bug), not a genuine model-quality gap given how competitive the other four metrics are.

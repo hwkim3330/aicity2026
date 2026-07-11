@@ -1,0 +1,455 @@
+item_index,prediction
+af612fe6c7a21ab1,Yes
+8a49d35367ceb4ae,Yes
+c14d6c3dddfd8bdc,Yes
+a7e0751e0dd07009,No
+12752481f0a76c54,Yes
+0b686c2ed52724fc,Yes
+38d18cd4c4352b24,Yes
+7979d7f71b774bd9,Yes
+229ddd55ea281211,No
+491789b7b1fd25e3,Yes
+577aae11b712d4d9,No
+f08d2f58f9506cbd,Yes
+b04f6785121a07e3,No
+8bf3804e6f5e6c8a,Yes
+7011f54ba429d413,Yes
+b90fd0a49dbfd8ff,No
+a570335e40762c94,No
+760f3d2216d52edb,No
+6e1214eadf562446,No
+890c66a871e6b003,No
+b05b096cee615f15,Yes
+88449988e85b916e,Yes
+c44620f3879a3cbc,Yes
+c3ebbd4796c4f38d,Yes
+48016c26e86a599b,Yes
+98f2df568d4e8ac7,Yes
+a676df59138e5d38,Yes
+13333c3feb75625c,No
+44fc970d098a61f4,No
+3cb35ab20e7612a0,Yes
+151b35a98e4c50dc,No
+dc2f8b2b1e9a811f,Yes
+689d9a2054a29936,No
+26fc3aa07468d302,Yes
+6f7c8f2126dad1a2,Yes
+dc32084b22715a41,Yes
+18d733fbf22e17b6,No
+f7e63445892e1788,Yes
+d7dd423e650f27ea,Yes
+29d4ba9d020f4dae,No
+e904a4cc9faeb4b2,Yes
+96f952e387b43204,No
+f0db02e815829786,Yes
+851d7ce1d9c8420d,Yes
+bb8c4e504248435c,Yes
+b44d6bbdac81fc7e,Yes
+a85dce753e7827c4,Yes
+c89992db7fe1214a,Yes
+a0e4bfd06b7f0079,No
+0f16efeb1f463348,No
+e648e295bf3c8c1f,Yes
+61be330f21fdc952,Yes
+535e972e75188993,Yes
+a847bbc73b4bf897,Yes
+c6242ff59e7d05be,Yes
+490bc8f79dc97e68,A
+09082bcf04ded04f,B
+9b0cd211fbb413ec,B
+0b446370ce6f8226,A
+660c584889f46271,C
+285745c96fe938c2,C
+63c0d0761d37e33d,D
+7cb304c07c1fbbeb,D
+25b3e8f23576e63d,C
+703c51d2a9817f3d,C
+5e26745880bf2570,B
+1a2fd5d05d9027bc,A
+826f1e230a0576c0,B
+f8397dc1ee1d9a6d,D
+569873f3a952dba1,B
+1c4c096647a3c88b,B
+710122b3bac13536,A
+e60099e158338dc1,D
+ca2f854dcc9e468a,C
+861020fc3308d315,A
+bc57fcc076ff7986,A
+2da4b0b7cedb20b1,B
+2575597bbf220334,C
+fd017e794c6e1a88,A
+e3c448d8c5d924f2,B
+1da32c69085ea430,C
+aa74014afbe2e720,A
+732de276f48b9b72,D
+85be7428b08fe18a,C
+66fd1712a00994e5,B
+fa11f390ebb81e86,D
+5f40f214a300ef8a,D
+ae3bcd2035618b04,B
+c12d6af8be90233b,A
+8e6b66b56268da42,B
+b9b1c5b73bc577e7,B
+6d71773d809d00e4,B
+74f289bacb973465,B
+b25f6f947ed31291,C
+15a7a1b33b4b8129,D
+cb6ca990a732a9cd,B
+48c25b17444d67d9,A
+00a29f4b679181fa,B
+f6201821375848b5,A
+91a091646c7385c6,D
+5f9bc7f417c28d4e,C
+47322eb8ff576a31,D
+42a53b40fcf1f2d7,C
+75233571f45fa45a,A
+870c860c1b7a6849,B
+4cd18add1708a998,A
+e5af5ba9571da0c8,A
+78eb03e1f429517a,A
+43268e99ebfaa823,B
+e0b072cedd17e6a2,B
+06fef09bbd6628a9,B
+c1fdbbc3b00d68e7,B
+da3a614baaff2725,C
+f53664420e8fded5,D
+ebe2d7ddf72d32df,A
+2ff19fe1824a013e,A
+c84be86ec8acef2d,B
+2a03df0d34bdee79,A
+661510381ec6ff8a,C
+5e4afc9d18232ace,D
+ac0edb47be166725,D
+e1bfa5a07d839e99,A
+739f2e71802728c7,A
+88e3c7724f869844,B
+5d879c6691415e06,A
+7c4ae9ebd39b61e1,B
+51c84b3701677ce0,B
+331a1c97dadb694e,A
+57fb9d38a9e501a9,D
+b2e8e0837d145dfd,B
+6753db3bc329796c,A
+e9d13062bd012c9b,C
+867f4b360d2985b0,C
+fe4ff42d7b205eb8,A
+513068b1ae0c9189,D
+a5898d62f78578f7,C
+b80338357253b1af,D
+6d452ce82b4eaa4c,C
+09e403f9afa80423,A
+640cc9cb65c39e1b,C
+630f611956af6a33,A
+4af0971b874fab2f,A
+756e31a3218bd575,C
+156443d791e22d76,C
+e7250f5334bbdfc0,B
+35f4b2642e7036ad,B
+81e15aa0170b2aa9,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+bf38384086599009,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+f4d9357b645fbb08,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+ae42df8f31a1b55f,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+d4bf3ce6f5e9c5c0,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+ac86d80acad7c856,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+fac36dde5420d2a8,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+df25c154eee685a6,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+52835de5ffa7e48d,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+ecb178ec0f52319b,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+038fa93af4462a77,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+287cd0c3e276679f,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+5d0f0c82604b661e,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+7319f9d571e965cd,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+b0d52adf71e23051,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+0f68f55308ca4573,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+a862b761f7318bd4,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+e1f01305ea928188,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+ea82568e1a0742a1,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+3f91072900e52994,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+45e09747f93657e3,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+cc35b159ced679b7,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+7d7261a696ec9ce8,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+31e4673e3b5732ea,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+9ab16ba3bed768e0,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+cec1f2f55ea9f1fc,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+a43c7bbbd633a62a,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+07530bddb1793e2e,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+18ce51bb160ec6bc,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+6ac4fa9db1f5a007,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+19e6e5c6413a9651,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+51f8c35ba033d6a1,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+d15f472e30d90ea9,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+fe8842a78894a364,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+6642015fbc65a149,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+e112c0857eb04ba0,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+8981d9e1947767fc,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+32cd5ed8845a42e3,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+3060251671f75d21,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+8c2ee91feb37c392,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+b68c9136fc9156b5,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+8b0b6848b30dfaf1,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+d66b3b3989165d5d,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+780b989bec2113a2,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+6142a72dbefc66ae,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+b4c21b7482319b99,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+afa9c47020c51c7a,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+76bd997593bc868e,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+ae9f5176b90802c2,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+39f0e41c664c2764,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+a87a51e93a44a81b,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+818e70f91fdde028,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+351d0d4cab351168,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+842658790db67aef,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+df85268bfcd7ffb1,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+45fd27ea59f82e67,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+a8cd4029178b4874,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+55a36657ad5af9a5,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+0449576b732d0b29,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+6f1389a4aa260a9b,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+0e68f63f8a0ed9b9,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+80efe5c62c2c771d,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+2c0dc3b7c3ce0d04,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+2058decef6a57557,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+2793409e5cb96d3a,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+a82e2046fc104995,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+e474da80445c879a,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+aa4d5b2da068b330,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+347f39ed3b5bcebc,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+4a845981c440da46,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+3e21e6f7be79a706,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+0bb574e32663059c,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+25ad07b9bbbceb72,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+fa36a88baba3cf6e,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+2b4cb112be5b2d5f,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+ea553db3a4820198,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+2f8b885ca3ee8108,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+66fb745102559f94,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+3b5769f0a9348384,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+fcb025dbca5c7300,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+c9d14461cbf1cca8,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+4a7e07b005227943,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+fd0b67228498c8b6,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+faa9a0f38e4a2b89,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+f34448f8cfe98a43,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+61b2b0113b411602,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+cb61480d352af150,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+9453b9baee694ce8,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+acc76f26d5b3d722,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+b4d3814a241c3dbe,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+dde921fc0924f8a3,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+0d926f9aa7d9086b,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+7efc2ea8533a2e18,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+269f1ac7ecb3cb77,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+be6276de06f93bcd,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+9b1d5802d43a75ff,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+fcb602b2b0857b9f,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+6365b0ec55153255,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+9a8019cfdf640088,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+f38d7e6f1cd3b93c,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+61868c594fb198a9,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+bb0f4d2da2d6c023,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+e4b4691a0844d330,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+759e8bbee2d5883c,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+1c40bc530b0a6d3c,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+2b1af372e68cf6c8,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+05b3cbaab2f3875d,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+a01811775a5312d3,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+2dcd31a328b2c887,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+c251d0352242250e,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+69af51e115579722,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+40720b5ff58acaad,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+fb12e60ffb98e2c8,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+3bfd1f26c30f4337,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+682a7fce03d19e36,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+b15b3afbafdbcb96,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+7c13edf83f5e2fad,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+f88dafd9a5428fc5,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+694d7d7905be7889,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+ab99b313b70d723d,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+d34a5b2d4e43b290,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+487accdc275c87f3,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+e09d814a0058794a,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+def5531cf564be07,"- Pedestrian had left the sidewalk and/or entered the roadway or left lane.
+- Pedestrian was crossing perpendicular to the flow of traffic / the car's trajectory."
+8e883fea309eea9d,"- Pedestrian is standing or stopped rather than moving into the road.
+- Pedestrian was standing or waiting for cars to pass rather than crossing."
+51cece0c12db9ff5,"- Pedestrian was moving left-to-right or toward the right side of the road.
+- Pedestrian appeared to be crossing or walking into the road."
+46242a7a89cabe21,"{""start"": ""00:03"", ""end"": ""00:09""}"
+e76c41455ce202c7,"{""start"": ""00:03"", ""end"": ""00:09""}"
+6ac79dedb2530224,"{""start"": ""00:03"", ""end"": ""00:09""}"
+3fa1bbb1c8952f0e,"{""start"": ""00:03"", ""end"": ""00:09""}"
+ef1ffeccf8d36d1e,"{""start"": ""00:02"", ""end"": ""00:07""}"
+4db5434d4282effd,"{""start"": ""00:02"", ""end"": ""00:04""}"
+8b734045b2ec21b1,"{""start"": ""00:03"", ""end"": ""00:09""}"
+04cfb70a092b04bf,"{""start"": ""00:02"", ""end"": ""00:06""}"
+78a28088f3388d96,"{""start"": ""00:02"", ""end"": ""00:05""}"
+fe36683a5601f5cc,"{""start"": ""00:02"", ""end"": ""00:07""}"
+ed24f15bdbf0e997,"{""start"": ""00:02"", ""end"": ""00:04""}"
+efc9fda65fd00482,"{""start"": ""00:03"", ""end"": ""00:09""}"
+47cf5ec57cfabbe3,"{""start"": ""00:03"", ""end"": ""00:09""}"
+1ffa23c5a7bd9497,"{""start"": ""00:03"", ""end"": ""00:09""}"
+14b21f3713044be8,"{""start"": ""00:03"", ""end"": ""00:09""}"
+bda3d891b843b7b3,"{""start"": ""00:03"", ""end"": ""00:09""}"
+ef3eec8067cfb562,"{""start"": ""00:03"", ""end"": ""00:09""}"
+ec3c55eabaca09ed,"{""start"": ""00:03"", ""end"": ""00:09""}"
+faeafc40c288010c,"{""start"": ""00:03"", ""end"": ""00:09""}"
+8ad47124719c1007,"{""start"": ""00:03"", ""end"": ""00:09""}"
+5ad251b86f670b92,"{""start"": ""00:03"", ""end"": ""00:09""}"
+35b591e84f39c94c,"{""start"": ""00:01"", ""end"": ""00:03""}"
+f36dc6f9ff37e941,"{""start"": ""00:03"", ""end"": ""00:06""}"
+49e45c23e01234f7,"{""start"": ""00:03"", ""end"": ""00:07""}"
+da6a322ca507063f,"{""start"": ""00:01"", ""end"": ""00:03""}"
+c9823e7e85d23eff,"{""start"": ""00:03"", ""end"": ""00:09""}"
+317204294981d227,"{""start"": ""00:03"", ""end"": ""00:09""}"
+f60479e85f1f908d,"{""start"": ""00:03"", ""end"": ""00:09""}"
+dcff13021804f80e,"{""start"": ""00:03"", ""end"": ""00:09""}"
+0c7a280a64ed9782,"{""start"": ""00:03"", ""end"": ""00:09""}"
+1101bf694222d807,"{""start"": ""00:02"", ""end"": ""00:05""}"
+c03fca0a666ffc11,"{""start"": ""00:02"", ""end"": ""00:04""}"
+69c59212385620ef,"{""start"": ""00:01"", ""end"": ""00:02""}"
+188bb650e169422d,"{""start"": ""00:02"", ""end"": ""00:05""}"
+7a04fe9173ae5347,"{""start"": ""00:01"", ""end"": ""00:02""}"
+2f688ecee32decb4,"{""start"": ""00:03"", ""end"": ""00:06""}"
+231ab13d8189bd95,"{""start"": ""00:01"", ""end"": ""00:03""}"
+4e468c1a47072820,"{""start"": ""00:03"", ""end"": ""00:09""}"
+4a536f3945fcb382,"{""start"": ""00:02"", ""end"": ""00:07""}"
+8593ee201a203f10,"{""start"": ""00:01"", ""end"": ""00:02""}"
+3e2b7030e021b9a0,"{""start"": ""00:03"", ""end"": ""00:09""}"
+d323c88890649cdc,"{""start"": ""00:02"", ""end"": ""00:04""}"
+3d3cb8ffa5ebc786,"{""start"": ""00:02"", ""end"": ""00:04""}"
+e2ae436def9a5722,"{""start"": ""00:03"", ""end"": ""00:09""}"
+e81740bed620f453,"{""start"": ""00:03"", ""end"": ""00:09""}"
+3389d975ec4696dc,"{""start"": ""00:03"", ""end"": ""00:09""}"
+a1c08d8d4ae5b120,"{""start"": ""00:03"", ""end"": ""00:09""}"
+11e3fb26244cf9cc,"{""start"": ""00:03"", ""end"": ""00:09""}"
+8610e4ccf6eb1a01,"{""start"": ""00:03"", ""end"": ""00:06""}"
+3c9c3b698df063c2,"{""start"": ""00:02"", ""end"": ""00:04""}"
+0e3edcb3a49c2a4b,"{""start"": ""00:02"", ""end"": ""00:05""}"
+499dd8c2f4638865,"{""start"": ""00:01"", ""end"": ""00:03""}"
+4dedbfecc4c51052,"{""start"": ""00:02"", ""end"": ""00:04""}"
+237622cba9e534c0,"{""start"": ""00:02"", ""end"": ""00:04""}"
+fea8e9aefb77c5cb,"{""start"": ""00:02"", ""end"": ""00:04""}"
+86aa78d98d81a7b0,"{""start"": ""00:02"", ""end"": ""00:04""}"

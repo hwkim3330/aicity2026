@@ -48,6 +48,31 @@ def fallback_answer(task_type):
     return FALLBACK_BY_TASK.get(task_type, FALLBACK_DEFAULT)
 
 
+def normalize_temporal_answer(raw):
+    """The prompt asks for {"start": "MM:SS", "end": "MM:SS"}, but the model
+    often ignores that and writes HH:MM:SS out of habit (these clips are all
+    well under an hour, so HH is always "00"). The evaluator's mIoU parser
+    presumably expects exactly MM:SS, so an unstripped HH:MM:SS value throws
+    off every interval it touches -- this alone tanked Track8's Temporal
+    mIoU to 0.0253 vs competitors' 0.38-0.71 while every other metric was
+    competitive. Reformat in place; don't touch anything else about the
+    answer."""
+    try:
+        obj = json.loads(raw)
+    except (json.JSONDecodeError, TypeError):
+        return raw
+    if not isinstance(obj, dict) or "start" not in obj or "end" not in obj:
+        return raw
+    changed = False
+    for key in ("start", "end"):
+        val = str(obj[key])
+        parts = val.split(":")
+        if len(parts) == 3:
+            obj[key] = f"{parts[1]}:{parts[2]}"
+            changed = True
+    return json.dumps(obj) if changed else raw
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--test_json", default="../data/test/test.json")
@@ -60,6 +85,8 @@ def main():
                      help="Skip item_index values already present in --out.")
     ap.add_argument("--samples", type=int, default=1,
                      help="Self-consistency samples for bcq/mcq (majority vote). 1 = greedy only.")
+    ap.add_argument("--fewshot", action="store_true",
+                     help="Prepend worked bcq/mcq examples (validated +3.8pp locally).")
     args = ap.parse_args()
 
     items = load_items(args.test_json)
@@ -124,9 +151,12 @@ def main():
                 results[idx] = fallback_answer(task_type)
                 continue
             try:
-                ans = backend.answer(video_path, task_type, question, samples=args.samples)
+                ans = backend.answer(video_path, task_type, question, samples=args.samples,
+                                      fewshot=args.fewshot)
                 if not ans.strip():
                     ans = fallback_answer(task_type)
+                elif task_type == "temporal_localization":
+                    ans = normalize_temporal_answer(ans)
                 results[idx] = ans
             except Exception as e:  # noqa: BLE001
                 n_errors += 1

@@ -1,0 +1,25 @@
+{
+  "field_scores": {
+    "answer_violation_type": 1.0,
+    "answer_violator_type": 1.0,
+    "answer_color": 1.0,
+    "answer_initial_position": 1.0,
+    "answer_final_position": 1.0,
+    "answer_initial_lane": 1.0,
+    "answer_final_lane": 1.0,
+    "answer_intersection_type": 1.0,
+    "answer_weather": 1.0,
+    "answer_light": 1.0,
+    "answer_date": 1.0,
+    "answer_time": 1.0,
+    "answer_description": 1.0
+  },
+  "categorical_mean": 1.0,
+  "final_score": 1.0,
+  "evaluation_subset": {
+    "enabled": true,
+    "source": "eval_subset_50.json",
+    "selected_count": 100,
+    "total_count": 200
+  }
+}
