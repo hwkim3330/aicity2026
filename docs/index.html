@@ -79,6 +79,16 @@
     </tbody></table>
     <h2>Research record</h2>
     <p class="note">The post-deadline PSI-VQA v8 candidate was never submitted. Local estimates are retained for analysis, not presented as leaderboard results.</p>
+    <details open><summary>Post-challenge FETV structured prototype</summary>
+      <table><tr><th>Stage</th><th>Responsibility</th></tr>
+        <tr><td>Detection and tracking</td><td>Provide stable road-user identities and trajectories</td></tr>
+        <tr><td>Event selection</td><td>Select the violator before predicting dependent attributes</td></tr>
+        <tr><td>Geometry</td><td>Compute center-square 3x3 positions and polygon-based lanes</td></tr>
+        <tr><td>Metadata</td><td>Parse overlay date/time and accept scene classifiers</td></tr>
+        <tr><td>Structured output</td><td>Validate and emit the official 14-field FETV record</td></tr>
+      </table>
+      <p>Six synthetic unit tests cover geometry, lane assignment, OCR parsing, wrong-way logic, violator selection, and final schema generation. This is executable research code, not a retroactively scored submission. <a href="https://github.com/hwkim3330/aicity2026/blob/main/track3_anomaly/scripts/fetv_structured_pipeline.py">View implementation</a>.</p>
+    </details>
     <p><a href="https://github.com/hwkim3330/aicity2026/blob/main/POSTMORTEM.md">Engineering postmortem</a> · <a href="https://github.com/hwkim3330/aicity2026/tree/main/paper">Paper outline</a> · <a href="https://github.com/hwkim3330/aicity2026/blob/main/leaderboards.md">Leaderboard history</a> · <a href="https://github.com/hwkim3330/aicity2026/blob/main/ARTIFACTS.md">Artifact manifest</a> · <a href="https://github.com/hwkim3330/aicity2026">Source repository</a></p>
   </main>
   <footer><div>Korea Drive · Team 277 · AI City Challenge 2026</div></footer>
