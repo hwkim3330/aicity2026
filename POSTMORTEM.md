@@ -70,6 +70,42 @@ The metadata pipeline worked; actor-centric spatial reasoning did not.
 8. Generate the description from the frozen structured record, preserving the
    already competitive language score.
 
+## Track 6: Cross-City Object Detection
+
+### What completed
+
+The managed RF-DETR experiment succeeded on Hafnia. Hidden benchmark inference
+produced 275,159 detections covering 14,814 image IDs, recovered byte-exactly
+from 451 log chunks. The benchmark was documented as containing 14,925 images,
+so 111 images had no recovered detection record.
+
+### Why the portal submissions likely failed
+
+The portal exposes only `Failed`, without an evaluator traceback, so the exact
+cause cannot be proven. The strongest evidence points to a submission-contract
+failure rather than model quality:
+
+1. The official workflow says Hafnia generates the prediction artifact in the
+   evaluator's required format. Because artifact retrieval was unavailable,
+   we reconstructed a custom flat COCO-style JSON list from stdout logs.
+2. The records included custom fields (`file_path`, `sample_index`, and
+   `category_name`) and used a schema that was never validated against a
+   successful Track 6 portal example.
+3. The custom benchmark code and repository README explicitly left the real
+   Hafnia submission schema as a login-dependent verification step.
+4. 111 benchmark images had no records. This can be valid in ordinary COCO
+   evaluation when an image has zero detections, but a strict challenge parser
+   may require explicit image coverage.
+5. The file was 64.5 MB with 275k rows. Size or evaluator resource limits are
+   secondary possibilities, though the portal accepted the upload before
+   marking evaluation failed.
+
+The correct redesign is to test a minimal file against the portal early, use
+the exact artifact emitted by Hafnia, validate schema and image coverage, and
+retain a lower-confidence top-k export to reduce file size. Track 6 should
+remain in the archive as an attempted track with no scored result, not be
+presented as a leaderboard participation result.
+
 ## Track 8: PSI-VQA
 
 ### Official result
