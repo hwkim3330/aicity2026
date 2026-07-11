@@ -37,6 +37,8 @@ wts_data/
 */wts_data/
 */runs/
 */submissions/
+track1_3dperception/track1_test*.txt
+track2_captioning/vjepa2_weights/
 
 # Selected small final artifacts are force-added explicitly. Large generated
 # submissions are recorded by checksum in ARTIFACTS.md instead of Git history.
