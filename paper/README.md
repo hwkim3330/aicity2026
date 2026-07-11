@@ -37,3 +37,6 @@ temporal outputs, while cue-aware prompting improves ambiguous-intent tasks.
 - Add qualitative examples using only redistributable or properly licensed media.
 - Cite the AI City Challenge Track 3, FETV, PSI 2.0/PSI-VQA, and base-model papers.
 - Never report `psi_vqa_submission_v8_final.csv` as an official submission.
+
+The evidence and proposed ablations are expanded in
+[`POSTMORTEM.md`](../POSTMORTEM.md).
