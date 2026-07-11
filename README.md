@@ -44,6 +44,7 @@ models and datasets must be cited and their licenses followed.
 A workshop-paper outline is available at [`paper/README.md`](paper/README.md).
 It separates official full-test results from local cross-validation and
 post-deadline analysis. The project report is published through GitHub Pages.
+The detailed engineering retrospective is in [`POSTMORTEM.md`](POSTMORTEM.md).
 
 ## License and data
 
