@@ -14,7 +14,8 @@ temporal outputs, while cue-aware prompting improves ambiguous-intent tasks.
 
 ## Evidence available
 
-- Official FETV full-test result: 3rd place, 0.4691.
+- Official FETV full-test result: 3rd place, 0.4634 (description 0.4238,
+  categorical mean 0.5031).
 - Official PSI-VQA full-test result: 5th place, 57.0400.
 - PSI temporal mIoU improved from an early 0.0253 to the final 0.5708.
 - Post-deadline OpenQA and MCQ experiments are local validation only.

@@ -7,7 +7,7 @@ evaluation tracks of the 2026 AI City Challenge.
 
 | Evaluation | Result | Artifact |
 |---|---:|---|
-| Track 7, FETV out-of-domain | **3rd**, 0.4691 | `track3_anomaly/submissions/fetv_submission_v11.json` |
+| Track 7, FETV out-of-domain | **3rd**, 0.4634 | `track3_anomaly/submissions/fetv_submission_v11.json` |
 | Track 8, PSI-VQA out-of-domain | **5th**, 57.0400 | Official best described in `leaderboards.md` |
 | Track 8 post-deadline candidate | Not submitted | `track3_anomaly/submissions/psi_vqa_submission_v8_final.csv` |
 
