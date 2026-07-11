@@ -3,17 +3,31 @@
 Research and submission code for Korea Drive (Team 277) across all eight
 evaluation tracks of the 2026 AI City Challenge.
 
-## Final highlights
+## Final results
 
-| Evaluation | Result | Artifact |
-|---|---:|---|
-| Track 7, FETV out-of-domain | **3rd**, 0.4634 | `track3_anomaly/submissions/fetv_submission_v11.json` |
-| Track 8, PSI-VQA out-of-domain | **5th**, 57.0400 | Official best described in `leaderboards.md` |
-| Track 8 post-deadline candidate | Not submitted | `track3_anomaly/submissions/psi_vqa_submission_v8_final.csv` |
+| Track | Public rank | Primary score | Status |
+|---:|---:|---:|---|
+| 1 | 14 | 3D HOTA 5.4253 | Scored |
+| 2 | 21 | S2 32.6404 | Scored |
+| 3 | 24 | Mean 0.4256 | Scored |
+| 4 | 27 | mAP 64.2005 | Scored |
+| 5 | 10 | Final 70.3004 | Scored |
+| 6 | - | - | Two submissions failed; no leaderboard result |
+| 7 | **3** | **Final 0.4634** | Official podium finish |
+| 8 | 5 | Final 57.0400 | Scored |
+
+Ranks are the values returned for Team 277 by the final Public leaderboard
+API. Track 6 had two before-deadline submissions, both marked `Failed`, and
+therefore has no scored leaderboard row.
 
 Track 8's official component scores were BCQ 0.5045, OpenQA 0.6019, MCQ
 0.6044, and temporal mIoU 0.5708. The post-deadline candidate is retained
 for research only and must not be represented as an official result.
+
+Track 7's strongest fields were weather and lighting (1.0), date (1.0), time
+(0.94), and intersection type (0.7841). Its main losses were violation type
+(0.1578), positions (0.1239/0.1278), and lanes (0.1780/0.1694). See the
+[`POSTMORTEM.md`](POSTMORTEM.md) for the redesign.
 
 ## Repository map
 
