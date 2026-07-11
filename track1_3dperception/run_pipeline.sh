@@ -56,23 +56,26 @@ if [[ -n "$MAX_FRAMES" ]]; then
   MF_ARGS=(--max-frames "$MAX_FRAMES")
 fi
 
-echo "=== [1/5] detect.py ==="
+echo "=== [1/7] detect.py ==="
 python3 detect.py --scene "$SCENE" --split "$SPLIT" "${CAM_ARGS[@]}" "${MF_ARGS[@]}" \
     --device "$DEVICE" --model "$MODEL" --conf "$CONF"
 
-echo "=== [2/5] track2d.py ==="
+echo "=== [2/7] track2d.py ==="
 python3 track2d.py --scene "$SCENE" "${CAM_ARGS[@]}"
 
-echo "=== [3/5] project3d.py ==="
+echo "=== [3/7] project3d.py ==="
 python3 project3d.py --scene "$SCENE" --split "$SPLIT" "${CAM_ARGS[@]}"
 
-echo "=== [4/6] fuse_mtmc.py ==="
+echo "=== [4/7] fuse_mtmc.py ==="
 python3 fuse_mtmc.py --scene "$SCENE"
 
-echo "=== [5/6] estimate_yaw.py ==="
+echo "=== [5/7] stitch_tracks.py ==="
+python3 stitch_tracks.py --scene "$SCENE"
+
+echo "=== [6/7] estimate_yaw.py ==="
 python3 estimate_yaw.py --scene "$SCENE"
 
-echo "=== [6/6] export_submission.py ==="
+echo "=== [7/7] export_submission.py ==="
 python3 export_submission.py --scene "$SCENE" --out "$OUT"
 
 echo "=== done: $OUT ==="

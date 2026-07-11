@@ -140,7 +140,7 @@ def greedy_or_hungarian_match(cost, thresh):
 
 
 def track_camera(scene, camera, det_path, out_dir="cache/tracks2d",
-                  iou_thresh=0.3, max_age=30, min_hits=1, conf_high=0.4):
+                  iou_thresh=0.15, max_age=90, min_hits=1, conf_high=0.4):
     with open(det_path) as f:
         data = json.load(f)
 
@@ -150,19 +150,47 @@ def track_camera(scene, camera, det_path, out_dir="cache/tracks2d",
 
     for fk in frame_keys:
         dets = data["frames"][fk]
-        boxes = [d["bbox"] for d in dets]
-
         # predict step
         pred_boxes = [t.predict() for t in tracks]
 
-        cost = 1.0 - iou_matrix(pred_boxes, boxes)
-        matches, unmatched_tracks, unmatched_dets = greedy_or_hungarian_match(cost, 1.0 - iou_thresh)
+        # ByteTrack-style two-stage association -- the docstring claimed this
+        # was already implemented but the actual matching below used to be a
+        # single pass over every detection regardless of confidence. Splitting
+        # it matters: average track length in this data was ~35 frames
+        # (~1.2s), and low-confidence detections during partial occlusion
+        # were being ignored entirely instead of used to keep a track alive,
+        # so a track died and respawned with a new id every time detection
+        # confidence dipped, not just during full occlusion gaps.
+        high_idx = [i for i, d in enumerate(dets) if d["conf"] >= conf_high]
+        low_idx = [i for i, d in enumerate(dets) if d["conf"] < conf_high]
+        high_boxes = [dets[i]["bbox"] for i in high_idx]
+        low_boxes = [dets[i]["bbox"] for i in low_idx]
 
-        for ti, di in matches:
+        # stage 1: high-confidence detections vs all active tracks
+        cost1 = 1.0 - iou_matrix(pred_boxes, high_boxes)
+        matches1, unmatched_tracks1, unmatched_high = greedy_or_hungarian_match(cost1, 1.0 - iou_thresh)
+        for ti, hi in matches1:
+            di = high_idx[hi]
             tracks[ti].update(dets[di]["bbox"], dets[di]["target_class"], dets[di]["conf"])
 
-        # spawn new tracks for unmatched detections
-        for di in unmatched_dets:
+        # stage 2: low-confidence detections vs tracks still unmatched after
+        # stage 1 (a looser threshold, matching ByteTrack's own design --
+        # low-confidence boxes are noisier, so demand less IoU to accept a
+        # match, but never let them spawn a brand new track).
+        remaining_tracks = [tracks[ti] for ti in unmatched_tracks1]
+        remaining_pred_boxes = [pred_boxes[ti] for ti in unmatched_tracks1]
+        cost2 = 1.0 - iou_matrix(remaining_pred_boxes, low_boxes)
+        matches2, unmatched_tracks2, _ = greedy_or_hungarian_match(cost2, 1.0 - iou_thresh * 0.5)
+        for ri, li in matches2:
+            ti = unmatched_tracks1[ri]
+            di = low_idx[li]
+            tracks[ti].update(dets[di]["bbox"], dets[di]["target_class"], dets[di]["conf"])
+
+        # spawn new tracks only from unmatched HIGH-confidence detections --
+        # spawning from low-confidence ones just seeds noisy, short-lived
+        # tracks that inflate the id count without representing real objects.
+        for hi in unmatched_high:
+            di = high_idx[hi]
             tracks.append(Track(dets[di]["bbox"], dets[di]["target_class"], dets[di]["conf"]))
 
         # drop stale tracks
@@ -194,8 +222,8 @@ def main():
     ap.add_argument("--cameras", nargs="*", default=None)
     ap.add_argument("--det-dir", default="cache/detections")
     ap.add_argument("--out-dir", default="cache/tracks2d")
-    ap.add_argument("--iou-thresh", type=float, default=0.3)
-    ap.add_argument("--max-age", type=int, default=30)
+    ap.add_argument("--iou-thresh", type=float, default=0.15)
+    ap.add_argument("--max-age", type=int, default=90)
     args = ap.parse_args()
 
     if args.cameras is None:

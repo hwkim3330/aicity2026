@@ -131,6 +131,12 @@ def load_calibration(scene, split="train"):
 class CameraModel:
     """Wraps a single camera's calibration with projection helpers."""
 
+    # A real warehouse floor plan doesn't span more than this many meters in
+    # any direction -- used to detect scenes whose raw ground-plane
+    # projection needs the scaleFactor/translationToGlobalCoordinates
+    # correction (see class docstring below for why this is scene-dependent).
+    PLAUSIBLE_COORD_BOUND = 300.0
+
     def __init__(self, sensor):
         self.id = sensor["id"]
         self.K = np.array(sensor["intrinsicMatrix"], dtype=np.float64)
@@ -143,15 +149,58 @@ class CameraModel:
         self.height = int(float(attrs.get("frameHeight", 1080)))
         self.fps = float(attrs.get("fps", 30))
 
+        # scaleFactor/translationToGlobalCoordinates: the dataset's calibration
+        # export is inconsistent across scene batches. For some scenes
+        # (verified via ground_truth.json: Warehouse_000 group, scaleFactor
+        # ~9.556; Warehouse_010 group, ~14.421) the homography already
+        # outputs global meters directly, and applying this correction would
+        # BREAK a working projection. For others (Warehouse_026: every camera's
+        # image-center projects to thousands of meters; Warehouse_027: some
+        # cameras do, others don't) the raw output needs
+        # X/scaleFactor + translation.x to land in a plausible range. There is
+        # no reliable static rule (same scaleFactor value doesn't even
+        # predict it consistently within Warehouse_027), so detect per-camera
+        # by checking whether the raw image-center projection is plausible for
+        # a real building.
+        self.scale_factor = float(sensor.get("scaleFactor", 1.0))
+        tr = sensor.get("translationToGlobalCoordinates", {"x": 0.0, "y": 0.0})
+        self.translation = (float(tr.get("x", 0.0)), float(tr.get("y", 0.0)))
+        cx, cy = self.width / 2.0, self.height / 2.0
+        p = self.H_inv @ np.array([cx, cy, 1.0])
+        raw_x, raw_y = p[0] / p[2], p[1] / p[2]
+        self.needs_scale_correction = (
+            abs(raw_x) > self.PLAUSIBLE_COORD_BOUND or abs(raw_y) > self.PLAUSIBLE_COORD_BOUND
+        )
+
     def project_point3d(self, X, Y, Z):
         """World (X,Y,Z) meters -> pixel (u,v). Full 3D projection via cameraMatrix."""
         p = self.P @ np.array([X, Y, Z, 1.0])
         return p[0] / p[2], p[1] / p[2]
 
     def pixel_to_ground(self, u, v):
-        """Pixel (u,v) -> world ground-plane (X,Y) at Z=0, via inverse homography."""
+        """Pixel (u,v) -> world ground-plane (X,Y) at Z=0, via inverse homography.
+
+        Returns None when the projection can't be trusted: either the pixel
+        is near this camera's vanishing line (the homogeneous denominator
+        p[2] is near zero, so a tiny pixel error blows up into a huge world
+        offset -- verified empirically, e.g. Warehouse_023 Camera_0016), or
+        the result is still implausible for a real building even after the
+        scaleFactor correction (a genuinely degenerate projection, not just
+        an uncorrected one). Callers must handle None (skip the detection),
+        not treat it as (0, 0) or any other silent default -- that's exactly
+        the bug that let ~74-90% of Warehouse_026's detections through as
+        garbage coordinates in the millions.
+        """
         p = self.H_inv @ np.array([u, v, 1.0])
-        return p[0] / p[2], p[1] / p[2]
+        if abs(p[2]) < 1e-6:
+            return None
+        X, Y = p[0] / p[2], p[1] / p[2]
+        if self.needs_scale_correction:
+            X = X / self.scale_factor + self.translation[0]
+            Y = Y / self.scale_factor + self.translation[1]
+        if abs(X) > self.PLAUSIBLE_COORD_BOUND or abs(Y) > self.PLAUSIBLE_COORD_BOUND:
+            return None
+        return X, Y
 
     def ground_to_pixel(self, X, Y):
         """World ground-plane (X,Y,Z=0) -> pixel (u,v), via homography."""

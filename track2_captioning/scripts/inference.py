@@ -27,13 +27,32 @@ MAX_PIXELS_PER_FRAME = 360 * 420
 
 CAPTION_SYSTEM = (
     "You are an expert traffic-safety video analyst modeling the WTS "
-    "(Woven Traffic Safety) dataset annotation style. You describe a "
-    "specific time segment of a pedestrian-vehicle interaction in dense, "
-    "factual, third-person prose covering: pedestrian appearance (age, "
-    "height, clothing), pedestrian position/orientation/gaze/action "
-    "relative to the vehicle, and separately the vehicle's position, "
-    "field of view of the pedestrian, action and speed. Do not add "
-    "disclaimers about being an AI."
+    "(Woven Traffic Safety) dataset annotation style EXACTLY. WTS captions "
+    "follow a rigid template -- match its phrasing and field order closely, "
+    "not just its general content, since captions are scored by n-gram "
+    "overlap against human annotations written in this template.\n\n"
+    "Write two third-person paragraphs, in this exact structure:\n\n"
+    "caption_pedestrian: state the pedestrian's position and orientation "
+    "relative to the vehicle (e.g. 'The pedestrian stands perpendicular to "
+    "the vehicle and to the left'), their distance and line of sight, and "
+    "their action/movement (walking, standing, crossing, falling, etc). "
+    "Then describe them demographically in this fixed order: 'The <gender> "
+    "pedestrian in his/her <age decade, e.g. 30s> has a height of <N> cm "
+    "and is wearing a <color> <top garment> and <color> <bottom garment>.' "
+    "Then: 'The weather is <clear/rainy/cloudy>, but the brightness is "
+    "<dark/light>. The road surface conditions are <dry/wet>, and the road "
+    "classification is a <residential/arterial/etc> road with <one/two>-way "
+    "traffic.'\n\n"
+    "caption_vehicle: state the vehicle's position relative to the "
+    "pedestrian, distance, whether the pedestrian is in the vehicle's field "
+    "of view, and the vehicle's action and speed (km/h). Then repeat the "
+    "same weather/brightness/road-surface/road-classification sentences as "
+    "in caption_pedestrian, plus a traffic volume descriptor (e.g. 'usual', "
+    "'heavy').\n\n"
+    "If you cannot determine an exact value (age, height, speed), give your "
+    "best estimate rather than omitting the field -- an approximate value "
+    "in the right template slot scores better than a missing field. Do not "
+    "add disclaimers about being an AI or about uncertainty."
 )
 
 VQA_SYSTEM = (
@@ -112,9 +131,20 @@ class QwenVLBackend:
         text = self.processor.apply_chat_template(
             messages, tokenize=False, add_generation_prompt=True
         )
+        # return_video_metadata=True is required, not optional: without it,
+        # process_vision_info returns video_kwargs["fps"] as a per-video list
+        # rather than a scalar, and the current transformers/huggingface_hub
+        # version enforces strict TypedDict validation on processor kwargs --
+        # passing a list where int/float/None is expected raises
+        # StrictDataclassFieldValidationError on every single call (confirmed
+        # while fixing the identical bug in track3_anomaly/scripts/inference.py).
         image_inputs, video_inputs, video_kwargs = process_vision_info(
-            messages, return_video_kwargs=True
+            messages, return_video_kwargs=True, return_video_metadata=True
         )
+        if video_inputs is not None:
+            video_metadata = [v[1] for v in video_inputs]
+            video_inputs = [v[0] for v in video_inputs]
+            video_kwargs["video_metadata"] = video_metadata
         inputs = self.processor(
             text=[text],
             images=image_inputs,
@@ -134,9 +164,20 @@ class QwenVLBackend:
         with torch.inference_mode():
             output_ids = self.model.generate(**inputs, **gen_kwargs)
         trimmed = [out[len(inp):] for inp, out in zip(inputs.input_ids, output_ids)]
-        return self.processor.batch_decode(
+        text_out = self.processor.batch_decode(
             trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False
         )[0].strip()
+        # Explicit cleanup: this runs in a tight loop over ~20k calls with
+        # different video shapes each time (each call's video_inputs/
+        # video_metadata/inputs tensors differ in size), and was observed to
+        # accumulate both host RAM (~17GB after only ~60 calls) and VRAM
+        # without this -- Python's refcounting should free these once they
+        # go out of scope, but del+empty_cache forces it immediately rather
+        # than waiting for the next allocation to trigger PyTorch's caching
+        # allocator to reclaim fragmented blocks.
+        del inputs, output_ids, trimmed, image_inputs, video_inputs, video_kwargs
+        torch.cuda.empty_cache()
+        return text_out
 
     def caption_segment(self, video_path, start_time, end_time):
         pedestrian = self._generate(
@@ -159,9 +200,32 @@ class QwenVLBackend:
         letters = [k for k in "abcd" if k in options]
         opts_text = "\n".join(f"{k}) {options[k]}" for k in letters)
         prompt = f"{question}\n{opts_text}"
-        raw = self._generate(video_path, start_time, end_time, VQA_SYSTEM, prompt, 4)
-        m = re.search(f"[{''.join(letters)}]", raw.lower())
-        return m.group(0) if m else letters[0]
+        # max_new_tokens=8, not 4: with 4 tokens, any model that doesn't
+        # immediately comply with "respond with exactly one letter" gets cut
+        # off mid-preamble (e.g. "Base") before ever emitting the real
+        # answer, leaving nothing but garbage for extraction to work with.
+        raw = self._generate(video_path, start_time, end_time, VQA_SYSTEM, prompt, 8)
+        return self._extract_mcq_letter(raw, letters)
+
+    @staticmethod
+    def _extract_mcq_letter(raw, letters):
+        """`re.search(f"[{letters}]", raw.lower())` used to match the FIRST
+        a/b/c/d occurring anywhere in the string -- including inside plain
+        English words like "Based"/"answer"/"Answer", which spuriously
+        matched 'a' regardless of the model's actual choice. Prefer explicit
+        "answer is/: X" phrasing, then a word-boundary letter match (taking
+        the LAST one, since preamble text before the real answer is more
+        likely to contain incidental letters than trailing text is), then
+        fall back to the first option only if nothing matches at all."""
+        low = raw.lower()
+        opts = "".join(letters)
+        m = re.search(rf"answer\s*(?:is|:)?\s*\(?([{opts}])\)?", low)
+        if m:
+            return m.group(1)
+        matches = re.findall(rf"\b([{opts}])\b", low)
+        if matches:
+            return matches[-1]
+        return letters[0]
 
 
 def main():

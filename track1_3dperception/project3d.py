@@ -32,13 +32,20 @@ def project_camera_tracks(scene, camera, tracks_path, cam_model, out_dir="cache/
         data = json.load(f)
 
     out_frames = {}
+    n_rejected = 0
+    n_total = 0
     for fk, dets in data["frames"].items():
         out_dets = []
         for d in dets:
+            n_total += 1
             x1, y1, x2, y2 = d["bbox"]
             u = (x1 + x2) / 2.0
             v = y2  # bottom-center
-            X, Y = cam_model.pixel_to_ground(u, v)
+            ground = cam_model.pixel_to_ground(u, v)
+            if ground is None:
+                n_rejected += 1
+                continue
+            X, Y = ground
             w, l, h = CLASS_SIZE_PRIOR.get(d["target_class"], (0.6, 0.6, 1.0))
             out_dets.append({
                 "track_id": d["track_id"],
@@ -54,6 +61,10 @@ def project_camera_tracks(scene, camera, tracks_path, cam_model, out_dir="cache/
                 "bbox": d["bbox"],
             })
         out_frames[fk] = out_dets
+
+    if n_rejected:
+        print(f"[project3d] {scene}/{camera}: rejected {n_rejected}/{n_total} "
+              f"detections with unstable/implausible ground projections")
 
     os.makedirs(out_dir, exist_ok=True)
     out_path = os.path.join(out_dir, f"{scene}__{camera}.json")

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Korea Drive | AI City Challenge 2026</title>
+  <style>
+    :root{color-scheme:light;--ink:#172029;--muted:#64717c;--line:#d8dee3;--red:#c7352c;--green:#147a58;--paper:#f6f8f9;--white:#fff}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 system-ui,sans-serif;letter-spacing:0}
+    header{background:#101820;color:#fff;padding:48px 24px 42px;border-bottom:5px solid var(--red)}
+    header div,main,footer div{max-width:1080px;margin:auto}h1{font-size:clamp(30px,5vw,54px);margin:0 0 8px;letter-spacing:0}header p{max-width:720px;color:#d7dee3;font-size:18px;margin:0}
+    main{padding:32px 24px 56px}h2{font-size:23px;margin:34px 0 14px;letter-spacing:0}.summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .result{background:var(--white);border:1px solid var(--line);border-radius:6px;padding:20px}.result strong{display:block;font-size:34px}.result span{color:var(--muted)}
+    .barset{background:#fff;border:1px solid var(--line);padding:20px;border-radius:6px}.bar{display:grid;grid-template-columns:100px 1fr 65px;gap:12px;align-items:center;margin:12px 0}.track{height:16px;background:#e7ebee}.fill{height:100%;background:var(--green)}
+    table{width:100%;border-collapse:collapse;background:#fff}th,td{text-align:left;border-bottom:1px solid var(--line);padding:12px}th{background:#e9eef1}a{color:#075ea8}code{font-size:13px}.note{border-left:4px solid var(--red);padding:10px 14px;background:#fff}
+    footer{background:#e5eaed;padding:24px;color:var(--muted)}@media(max-width:650px){.summary{grid-template-columns:1fr}.bar{grid-template-columns:82px 1fr 52px}th:nth-child(2),td:nth-child(2){display:none}}
+  </style>
+</head>
+<body>
+  <header><div><h1>Korea Drive</h1><p>AI City Challenge 2026 engineering archive: eight evaluation tracks, one reproducible record of what worked and what did not.</p></div></header>
+  <main>
+    <section class="summary">
+      <div class="result"><span>Track 7 · FETV</span><strong>3rd</strong><span>Official full-test score 0.4691</span></div>
+      <div class="result"><span>Track 8 · PSI-VQA</span><strong>5th</strong><span>Official full-test score 57.0400</span></div>
+    </section>
+    <h2>PSI-VQA component results</h2>
+    <div class="barset" aria-label="PSI-VQA score chart">
+      <div class="bar"><span>BCQ</span><div class="track"><div class="fill" style="width:50.45%"></div></div><b>50.45</b></div>
+      <div class="bar"><span>Open QA</span><div class="track"><div class="fill" style="width:60.19%"></div></div><b>60.19</b></div>
+      <div class="bar"><span>MCQ</span><div class="track"><div class="fill" style="width:60.44%"></div></div><b>60.44</b></div>
+      <div class="bar"><span>Temporal</span><div class="track"><div class="fill" style="width:57.08%"></div></div><b>57.08</b></div>
+    </div>
+    <h2>Track archive</h2>
+    <table><thead><tr><th>Track</th><th>Domain</th><th>Implementation</th></tr></thead><tbody>
+      <tr><td>1</td><td>Multi-camera 3D perception</td><td><a href="https://github.com/hwkim3330/aicity2026/tree/main/track1_3dperception">Pipeline</a></td></tr>
+      <tr><td>2</td><td>Safety captioning and VQA</td><td><a href="https://github.com/hwkim3330/aicity2026/tree/main/track2_captioning">Pipeline</a></td></tr>
+      <tr><td>3, 7, 8</td><td>Traffic reasoning and OOD evaluation</td><td><a href="https://github.com/hwkim3330/aicity2026/tree/main/track3_anomaly">Pipeline</a></td></tr>
+      <tr><td>4</td><td>Text-based person ReID</td><td><a href="https://github.com/hwkim3330/aicity2026/tree/main/track4_reid">Pipeline</a></td></tr>
+      <tr><td>5</td><td>Video forecasting</td><td><a href="https://github.com/hwkim3330/aicity2026/tree/main/track5_forecasting">Pipeline</a></td></tr>
+      <tr><td>6</td><td>Cross-city detection</td><td><a href="https://github.com/hwkim3330/aicity2026/tree/main/track6_detection">Pipeline</a></td></tr>
+    </tbody></table>
+    <h2>Research record</h2>
+    <p class="note">The post-deadline PSI-VQA v8 candidate was never submitted. Local estimates are retained for analysis, not presented as leaderboard results.</p>
+    <p><a href="https://github.com/hwkim3330/aicity2026/tree/main/paper">Read the paper outline</a> · <a href="https://github.com/hwkim3330/aicity2026/blob/main/leaderboards.md">Leaderboard history</a> · <a href="https://github.com/hwkim3330/aicity2026/blob/main/ARTIFACTS.md">Artifact manifest</a> · <a href="https://github.com/hwkim3330/aicity2026">Source repository</a></p>
+  </main>
+  <footer><div>Korea Drive · Team 277 · AI City Challenge 2026</div></footer>
+</body>
+</html>
