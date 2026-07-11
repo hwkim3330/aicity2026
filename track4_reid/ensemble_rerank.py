@@ -68,26 +68,34 @@ def main():
         sims = qe @ ge.T
         fused = sims * w if fused is None else fused + sims * w
 
-    # pass 2: per-model alpha-QE guided by the FUSED top-k, then re-fuse
+    # pass 2: per-model alpha-QE guided by the FUSED top-k, then re-fuse.
+    # weights_qe must be a PER-QUERY max, not a global one -- a global
+    # `.max()` (no dim=) collapses to the single strongest match across all
+    # 1978 queries, so nearly every query's weight sits close to 1 regardless
+    # of how confident THAT query's own top-k match actually is. That erases
+    # the confidence-scaling alpha-QE is supposed to provide and expands
+    # weak/ambiguous queries almost as aggressively as confident ones.
     topk_sims, topk_idx = fused.topk(args.qe_k, dim=1)
-    weights_qe = (topk_sims / topk_sims.max()).clamp(min=0) ** args.qe_alpha
+    weights_qe = (topk_sims / topk_sims.max(dim=1, keepdim=True).values).clamp(min=0) ** args.qe_alpha
     fused2 = None
+    expanded_per_model = []
     for qe, ge, w in zip(query_embeds_per_model, galleries, args.weights):
         neighbors = ge[topk_idx]  # [nq, k, d] in THIS model's space
         expanded = qe + (weights_qe.unsqueeze(-1) * neighbors).sum(dim=1)
         expanded = expanded / expanded.norm(dim=-1, keepdim=True)
+        expanded_per_model.append(expanded)
         sims = expanded @ ge.T
         fused2 = sims * w if fused2 is None else fused2 + sims * w
 
-    # pass 3: local k-reciprocal on a pseudo-embedding space. k-reciprocal
-    # needs embeddings; approximate with the strongest single model's space
-    # but rank candidates by the fused-QE score ordering.
-    # Simpler + faithful: run k-reciprocal on the fused2 score matrix itself
-    # by treating rows as ranking source; reuse the strongest model embeds
-    # for the local distance geometry.
+    # pass 3: local k-reciprocal reranking. Must run on the POST-QE expanded
+    # embeddings (the ones that actually produced fused2), not the raw
+    # pre-QE query_embeds_per_model -- using the stale pre-QE embeddings here
+    # silently threw away the QE step for this pass and reintroduced a single
+    # checkpoint's un-expanded bias into the final ranking, working against
+    # the whole point of ensembling.
     strongest = max(range(len(args.weights)), key=lambda i: args.weights[i])
     ranked = local_k_reciprocal_rerank(
-        query_embeds_per_model[strongest], galleries[strongest],
+        expanded_per_model[strongest], galleries[strongest],
         top_m=args.rerank_m, k1=args.k1, lambda_val=args.lambda_val,
     )
     # blend: take fused2 ranking, but demote candidates the k-reciprocal pass

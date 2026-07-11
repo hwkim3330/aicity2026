@@ -27,6 +27,19 @@ __pycache__/
 *.pyc
 state.json
 *.state.json
+.venv*/
+*/.venv*/
+lora_out*/
+*/lora_out*/
+unsloth_compiled_cache/
+*/unsloth_compiled_cache/
+wts_data/
+*/wts_data/
+*/runs/
+*/submissions/
+
+# Selected small final artifacts are force-added explicitly. Large generated
+# submissions are recorded by checksum in ARTIFACTS.md instead of Git history.
 
 # cloned external reference repos (nested .git -- not our code)
 track2_captioning/wts_test_repo/

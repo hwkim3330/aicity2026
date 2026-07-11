@@ -131,7 +131,14 @@ def main():
 
     if not args.skip_caption:
         cap_items = load_captions(args.root, args.split)
-        print(f"loaded {len(cap_items)} caption items", file=sys.stderr)
+        # The official evaluator reads only overhead_view GT files (vehicle_view
+        # GT captions are verbatim duplicates -- see wts_test_repo eval script's
+        # read_gt(), which explicitly skips "vehicle_view" paths). run_captions()
+        # keys its output dict by scenario only, so if both views were kept here,
+        # whichever view sorts last (vehicle_view) would silently overwrite the
+        # overhead_view captions the GT is actually written against.
+        cap_items = [it for it in cap_items if it.view == "overhead_view"]
+        print(f"loaded {len(cap_items)} caption items (overhead_view only)", file=sys.stderr)
         cap_out = run_captions(backend, cap_items, args.out_caption, args.limit, args.resume)
         print(f"wrote {args.out_caption}", file=sys.stderr)
 
