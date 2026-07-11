@@ -207,7 +207,8 @@ Training-video-based fine-tuning was not attempted (see limitations).
 ## Final Track 7/8 results
 
 - Track 7 (FETV): Korea Drive finished 3rd on the full test set. The final
-  artifact is `submissions/fetv_submission_v11.json` (0.4691).
+  artifact is `submissions/fetv_submission_v11.json` (0.4634 official full-test
+  score: description 0.4238, categorical mean 0.5031).
 - Track 8 (PSI-VQA): Korea Drive finished 5th with 57.0400: BCQ 0.5045,
   OpenQA 0.6019, MCQ 0.6044, and temporal mIoU 0.5708.
 - `submissions/psi_vqa_submission_v8_final.csv` was built after the deadline

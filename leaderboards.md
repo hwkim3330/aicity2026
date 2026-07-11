@@ -85,8 +85,21 @@ Our status: working baseline in `/home/kim/aicity2026/track1_3dperception` (YOLO
 
 Final result (full test set, 2026-07-11): **Korea Drive (Team 277) finished
 3rd**. The final submitted candidate is preserved as
-`track3_anomaly/submissions/fetv_submission_v11.json` (0.4691). UWIPL_ETRI
-finished 1st. The table below is the earlier public-leaderboard snapshot.
+`track3_anomaly/submissions/fetv_submission_v11.json` (0.4634). UWIPL_ETRI
+finished 1st.
+
+| Rank | Team ID | Team | Final Score | Description Score | Categorical Mean |
+|---|---|---|---|---|---|
+| 1 | 30 | UWIPL_ETRI | 0.4891 | 0.4171 | 0.5612 |
+| 2 | 139 | MR-CAS | 0.4884 | 0.4411 | 0.5358 |
+| **3** | **277** | **Korea Drive** | **0.4634** | **0.4238** | **0.5031** |
+| 4 | 257 | MobilityAI | 0.4525 | 0.4087 | 0.4963 |
+| 5 | 309 | GDG | 0.4209 | 0.3582 | 0.4835 |
+| 6 | 122 | OptimAI | 0.4108 | 0.3918 | 0.4298 |
+| 7 | 97 | SMART Lab | 0.3905 | 0.3412 | 0.4397 |
+| 8 | 60 | Vision | 0.2921 | 0.3582 | 0.2261 |
+
+Earlier public-leaderboard snapshot retained below for development history.
 
 | Rank | Team ID | Final Score | Description Score | Categorical Mean |
 |---|---|---|---|---|
