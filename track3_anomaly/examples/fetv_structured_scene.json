@@ -1,0 +1,25 @@
+{
+  "clip_name": "001_000.mp4",
+  "frame_size": [1280, 720],
+  "overlay_text": "CAM 2018-07-17 06:03:44",
+  "tracks": [
+    {
+      "track_id": 7,
+      "observations": [
+        {"frame": 0, "bbox": [900, 100, 40, 90], "label": "person", "confidence": 0.94},
+        {"frame": 20, "bbox": [650, 250, 42, 92], "label": "person", "confidence": 0.96}
+      ]
+    }
+  ],
+  "scene": {
+    "event_frames": [0, 30],
+    "violation_scores": {"7": 0.9},
+    "flags": {"outside_crosswalk": true},
+    "crossing_displacement_px": 80,
+    "intersection_type": "four-way intersection",
+    "weather": "clear",
+    "light": "daylight",
+    "track_colors": {"7": "dark"},
+    "lanes": []
+  }
+}

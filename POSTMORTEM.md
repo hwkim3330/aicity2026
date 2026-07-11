@@ -70,6 +70,11 @@ The metadata pipeline worked; actor-centric spatial reasoning did not.
 8. Generate the description from the frozen structured record, preserving the
    already competitive language score.
 
+An executable detector-agnostic implementation of these interfaces is in
+`track3_anomaly/scripts/fetv_structured_pipeline.py`, with a sample scene and
+synthetic geometry/schema tests. It is a post-challenge prototype and has no
+official score.
+
 ## Track 6: Cross-City Object Detection
 
 ### What completed
