@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Structured FETV postprocessor for detector/tracker outputs.
 
+POST-DEADLINE RESEARCH ARTIFACT
+NOT USED FOR THE OFFICIAL LEADERBOARD RESULT
+
 This is a post-challenge prototype of the Track 7 redesign. It deliberately
 separates geometry and metadata from language generation. The input is JSON
 containing tracked boxes and scene configuration; the output is one official

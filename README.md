@@ -113,10 +113,15 @@ environments, training caches, and large generated submissions. See
 
 ## Reproducibility
 
-Each track directory documents its own environment and commands. Track 3's
-pipeline uses a unified Qwen-VL inference backend with task-specific prompts,
-format parsing, temporal priors, and validation utilities. Public external
-models and datasets must be cited and their licenses followed.
+Each track directory documents its own environment and commands. The official
+FETV v11 run used `Qwen/Qwen3-VL-8B-Instruct` in bf16, with 16 sampled frames
+and a 151200-pixel-per-frame budget, plus greedy decoding. The original run
+did not persist a Hub revision/commit, so that provenance gap is recorded
+explicitly in [`REPRODUCE.md`](REPRODUCE.md) rather than guessed. Public
+external models and datasets must be cited and their licenses followed.
+
+See [`OFFICIAL_RESULTS.md`](OFFICIAL_RESULTS.md) for the official/post-deadline
+boundary and [`REPRODUCE.md`](REPRODUCE.md) for the reproducibility record.
 
 ## Publication
 

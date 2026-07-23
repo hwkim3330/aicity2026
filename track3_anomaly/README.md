@@ -1,8 +1,9 @@
 # AI City Challenge 2026 — Track 3 (Anomalous Events in Transportation) baseline
 
-Working baseline for the **TAR** leaderboard (in-domain). Uses
-**Qwen2.5-VL-7B-Instruct**, 4-bit NF4 quantized via `bitsandbytes`, run
-locally on a single RTX 3090 (24GB).
+Working baseline for the **TAR** leaderboard (in-domain). The official FETV
+v11 artifact was generated with **Qwen/Qwen3-VL-8B-Instruct**, bf16, on a
+single RTX 3090 (24GB). The same backend also supports 4-bit TAR experiments;
+those settings are not the official FETV configuration.
 
 ## Directory layout
 
@@ -15,7 +16,7 @@ track3_anomaly/
 │   └── videos/                  # downloaded video files (not in git)
 │       ├── tar_test/            # 80 test clips (yt-dlp from clip_manifest.csv)
 │       ├── Vad-R1/, TAD/, ...   # training sources (background download, partial)
-├── hf_cache/                    # HF snapshot of Qwen2.5-VL-7B-Instruct (~16GB, not in git)
+├── hf_cache/                    # local HF snapshot/cache (not in git)
 ├── scripts/
 │   ├── prompts.py                # per-task-type prompt templates + gen configs
 │   ├── inference.py               # QwenVLBackend: load model once, answer(video, task, question)
@@ -54,8 +55,14 @@ Format: `tao-vl-reason-v1.0` envelope — `{"format", "metadata", "media_root", 
 
 ## Model choice
 
-**Qwen2.5-VL-7B-Instruct** (Apache-2.0), 4-bit NF4 (`bitsandbytes`,
-`bnb_4bit_use_double_quant=True`, compute dtype bf16).
+**Official FETV v11:** `Qwen/Qwen3-VL-8B-Instruct`, bf16, 16 frames, and
+`360 * 420 = 151200` maximum pixels per frame. Decoding was greedy
+(`do_sample=False`) with the task prompt in `scripts/fetv_submission.py`.
+The original run did not persist a Hub revision/commit, so the revision is
+explicitly recorded as **not available** in [`REPRODUCE.md`](../REPRODUCE.md).
+
+**TAR baseline:** `Qwen/Qwen2.5-VL-7B-Instruct`, 4-bit NF4
+(`bitsandbytes`, `bnb_4bit_use_double_quant=True`, compute dtype bf16).
 
 Rationale (see also the researched comparison against Qwen3-VL-8B,
 InternVL3-8B, VideoLLaMA3-7B):
@@ -211,8 +218,8 @@ Training-video-based fine-tuning was not attempted (see limitations).
   score: description 0.4238, categorical mean 0.5031).
 - Track 8 (PSI-VQA): Korea Drive finished 5th with 57.0400: BCQ 0.5045,
   OpenQA 0.6019, MCQ 0.6044, and temporal mIoU 0.5708.
-- `submissions/psi_vqa_submission_v8_final.csv` was built after the deadline
-  and was not submitted. It contains the robust two-cue OpenQA prior and 87
+- `submissions/psi_vqa_submission_v8_final.csv` is a **POST-DEADLINE RESEARCH
+  ARTIFACT** and was not submitted. It contains the robust two-cue OpenQA prior and 87
   valid box-aware MCQ regenerations (39 answers differ from v7). The paired
   held-out MCQ check improved from 3/24 to 9/24 with six wins and no losses;
   the robust OpenQA prior reached 0.7816 held-out Cue-F1 under pessimistic
@@ -220,6 +227,8 @@ Training-video-based fine-tuning was not attempted (see limitations).
   official leaderboard score.
 
 ## Post-challenge structured FETV prototype
+
+**POST-DEADLINE RESEARCH ARTIFACT — NOT USED FOR THE OFFICIAL LEADERBOARD RESULT.**
 
 `scripts/fetv_structured_pipeline.py` implements the Track 7 redesign from
 the postmortem as a detector-agnostic postprocessor. It consumes tracked boxes,
