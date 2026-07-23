@@ -1,4 +1,4 @@
-# Reproduction environment record (versions observed locally on 2026-07-23).
+# Video-VLM inference environment record (observed locally 2026-07-23).
 torch==2.10.0
 torchvision==0.25.0
 transformers==5.13.0

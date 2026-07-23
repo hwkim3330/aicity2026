@@ -12,7 +12,11 @@ post-deadline experiments.
 ## Official artifacts
 
 - FETV: [`track3_anomaly/submissions/fetv_submission_v11.json`](track3_anomaly/submissions/fetv_submission_v11.json)
-- PSI-VQA: [`track3_anomaly/submissions/psi_vqa_submission.csv`](track3_anomaly/submissions/psi_vqa_submission.csv)
+- PSI-VQA repository-side final candidate: [`track3_anomaly/submissions/psi_vqa_submission_v7.csv`](track3_anomaly/submissions/psi_vqa_submission_v7.csv)
+
+The portal upload filename/ID was not retained. Repository history identifies
+v7 as the candidate associated with the final 57.0400 result; the earlier
+`psi_vqa_submission.csv` is retained as a pre-final 328-item candidate.
 
 ## Research-only artifacts
 

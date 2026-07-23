@@ -43,5 +43,10 @@ frames and a 151200-pixel-per-frame budget. The original execution did not
 record a Hub revision/commit; this provenance gap is preserved in the
 reproduction record rather than filled with an unverifiable hash.
 
+The repository-side PSI-VQA candidate associated with the final 57.0400 score
+is `track3_anomaly/submissions/psi_vqa_submission_v7.csv` (328 predictions).
+The original portal upload filename/ID was not retained, so this association
+must not be presented as a portal-side filename confirmation.
+
 The evidence and proposed ablations are expanded in
 [`POSTMORTEM.md`](../POSTMORTEM.md).
