@@ -38,5 +38,10 @@ temporal outputs, while cue-aware prompting improves ambiguous-intent tasks.
 - Cite the AI City Challenge Track 3, FETV, PSI 2.0/PSI-VQA, and base-model papers.
 - Never report `psi_vqa_submission_v8_final.csv` as an official submission.
 
+The official FETV v11 run used `Qwen/Qwen3-VL-8B-Instruct` in bf16 with 16
+frames and a 151200-pixel-per-frame budget. The original execution did not
+record a Hub revision/commit; this provenance gap is preserved in the
+reproduction record rather than filled with an unverifiable hash.
+
 The evidence and proposed ablations are expanded in
 [`POSTMORTEM.md`](../POSTMORTEM.md).

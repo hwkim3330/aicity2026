@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-Qwen2.5-VL-7B-Instruct baseline inference for AI City Challenge 2026
-Track 3 (Anomalous Events in Transportation / TAR).
+Qwen-VL inference backend for AI City Challenge 2026. The official FETV v11
+run used Qwen/Qwen3-VL-8B-Instruct in bf16; TAR experiments may select the
+Qwen2.5-VL 4-bit path through TAR_MODEL_ID/--quant.
 
 Loads the model once (4-bit NF4 quantized via bitsandbytes, ~6-8GB VRAM)
 and exposes `answer_one(video_path, task_type, question)` plus a CLI for
@@ -34,7 +35,7 @@ HF_CACHE = os.environ.get(
 # single 3090 handles it comfortably at 4-bit.
 MAX_FRAMES = int(os.environ.get("TAR_MAX_FRAMES", 16))
 MIN_FRAMES = 4
-MAX_PIXELS_PER_FRAME = int(os.environ.get("TAR_MAX_PIXELS", 360 * 420))  # per-frame token budget
+MAX_PIXELS_PER_FRAME = int(os.environ.get("TAR_MAX_PIXELS", 360 * 420))  # official FETV budget
 
 # Few-shot examples pulled from data/train/{bcq,mcq}.json (real ground truth,
 # not test data -- allowed per the rules, which only forbid training/
