@@ -1,0 +1,8 @@
+# Official TAR evaluator compatibility environment.
+# The released evaluator requires this Transformers version for BERTScore;
+# Transformers 5.x can shift the reported score.
+transformers==4.57.0
+torch
+evaluate
+bert-score
+sentencepiece

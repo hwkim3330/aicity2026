@@ -4,4 +4,5 @@
 **NOT USED FOR THE OFFICIAL LEADERBOARD RESULT**
 
 This file is retained for reproducibility of local experiments only. The
-official PSI-VQA submission was `psi_vqa_submission.csv`.
+repository-side candidate associated with the final PSI-VQA result is
+`psi_vqa_submission_v7.csv`; the portal upload filename was not retained.

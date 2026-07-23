@@ -78,10 +78,8 @@ InternVL3-8B, VideoLLaMA3-7B):
   bot and a CARLA simulation — hold ~9GB; the quantized model + KV cache
   fits in the remaining ~14GB, observed peak ~16GB total GPU usage during a
   smoke test).
-- Qwen3-VL-8B would likely score higher on long-video/temporal benchmarks
-  but has thinner ecosystem support; not worth the integration risk on an
-  8-day budget. Noted as a drop-in future upgrade (same `transformers`
-  loading pattern).
+- Qwen3-VL-8B was later integrated for the official FETV and PSI-VQA runs.
+  The earlier TAR baseline retained Qwen2.5-VL-7B for environment stability.
 
 **Known gotcha (fixed during setup)**: loading Qwen2.5-VL with
 `transformers==5.0.0`'s new `core_model_loading.py` path caused a large
@@ -218,6 +216,9 @@ Training-video-based fine-tuning was not attempted (see limitations).
   score: description 0.4238, categorical mean 0.5031).
 - Track 8 (PSI-VQA): Korea Drive finished 5th with 57.0400: BCQ 0.5045,
   OpenQA 0.6019, MCQ 0.6044, and temporal mIoU 0.5708.
+- The repository-side PSI candidate associated with that final score is
+  `submissions/psi_vqa_submission_v7.csv`; the portal upload filename was
+  not retained. `submissions/psi_vqa_submission.csv` is an earlier candidate.
 - `submissions/psi_vqa_submission_v8_final.csv` is a **POST-DEADLINE RESEARCH
   ARTIFACT** and was not submitted. It contains the robust two-cue OpenQA prior and 87
   valid box-aware MCQ regenerations (39 answers differ from v7). The paired
