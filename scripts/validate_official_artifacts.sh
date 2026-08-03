@@ -80,11 +80,16 @@ PY
 
 echo
 echo "== derived-step verification =="
-if (cd "$ROOT/track3_anomaly/scripts" && python3 make_psi_v7_openqa_prior.py --verify >/dev/null 2>&1); then
+OPENQA_Q="$ROOT/track3_anomaly/data/psi_vqa/test_public/open_qa_questions.json"
+if [ ! -f "$OPENQA_Q" ]; then
+  echo "  skipped  v6 -> v7 OpenQA reconstruction (dataset not present)"
+  echo "           fetch it with:"
+  echo "             hf download ise-ice-lab/PSI_VQA --repo-type dataset \\"
+  echo "               --local-dir track3_anomaly/data/psi_vqa --include 'test_public/*'"
+elif (cd "$ROOT/track3_anomaly/scripts" && python3 make_psi_v7_openqa_prior.py --verify >/dev/null 2>&1); then
   echo "  ok       v6 -> v7 OpenQA reconstruction matches the shipped file"
 else
   echo "  FAILED   v6 -> v7 OpenQA reconstruction"
-  echo "           (needs data/psi_vqa/test_public/open_qa_questions.json)"
   fail=1
 fi
 
