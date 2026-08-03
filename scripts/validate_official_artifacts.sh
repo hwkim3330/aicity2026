@@ -35,7 +35,10 @@ check_sha "$SUBS/fetv_submission_v11.json" \
   "FETV official (fetv_submission_v11.json)"
 check_sha "$SUBS/psi_vqa_submission_v7.csv" \
   "a3829a36f591907bb8838098b1cc61feb907fec1cc6215f6098094aafaafb110" \
-  "PSI-VQA repository-side final candidate (psi_vqa_submission_v7.csv)"
+  "PSI-VQA official (psi_vqa_submission_v7.csv)"
+check_sha "$SUBS/submission_qwen3vl8b_v9.csv" \
+  "243a5e8b67310428096cfc760ddeedaf5bc9d280729ad73f4c940eb3da759f6f" \
+  "TAR official (submission_qwen3vl8b_v9.csv)"
 
 echo
 echo "== structure =="
@@ -57,17 +60,19 @@ else:
     print("  FETV: MISSING")
     bad += 1
 
-psi = os.path.join(subs, "psi_vqa_submission_v7.csv")
-if os.path.exists(psi):
-    rows = list(csv.DictReader(open(psi)))
-    n = len(rows)
-    empty = [r["item_index"] for r in rows if not r["prediction"].strip()]
-    print(f"  PSI:  {n} records", "ok" if n == 328 else "EXPECTED 328")
-    print(f"        empty predictions: {len(empty)}", "ok" if not empty else "PROBLEM")
-    bad += (n != 328) or bool(empty)
-else:
-    print("  PSI:  MISSING")
-    bad += 1
+for label, fname, want in (("PSI", "psi_vqa_submission_v7.csv", 328),
+                           ("TAR", "submission_qwen3vl8b_v9.csv", 960)):
+    path = os.path.join(subs, fname)
+    if os.path.exists(path):
+        rows = list(csv.DictReader(open(path)))
+        n = len(rows)
+        empty = [r["item_index"] for r in rows if not r["prediction"].strip()]
+        print(f"  {label}:  {n} records", "ok" if n == want else f"EXPECTED {want}")
+        print(f"        empty predictions: {len(empty)}", "ok" if not empty else "PROBLEM")
+        bad += (n != want) or bool(empty)
+    else:
+        print(f"  {label}:  MISSING")
+        bad += 1
 
 sys.exit(1 if bad else 0)
 PY

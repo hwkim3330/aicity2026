@@ -9,16 +9,23 @@ evaluation tracks of the 2026 AI City Challenge.
 |---:|---:|---|
 | 1 | 14 | Scored |
 | 2 | 21 | Scored |
-| 3 | 24 | Scored |
+| 3 | 24 of 27 | Scored |
 | 4 | 27 | Scored |
 | 5 | 10 | Scored |
 | 6 | - | Hafnia benchmark completed; two portal evaluations failed |
-| 7 | **3** | **Official podium finish** |
-| 8 | 5 | Scored |
+| 7 | **3 of 8** | **Official podium finish** |
+| 8 | 5 of 7 | Scored |
 
 Ranks are the values returned for Team 277 by the final Public leaderboard
-API. Track 6 had two before-deadline submissions, both marked `Failed`, and
-therefore has no scored leaderboard row.
+API. The portal also keeps a `general` board including non-public submissions,
+where the same scores rank 55/76, 5/15 and 9/15 on tracks 3, 7 and 8 — always
+name the board when quoting a rank. Denominators for tracks 3, 7 and 8 are
+exported in [`leaderboards/`](leaderboards/); the others have not been
+re-exported. Track 6 had two before-deadline submissions, both marked `Failed`,
+and therefore has no scored leaderboard row.
+
+All three Track 3 evaluations used **Qwen3-VL-8B-Instruct in bf16**, including
+the in-domain TAR run — see [`OFFICIAL_RESULTS.md`](OFFICIAL_RESULTS.md).
 
 ### Track 1 · Multi-camera 3D perception
 
@@ -40,7 +47,7 @@ scored by BERTScore-F1 rather than exact match):
 
 | Mean | BCQ | MCQ | BCQ-OE F1 | MCQ-OE F1 | Open QA F1 |
 |---:|---:|---:|---:|---:|---:|
-| 0.4256 | 0.5438 | 0.5875 | 0.4824 | 0.7664 | 0.3333 |
+| 0.4256 | 0.5437 | 0.5875 | 0.4824 | 0.7664 | 0.3333 |
 
 | Causal F1 | Scene F1 | Temporal desc. F1 | Summary F1 | Temporal mIoU* |
 |---:|---:|---:|---:|---:|
@@ -48,7 +55,8 @@ scored by BERTScore-F1 rather than exact match):
 
 `*` Temporal localization was reported by the API but excluded from the final
 Track 3 mean after the July 1 rule update. The nine scored components average
-to 0.42562, which reconstructs the official 0.4256.
+to 0.42561, which reconstructs the official 0.4256. Values are as shown on the
+portal; an earlier revision of this file recorded BCQ as 0.5438.
 
 ### Track 4 · Text-based person ReID
 

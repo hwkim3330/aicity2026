@@ -2,6 +2,20 @@
 
 Large generated outputs remain local to avoid bloating normal Git history.
 
+## Official leaderboard artifacts
+
+Identified from the portal's Team 277 submission pages (exported 2026-08-03,
+stored in [`leaderboards/submission_history.json`](leaderboards/submission_history.json))
+and verified by `./scripts/validate_official_artifacts.sh`.
+
+| Evaluation | Artifact | Records | SHA256 |
+|---|---|---:|---|
+| Track 3 TAR | `track3_anomaly/submissions/submission_qwen3vl8b_v9.csv` | 960 | `243a5e8b67310428096cfc760ddeedaf5bc9d280729ad73f4c940eb3da759f6f` |
+| Track 7 FETV | `track3_anomaly/submissions/fetv_submission_v11.json` | 200 | `39abdb0a8cca7a7fa18dbd31374ee353e032977df9928d54734a53e9ec43e835` |
+| Track 8 PSI-VQA | `track3_anomaly/submissions/psi_vqa_submission_v7.csv` | 328 | `a3829a36f591907bb8838098b1cc61feb907fec1cc6215f6098094aafaafb110` |
+
+## Other retained artifacts
+
 | Artifact | Size | SHA256 |
 |---|---:|---|
 | `track1_3dperception/track1_test_v6_boundfix.txt` | 35,250,758 bytes | `8eddf764d8991722d4c03c82c6a65e151be7dd0188932f2147e45b39844aab50` |

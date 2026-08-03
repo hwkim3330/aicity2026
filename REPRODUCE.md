@@ -54,9 +54,12 @@ Environment variables read by the inference backend:
 
 | | |
 |---|---|
-| Model ID | `Qwen/Qwen3-VL-8B-Instruct` (later candidates); `Qwen/Qwen2.5-VL-7B-Instruct` for the earliest |
+| Model ID | `Qwen/Qwen3-VL-8B-Instruct` — the portal records `models_used: qwen3` for the scored submission |
 | Hub revision | **not recorded in the original runs** |
-| Precision | bf16 (Qwen3-VL path); NF4 4-bit, double quant, bf16 compute (Qwen2.5-VL path) |
+| Precision | bf16 |
+| Official artifact | `track3_anomaly/submissions/submission_qwen3vl8b_v9.csv` (portal submission `9`, 2026-07-11 16:14) |
+| Expected SHA256 | `243a5e8b67310428096cfc760ddeedaf5bc9d280729ad73f4c940eb3da759f6f` |
+| Official result | rank 24 of 27 (public board), mean 0.4256 |
 | Frame sampling | 16 max / 4 min, uniform, with `MM:SS` question-window extraction |
 | Pixel budget | 151,200 per frame |
 | Prompt/config | `track3_anomaly/scripts/prompts.py` |
@@ -65,10 +68,11 @@ Environment variables read by the inference backend:
 | Output | `track3_anomaly/submissions/reproduced_tar.csv` |
 | Records | 960 |
 | Validator | `python3 test/evaluate.py --gt test/test.json --submission <csv>` |
-| Expected SHA256 | **not applicable — the scored artifact is unidentified (see gaps)** |
 | GPU / runtime / peak VRAM | see [`BENCHMARKS.md`](BENCHMARKS.md) |
 
-Reproduce the 4-bit Qwen2.5-VL configuration with:
+The earliest candidate `submission_qwen25vl_4bit.csv` used
+`Qwen/Qwen2.5-VL-7B-Instruct` at NF4 4-bit. It was submitted once as a General
+entry (0.3480) and was **not** the scored submission. Reproduce it with:
 
 ```bash
 TAR_MODEL_ID=Qwen/Qwen2.5-VL-7B-Instruct TAR_QUANT=4bit ./scripts/reproduce_tar_official.sh
@@ -200,17 +204,20 @@ reproduction-run measurements and labels them as such.
 
 These are recorded rather than filled with plausible-looking values.
 
-1. **The scored TAR artifact is unidentified.** The repository holds nine TAR
-   candidates (`submission_qwen25vl_4bit.csv`, `submission_qwen3vl8b_v2` …
-   `v9`) and the portal submission that produced the official 0.4256 was not
-   recorded. `v8` and `v9` differ only in 18 BCQ and 24 MCQ rows;
-   `v7` differs from `v9` across nearly every open-ended task. Until the portal
-   submission history is consulted, no file in this repository may be presented
-   as *the* official TAR artifact.
-2. **The paper and the repository disagree about the TAR backbone.** Table 1 of
-   the submitted paper states TAR used Qwen2.5-VL-7B at NF4 4-bit, but eight of
-   the nine candidates were generated with Qwen3-VL-8B. Resolving gap 1
-   resolves this too.
+1. ~~The scored TAR artifact is unidentified.~~ **Resolved 2026-08-03.** The
+   portal's Track 3 submission page identifies submission `9`
+   (2026-07-11 16:14, mean 0.4256) whose ten component scores match this
+   repository's recorded TAR results exactly. By mtime it is
+   `submission_qwen3vl8b_v9.csv`. All eight TAR submissions map 1:1 to
+   candidate files; `submission_qwen3vl8b_v8.csv` was never submitted. See
+   [`leaderboards/submission_history.json`](leaderboards/submission_history.json).
+2. **The submitted paper misstates the TAR backbone.** Its abstract and Table 1
+   say TAR used Qwen2.5-VL-7B with 4-bit inference. The portal records
+   `models_used: qwen3` for the scored submission, and the only Qwen2.5-VL
+   4-bit entry (`test`, General, 0.3480) was never scored. All three official
+   runs used Qwen3-VL-8B-Instruct in bf16. **This must be corrected in the
+   camera-ready**, and it removes the backbone/precision confound the paper
+   cited as its reason for declining a controlled cross-domain claim.
 3. **No Hub revision/commit was persisted for any official run.** The model ids
    are recorded; the exact weight revisions are not, and are not guessed.
 4. **The PSI portal upload filename/ID was not retained.**

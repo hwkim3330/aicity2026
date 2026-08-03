@@ -1,0 +1,50 @@
+{
+ "source": "eval.aicitychallenge.org — Team 277 Submissions pages for Track 3, Track 7, Track 8",
+ "retrieved": "2026-08-03",
+ "note": "All rows are full-test-set scores; the portal states this explicitly on each page. Artifacts are matched to submissions by file mtime immediately preceding the submission timestamp. The mapping is 1:1 and unambiguous on every track.",
+ "track3_tar": {
+  "official_submission": "9",
+  "official_artifact": "track3_anomaly/submissions/submission_qwen3vl8b_v9.csv",
+  "official_artifact_sha256": "243a5e8b67310428096cfc760ddeedaf5bc9d280729ad73f4c940eb3da759f6f",
+  "backbone_finding": "The portal's models_used field records 'qwen3' for the official submission. TAR was NOT run with Qwen2.5-VL-7B at 4-bit. The only 4-bit Qwen2.5-VL submission is 'test' (General, 0.3480, 2026-07-03), which was never the scored entry.",
+  "submissions": [
+   {"name": "test", "type": "General", "models_used": "qwen25vl_4bit", "artifact": "submission_qwen25vl_4bit.csv", "submitted": "2026-07-03T16:34:27", "mean": 0.3480, "bcq": 0.4813, "mcq": 0.5000, "temporal_miou": 0.1252, "bcq_oe_f1": 0.4829, "mcq_oe_f1": 0.6600, "open_qa_f1": 0.2554, "causal_f1": 0.2429, "scene_f1": 0.2366, "temporal_desc_f1": 0.1666, "summarization_f1": 0.1059},
+   {"name": "qwen", "type": "Public", "models_used": "qwen", "artifact": "submission_qwen3vl8b_v2.csv", "submitted": "2026-07-05T19:35:00", "mean": 0.3414, "bcq": 0.5687, "mcq": 0.4875, "temporal_miou": 0.0264, "bcq_oe_f1": 0.3539, "mcq_oe_f1": 0.5355, "open_qa_f1": 0.2255, "causal_f1": 0.2800, "scene_f1": 0.2354, "temporal_desc_f1": 0.1708, "summarization_f1": 0.2157},
+   {"name": "1", "type": "General", "models_used": "qwen", "artifact": "submission_qwen3vl8b_v3.csv", "submitted": "2026-07-06T09:41:46", "mean": 0.3859, "bcq": 0.5687, "mcq": 0.4875, "temporal_miou": 0.0264, "bcq_oe_f1": 0.4702, "mcq_oe_f1": 0.7686, "open_qa_f1": 0.2763, "causal_f1": 0.2800, "scene_f1": 0.2354, "temporal_desc_f1": 0.1708, "summarization_f1": 0.2157},
+   {"name": "QWEN", "type": "Public", "models_used": "QWEN", "artifact": "submission_qwen3vl8b_v4.csv", "submitted": "2026-07-06T15:32:02", "mean": 0.3956, "bcq": 0.5687, "mcq": 0.5750, "temporal_miou": 0.0264, "bcq_oe_f1": 0.4702, "mcq_oe_f1": 0.7686, "open_qa_f1": 0.2763, "causal_f1": 0.2800, "scene_f1": 0.2354, "temporal_desc_f1": 0.1708, "summarization_f1": 0.2157},
+   {"name": "QWEN3", "type": "Public", "models_used": "QWEN3", "artifact": "submission_qwen3vl8b_v5.csv", "submitted": "2026-07-07T12:57:53", "mean": 0.3862, "bcq": 0.5687, "mcq": 0.4250, "temporal_miou": 0.2152, "bcq_oe_f1": 0.4738, "mcq_oe_f1": 0.7703, "open_qa_f1": 0.2906, "causal_f1": 0.2823, "scene_f1": 0.2538, "temporal_desc_f1": 0.1907, "summarization_f1": 0.2204},
+   {"name": "qwen4", "type": "Public", "models_used": "qwen4", "artifact": "submission_qwen3vl8b_v6_fewshot.csv", "submitted": "2026-07-09T09:32:00", "mean": 0.3944, "bcq": 0.5938, "mcq": 0.4875, "temporal_miou": 0.1979, "bcq_oe_f1": 0.4720, "mcq_oe_f1": 0.7805, "open_qa_f1": 0.2857, "causal_f1": 0.2773, "scene_f1": 0.2455, "temporal_desc_f1": 0.1821, "summarization_f1": 0.2253},
+   {"name": "kwen7", "type": "Public", "models_used": "kwen7", "artifact": "submission_qwen3vl8b_v7.csv", "submitted": "2026-07-10T09:47:29", "mean": 0.3971, "bcq": 0.5563, "mcq": 0.5375, "temporal_miou": 0.1979, "bcq_oe_f1": 0.4720, "mcq_oe_f1": 0.7805, "open_qa_f1": 0.2857, "causal_f1": 0.2790, "scene_f1": 0.2455, "temporal_desc_f1": 0.1919, "summarization_f1": 0.2253},
+   {"name": "9", "type": "Public", "models_used": "qwen3", "artifact": "submission_qwen3vl8b_v9.csv", "submitted": "2026-07-11T16:14:51", "mean": 0.4256, "bcq": 0.5437, "mcq": 0.5875, "temporal_miou": 0.1990, "bcq_oe_f1": 0.4824, "mcq_oe_f1": 0.7664, "open_qa_f1": 0.3333, "causal_f1": 0.2874, "scene_f1": 0.3282, "temporal_desc_f1": 0.1856, "summarization_f1": 0.3160, "is_official": true}
+  ],
+  "never_submitted": ["submission_qwen3vl8b_v8.csv"]
+ },
+ "track7_fetv": {
+  "official_submission": "11",
+  "official_artifact": "track3_anomaly/submissions/fetv_submission_v11.json",
+  "submissions": [
+   {"name": "teat", "type": "General", "status": "Failed", "submitted": "2026-07-05T19:36:57"},
+   {"name": "tr", "type": "General", "artifact": "fetv_submission_v2.json", "submitted": "2026-07-05T21:33:35", "final": 0.3907, "violation_type_f1": 0.1820, "violator_type_f1": 0.4011, "color_f1": 0.2112, "initial_position_f1": 0.1244, "final_position_f1": 0.1183, "initial_lane_f1": 0.2076, "final_lane_f1": 0.2058, "intersection_type_f1": 0.1165, "weather_f1": 1.0, "light_f1": 0.25, "date_accuracy": 1.0, "time_accuracy": 0.975, "description": 0.3821, "categorical_mean": 0.3993},
+   {"name": "V4", "type": "Public", "artifact": "fetv_submission_v4.json", "submitted": "2026-07-08T16:36:57", "final": 0.3960, "violation_type_f1": 0.1288, "violator_type_f1": 0.2256, "color_f1": 0.1682, "initial_position_f1": 0.1248, "final_position_f1": 0.1200, "initial_lane_f1": 0.1587, "final_lane_f1": 0.1851, "intersection_type_f1": 0.3998, "weather_f1": 1.0, "light_f1": 0.9814, "date_accuracy": 0.88, "time_accuracy": 0.73, "description": 0.3668, "categorical_mean": 0.4252},
+   {"name": "5", "type": "Public", "artifact": "fetv_submission_v5.json", "submitted": "2026-07-09T10:08:38", "final": 0.4063, "violation_type_f1": 0.1628, "violator_type_f1": 0.2823, "color_f1": 0.1760, "initial_position_f1": 0.1153, "final_position_f1": 0.1206, "initial_lane_f1": 0.1746, "final_lane_f1": 0.1753, "intersection_type_f1": 0.3998, "weather_f1": 1.0, "light_f1": 1.0, "date_accuracy": 0.885, "time_accuracy": 0.73, "description": 0.3774, "categorical_mean": 0.4351},
+   {"name": "6", "type": "Public", "artifact": "fetv_submission_v6_fewshot.json", "submitted": "2026-07-10T14:39:46", "final": 0.4238, "violation_type_f1": 0.1535, "violator_type_f1": 0.2595, "color_f1": 0.2324, "initial_position_f1": 0.1096, "final_position_f1": 0.1250, "initial_lane_f1": 0.1780, "final_lane_f1": 0.1694, "intersection_type_f1": 0.7841, "weather_f1": 1.0, "light_f1": 1.0, "date_accuracy": 0.995, "time_accuracy": 0.79, "description": 0.3645, "categorical_mean": 0.4830},
+   {"name": "7", "type": "Public", "artifact": "fetv_submission_v7.json", "submitted": "2026-07-11T07:51:22", "final": 0.4584, "violation_type_f1": 0.1535, "violator_type_f1": 0.2595, "color_f1": 0.2324, "initial_position_f1": 0.1096, "final_position_f1": 0.1250, "initial_lane_f1": 0.1780, "final_lane_f1": 0.1694, "intersection_type_f1": 0.7841, "weather_f1": 1.0, "light_f1": 1.0, "date_accuracy": 1.0, "time_accuracy": 0.94, "description": 0.4209, "categorical_mean": 0.4960},
+   {"name": "8", "type": "Public", "artifact": "fetv_submission_v8.json", "submitted": "2026-07-11T10:58:18", "final": 0.4616, "violation_type_f1": 0.1908, "violator_type_f1": 0.2613, "color_f1": 0.2494, "initial_position_f1": 0.1106, "final_position_f1": 0.1223, "initial_lane_f1": 0.1922, "final_lane_f1": 0.1690, "intersection_type_f1": 0.7841, "weather_f1": 1.0, "light_f1": 1.0, "date_accuracy": 1.0, "time_accuracy": 0.94, "description": 0.4215, "categorical_mean": 0.5016},
+   {"name": "11", "type": "Public", "artifact": "fetv_submission_v11.json", "submitted": "2026-07-11T18:05:59", "final": 0.4634, "violation_type_f1": 0.1578, "violator_type_f1": 0.3127, "color_f1": 0.2434, "initial_position_f1": 0.1239, "final_position_f1": 0.1278, "initial_lane_f1": 0.1780, "final_lane_f1": 0.1694, "intersection_type_f1": 0.7841, "weather_f1": 1.0, "light_f1": 1.0, "date_accuracy": 1.0, "time_accuracy": 0.94, "description": 0.4238, "categorical_mean": 0.5031, "is_official": true}
+  ],
+  "never_submitted": ["fetv_submission_v3.json", "fetv_submission_v9.json", "fetv_submission_v10.json"]
+ },
+ "track8_psi_vqa": {
+  "official_submission": "7",
+  "official_artifact": "track3_anomaly/submissions/psi_vqa_submission_v7.csv",
+  "submissions": [
+   {"name": "1", "type": "Public", "submitted": "2026-07-06T09:42:23", "final": 44.5735, "bcq_macro_f1": 0.5528, "bcq_accuracy": 0.5818, "open_qa_cue_f1": 0.5970, "mcq_accuracy": 0.6044, "temporal_miou": 0.0287},
+   {"name": "2", "type": "Public", "submitted": "2026-07-07T13:12:20", "final": 49.5260, "bcq_macro_f1": 0.5528, "bcq_accuracy": 0.5818, "open_qa_cue_f1": 0.5970, "mcq_accuracy": 0.6044, "temporal_miou": 0.2268},
+   {"name": "3", "type": "General", "submitted": "2026-07-08T16:52:31", "final": 55.4135, "bcq_macro_f1": 0.5528, "bcq_accuracy": 0.5818, "open_qa_cue_f1": 0.5970, "mcq_accuracy": 0.6044, "temporal_miou": 0.4623},
+   {"name": "4", "type": "Public", "submitted": "2026-07-09T11:28:08", "final": 52.8314, "bcq_macro_f1": 0.5045, "bcq_accuracy": 0.5636, "open_qa_cue_f1": 0.5970, "mcq_accuracy": 0.5495, "temporal_miou": 0.4623},
+   {"name": "5", "type": "Public", "submitted": "2026-07-09T11:34:20", "final": 54.2050, "bcq_macro_f1": 0.5045, "bcq_accuracy": 0.5636, "open_qa_cue_f1": 0.5970, "mcq_accuracy": 0.6044, "temporal_miou": 0.4623},
+   {"name": "6", "type": "Public", "submitted": "2026-07-11T07:53:35", "final": 56.9175, "bcq_macro_f1": 0.5045, "bcq_accuracy": 0.5636, "open_qa_cue_f1": 0.5970, "mcq_accuracy": 0.6044, "temporal_miou": 0.5708},
+   {"name": "7", "type": "Public", "artifact": "psi_vqa_submission_v7.csv", "submitted": "2026-07-11T16:15:21", "final": 57.0400, "bcq_macro_f1": 0.5045, "bcq_accuracy": 0.5636, "open_qa_cue_f1": 0.6019, "mcq_accuracy": 0.6044, "temporal_miou": 0.5708, "is_official": true}
+  ]
+ }
+}

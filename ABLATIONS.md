@@ -163,6 +163,34 @@ These rows are historical leaderboard deltas, not controlled ablations.
 Multiple configuration changes occurred simultaneously between submissions, so
 improvements must not be attributed to any single component.
 
+### B0. TAR submission sequence
+
+Retrieved from the portal's Track 3 submission history on 2026-08-03. Full test
+set throughout. `models_used` is the free-text field recorded at upload.
+
+| Submission | `models_used` | Artifact | Submitted | Mean | BCQ | MCQ | Summary F1 |
+|---|---|---|---|---:|---:|---:|---:|
+| `test` (General) | `qwen25vl_4bit` | `submission_qwen25vl_4bit.csv` | 07-03 16:34 | 0.3480 | 0.4813 | 0.5000 | 0.1059 |
+| `qwen` | `qwen` | `submission_qwen3vl8b_v2.csv` | 07-05 19:35 | 0.3414 | 0.5687 | 0.4875 | 0.2157 |
+| `1` (General) | `qwen` | `submission_qwen3vl8b_v3.csv` | 07-06 09:41 | 0.3859 | 0.5687 | 0.4875 | 0.2157 |
+| `QWEN` | `QWEN` | `submission_qwen3vl8b_v4.csv` | 07-06 15:32 | 0.3956 | 0.5687 | 0.5750 | 0.2157 |
+| `QWEN3` | `QWEN3` | `submission_qwen3vl8b_v5.csv` | 07-07 12:57 | 0.3862 | 0.5687 | 0.4250 | 0.2204 |
+| `qwen4` | `qwen4` | `submission_qwen3vl8b_v6_fewshot.csv` | 07-09 09:32 | 0.3944 | 0.5938 | 0.4875 | 0.2253 |
+| `kwen7` | `kwen7` | `submission_qwen3vl8b_v7.csv` | 07-10 09:47 | 0.3971 | 0.5563 | 0.5375 | 0.2253 |
+| **`9`** | **`qwen3`** | **`submission_qwen3vl8b_v9.csv`** | **07-11 16:14** | **0.4256** | 0.5437 | 0.5875 | **0.3160** |
+
+`submission_qwen3vl8b_v8.csv` was never submitted.
+
+**The scored TAR run used Qwen3-VL-8B, not Qwen2.5-VL-7B at 4-bit.** The
+submitted paper states otherwise in its abstract and Table 1. The single
+Qwen2.5-VL 4-bit entry is `test`, a General submission that scored 0.3480 eight
+days before the deadline.
+
+The summarization F1 jump from 0.2253 to 0.3160 between `kwen7` and `9` is the
+largest single component move in the sequence and is what carries the mean from
+0.3971 to 0.4256 — but the two submissions differ in more than the summary
+prompt, so it cannot be attributed to that change alone.
+
 ### B1. Rows carried over from the paper
 
 | Comparison | Observation |
