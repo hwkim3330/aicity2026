@@ -1,29 +1,446 @@
 {
- "evaluation": "Track 8 tab — PSI-VQA (Pedestrian Situated Intent VQA), OOD Test Set 2 of Track 3",
+ "evaluation": "PSI-VQA Pedestrian Situated Intent, Track 3 OOD Test Set 2",
+ "portal_track_tab": 8,
  "phase": "final full test set",
- "source": "transcribed from Table 5 of the submitted workshop paper (OpenReview submission 4)",
- "snapshot_date": null,
- "exported_from_portal": false,
- "completeness": "unverified",
- "completeness_note": "It is not established whether this is the complete leaderboard or a top-7 excerpt. Do not publish '5 of 7' as a denominator until a portal export confirms it.",
- "team_names_note": "Pre-update names. The organizers stated on 2026-08-02 that evaluation-system team names have been updated; re-export before the camera-ready.",
- "data_quality_flag": "Ranks 6 and 7 carry identical bcq_mf1 (0.5796) and openqa (0.5793) values while differing on mcq_accuracy and final. Verify against a fresh export; this may be a transcription slip in the source table.",
- "our_team": {
-  "name_at_submission": "Korea Drive",
-  "team_id": 277,
-  "rank": 5,
-  "final": 57.04
- },
- "metrics": ["final", "bcq_mf1", "openqa", "mcq_accuracy", "temporal_miou"],
- "teams": [
-  {"rank": 1, "team": "UWIPL_ETRI", "final": 70.64, "bcq_mf1": 0.7084, "openqa": 0.5833, "mcq_accuracy": 0.7912, "temporal_miou": 0.7427},
-  {"rank": 2, "team": "MobilityAI", "final": 69.07, "bcq_mf1": 0.6136, "openqa": 0.6674, "mcq_accuracy": 0.7912, "temporal_miou": 0.6906},
-  {"rank": 3, "team": "OptimAI", "final": 65.55, "bcq_mf1": 0.6464, "openqa": 0.5846, "mcq_accuracy": 0.7253, "temporal_miou": 0.6656},
-  {"rank": 4, "team": "MR-CAS", "final": 64.42, "bcq_mf1": 0.5934, "openqa": 0.6389, "mcq_accuracy": 0.7692, "temporal_miou": 0.5751},
-  {"rank": 5, "team": "Korea Drive", "final": 57.04, "bcq_mf1": 0.5045, "openqa": 0.6019, "mcq_accuracy": 0.6044, "temporal_miou": 0.5708},
-  {"rank": 6, "team": "SMART Lab", "final": 54.24, "bcq_mf1": 0.5796, "openqa": 0.5793, "mcq_accuracy": 0.6154, "temporal_miou": 0.3955},
-  {"rank": 7, "team": "Team KODE", "final": 53.15, "bcq_mf1": 0.5796, "openqa": 0.5793, "mcq_accuracy": 0.5714, "temporal_miou": 0.3955}
- ],
- "artifact": "track3_anomaly/submissions/psi_vqa_submission_v7.csv",
- "artifact_note": "Repository-side candidate. The portal upload filename/ID was not retained."
+ "source": "https://eval.aicitychallenge.org/aicity2026/submission/leaderboard/stats/<dtype>/8",
+ "exported_from_portal": true,
+ "snapshot_date": "2026-08-03",
+ "our_team_id": 277,
+ "board_note": "'public' is the board the challenge reports and the one the paper's ranks come from; 'general' includes General-type submissions and gives a different rank.",
+ "boards": {
+  "public": {
+   "team_count": 7,
+   "our_rank": 5,
+   "our_score": 57.04,
+   "score_key": "final",
+   "teams": [
+    {
+     "rank": 1,
+     "team_id": 30,
+     "team": "UWIPL_ETRI",
+     "score": 70.6397,
+     "components": {
+      "bcq_macro_f1": 0.7084,
+      "bcq_accuracy": 0.7273,
+      "open_qa_cue_f1": 0.5833,
+      "mcq_accuracy": 0.7912,
+      "temporal_miou": 0.7427,
+      "bcq_norm": 70.84,
+      "open_qa_norm": 58.33,
+      "mcq_norm": 79.12,
+      "temporal_norm": 74.27,
+      "final": 70.6397
+     },
+     "is_baseline": false
+    },
+    {
+     "rank": 2,
+     "team_id": 257,
+     "team": "MobilityAI",
+     "score": 69.0698,
+     "components": {
+      "bcq_macro_f1": 0.6136,
+      "bcq_accuracy": 0.6182,
+      "open_qa_cue_f1": 0.6674,
+      "mcq_accuracy": 0.7912,
+      "temporal_miou": 0.6906,
+      "bcq_norm": 61.36,
+      "open_qa_norm": 66.74,
+      "mcq_norm": 79.12,
+      "temporal_norm": 69.06,
+      "final": 69.0698
+     },
+     "is_baseline": false
+    },
+    {
+     "rank": 3,
+     "team_id": 122,
+     "team": "OptimAI",
+     "score": 65.5476,
+     "components": {
+      "bcq_macro_f1": 0.6464,
+      "bcq_accuracy": 0.6727,
+      "open_qa_cue_f1": 0.5846,
+      "mcq_accuracy": 0.7253,
+      "temporal_miou": 0.6656,
+      "bcq_norm": 64.64,
+      "open_qa_norm": 58.46,
+      "mcq_norm": 72.53,
+      "temporal_norm": 66.56,
+      "final": 65.5476
+     },
+     "is_baseline": false
+    },
+    {
+     "rank": 4,
+     "team_id": 139,
+     "team": "MR-CAS",
+     "score": 64.4161,
+     "components": {
+      "bcq_macro_f1": 0.5934,
+      "bcq_accuracy": 0.6,
+      "open_qa_cue_f1": 0.6389,
+      "mcq_accuracy": 0.7692,
+      "temporal_miou": 0.5751,
+      "bcq_norm": 59.34,
+      "open_qa_norm": 63.89,
+      "mcq_norm": 76.92,
+      "temporal_norm": 57.51,
+      "final": 64.4161
+     },
+     "is_baseline": false
+    },
+    {
+     "rank": 5,
+     "team_id": 277,
+     "team": "Korea Drive",
+     "score": 57.04,
+     "components": {
+      "bcq_macro_f1": 0.5045,
+      "bcq_accuracy": 0.5636,
+      "open_qa_cue_f1": 0.6019,
+      "mcq_accuracy": 0.6044,
+      "temporal_miou": 0.5708,
+      "bcq_norm": 50.45,
+      "open_qa_norm": 60.19,
+      "mcq_norm": 60.44,
+      "temporal_norm": 57.08,
+      "final": 57.04
+     },
+     "is_baseline": false
+    },
+    {
+     "rank": 6,
+     "team_id": 97,
+     "team": "SMART Lab",
+     "score": 54.2445,
+     "components": {
+      "bcq_macro_f1": 0.5796,
+      "bcq_accuracy": 0.5818,
+      "open_qa_cue_f1": 0.5793,
+      "mcq_accuracy": 0.6154,
+      "temporal_miou": 0.3955,
+      "bcq_norm": 57.96,
+      "open_qa_norm": 57.93,
+      "mcq_norm": 61.54,
+      "temporal_norm": 39.55,
+      "final": 54.2445
+     },
+     "is_baseline": false
+    },
+    {
+     "rank": 7,
+     "team_id": 127,
+     "team": "Team KODE",
+     "score": 53.1456,
+     "components": {
+      "bcq_macro_f1": 0.5796,
+      "bcq_accuracy": 0.5818,
+      "open_qa_cue_f1": 0.5793,
+      "mcq_accuracy": 0.5714,
+      "temporal_miou": 0.3955,
+      "bcq_norm": 57.96,
+      "open_qa_norm": 57.93,
+      "mcq_norm": 57.14,
+      "temporal_norm": 39.55,
+      "final": 53.1456
+     },
+     "is_baseline": false
+    }
+   ]
+  },
+  "general": {
+   "team_count": 15,
+   "our_rank": 9,
+   "our_score": 57.04,
+   "score_key": "final",
+   "teams": [
+    {
+     "rank": 1,
+     "team_id": 220,
+     "team": "one or perish",
+     "score": 70.8947,
+     "components": {
+      "bcq_macro_f1": 0.7084,
+      "bcq_accuracy": 0.7273,
+      "open_qa_cue_f1": 0.5833,
+      "mcq_accuracy": 0.7912,
+      "temporal_miou": 0.7529,
+      "bcq_norm": 70.84,
+      "open_qa_norm": 58.33,
+      "mcq_norm": 79.12,
+      "temporal_norm": 75.29,
+      "final": 70.8947
+     },
+     "is_baseline": false
+    },
+    {
+     "rank": 2,
+     "team_id": 30,
+     "team": "UWIPL_ETRI",
+     "score": 70.6397,
+     "components": {
+      "bcq_macro_f1": 0.7084,
+      "bcq_accuracy": 0.7273,
+      "open_qa_cue_f1": 0.5833,
+      "mcq_accuracy": 0.7912,
+      "temporal_miou": 0.7427,
+      "bcq_norm": 70.84,
+      "open_qa_norm": 58.33,
+      "mcq_norm": 79.12,
+      "temporal_norm": 74.27,
+      "final": 70.6397
+     },
+     "is_baseline": false
+    },
+    {
+     "rank": 3,
+     "team_id": 257,
+     "team": "MobilityAI",
+     "score": 69.0698,
+     "components": {
+      "bcq_macro_f1": 0.6136,
+      "bcq_accuracy": 0.6182,
+      "open_qa_cue_f1": 0.6674,
+      "mcq_accuracy": 0.7912,
+      "temporal_miou": 0.6906,
+      "bcq_norm": 61.36,
+      "open_qa_norm": 66.74,
+      "mcq_norm": 79.12,
+      "temporal_norm": 69.06,
+      "final": 69.0698
+     },
+     "is_baseline": false
+    },
+    {
+     "rank": 4,
+     "team_id": 84,
+     "team": "UW_IPL_Track3",
+     "score": 68.2765,
+     "components": {
+      "bcq_macro_f1": 0.7136,
+      "bcq_accuracy": 0.7273,
+      "open_qa_cue_f1": 0.6206,
+      "mcq_accuracy": 0.6813,
+      "temporal_miou": 0.7155,
+      "bcq_norm": 71.36,
+      "open_qa_norm": 62.06,
+      "mcq_norm": 68.13,
+      "temporal_norm": 71.55,
+      "final": 68.2765
+     },
+     "is_baseline": false
+    },
+    {
+     "rank": 5,
+     "team_id": 73,
+     "team": "University of Washington",
+     "score": 67.9275,
+     "components": {
+      "bcq_macro_f1": 0.6167,
+      "bcq_accuracy": 0.7091,
+      "open_qa_cue_f1": 0.7791,
+      "mcq_accuracy": 0.7253,
+      "temporal_miou": 0.596,
+      "bcq_norm": 61.67,
+      "open_qa_norm": 77.91,
+      "mcq_norm": 72.53,
+      "temporal_norm": 59.6,
+      "final": 67.9275
+     },
+     "is_baseline": false
+    },
+    {
+     "rank": 6,
+     "team_id": 219,
+     "team": "Harvard1",
+     "score": 67.6647,
+     "components": {
+      "bcq_macro_f1": 0.7084,
+      "bcq_accuracy": 0.7273,
+      "open_qa_cue_f1": 0.4643,
+      "mcq_accuracy": 0.7912,
+      "temporal_miou": 0.7427,
+      "bcq_norm": 70.84,
+      "open_qa_norm": 46.43,
+      "mcq_norm": 79.12,
+      "temporal_norm": 74.27,
+      "final": 67.6647
+     },
+     "is_baseline": false
+    },
+    {
+     "rank": 7,
+     "team_id": 122,
+     "team": "OptimAI",
+     "score": 65.5476,
+     "components": {
+      "bcq_macro_f1": 0.6464,
+      "bcq_accuracy": 0.6727,
+      "open_qa_cue_f1": 0.5846,
+      "mcq_accuracy": 0.7253,
+      "temporal_miou": 0.6656,
+      "bcq_norm": 64.64,
+      "open_qa_norm": 58.46,
+      "mcq_norm": 72.53,
+      "temporal_norm": 66.56,
+      "final": 65.5476
+     },
+     "is_baseline": false
+    },
+    {
+     "rank": 8,
+     "team_id": 139,
+     "team": "MR-CAS",
+     "score": 64.4161,
+     "components": {
+      "bcq_macro_f1": 0.5934,
+      "bcq_accuracy": 0.6,
+      "open_qa_cue_f1": 0.6389,
+      "mcq_accuracy": 0.7692,
+      "temporal_miou": 0.5751,
+      "bcq_norm": 59.34,
+      "open_qa_norm": 63.89,
+      "mcq_norm": 76.92,
+      "temporal_norm": 57.51,
+      "final": 64.4161
+     },
+     "is_baseline": false
+    },
+    {
+     "rank": 9,
+     "team_id": 277,
+     "team": "Korea Drive",
+     "score": 57.04,
+     "components": {
+      "bcq_macro_f1": 0.5045,
+      "bcq_accuracy": 0.5636,
+      "open_qa_cue_f1": 0.6019,
+      "mcq_accuracy": 0.6044,
+      "temporal_miou": 0.5708,
+      "bcq_norm": 50.45,
+      "open_qa_norm": 60.19,
+      "mcq_norm": 60.44,
+      "temporal_norm": 57.08,
+      "final": 57.04
+     },
+     "is_baseline": false
+    },
+    {
+     "rank": 10,
+     "team_id": 45,
+     "team": "UOB&UW Team",
+     "score": 55.09,
+     "components": {
+      "bcq_macro_f1": 0.6167,
+      "bcq_accuracy": 0.7091,
+      "open_qa_cue_f1": 0.2656,
+      "mcq_accuracy": 0.7253,
+      "temporal_miou": 0.596,
+      "bcq_norm": 61.67,
+      "open_qa_norm": 26.56,
+      "mcq_norm": 72.53,
+      "temporal_norm": 59.6,
+      "final": 55.09
+     },
+     "is_baseline": false
+    },
+    {
+     "rank": 11,
+     "team_id": 97,
+     "team": "SMART Lab",
+     "score": 54.2445,
+     "components": {
+      "bcq_macro_f1": 0.5796,
+      "bcq_accuracy": 0.5818,
+      "open_qa_cue_f1": 0.5793,
+      "mcq_accuracy": 0.6154,
+      "temporal_miou": 0.3955,
+      "bcq_norm": 57.96,
+      "open_qa_norm": 57.93,
+      "mcq_norm": 61.54,
+      "temporal_norm": 39.55,
+      "final": 54.2445
+     },
+     "is_baseline": false
+    },
+    {
+     "rank": 12,
+     "team_id": 127,
+     "team": "Team KODE",
+     "score": 53.1456,
+     "components": {
+      "bcq_macro_f1": 0.5796,
+      "bcq_accuracy": 0.5818,
+      "open_qa_cue_f1": 0.5793,
+      "mcq_accuracy": 0.5714,
+      "temporal_miou": 0.3955,
+      "bcq_norm": 57.96,
+      "open_qa_norm": 57.93,
+      "mcq_norm": 57.14,
+      "temporal_norm": 39.55,
+      "final": 53.1456
+     },
+     "is_baseline": false
+    },
+    {
+     "rank": 13,
+     "team_id": 218,
+     "team": "UTA",
+     "score": 51.2718,
+     "components": {
+      "bcq_macro_f1": 0.4664,
+      "bcq_accuracy": 0.4727,
+      "open_qa_cue_f1": 0.5297,
+      "mcq_accuracy": 0.6044,
+      "temporal_miou": 0.4504,
+      "bcq_norm": 46.64,
+      "open_qa_norm": 52.97,
+      "mcq_norm": 60.44,
+      "temporal_norm": 45.04,
+      "final": 51.2718
+     },
+     "is_baseline": false
+    },
+    {
+     "rank": 14,
+     "team_id": 77,
+     "team": "Summer",
+     "score": 49.556,
+     "components": {
+      "bcq_macro_f1": 0.3838,
+      "bcq_accuracy": 0.4182,
+      "open_qa_cue_f1": 0.4909,
+      "mcq_accuracy": 0.6154,
+      "temporal_miou": 0.4922,
+      "bcq_norm": 38.38,
+      "open_qa_norm": 49.09,
+      "mcq_norm": 61.54,
+      "temporal_norm": 49.22,
+      "final": 49.556
+     },
+     "is_baseline": false
+    },
+    {
+     "rank": 15,
+     "team_id": 61,
+     "team": "FLY",
+     "score": 49.2009,
+     "components": {
+      "bcq_macro_f1": 0.5084,
+      "bcq_accuracy": 0.5091,
+      "open_qa_cue_f1": 0.4421,
+      "mcq_accuracy": 0.5055,
+      "temporal_miou": 0.512,
+      "bcq_norm": 50.84,
+      "open_qa_norm": 44.21,
+      "mcq_norm": 50.55,
+      "temporal_norm": 51.2,
+      "final": 49.2009
+     },
+     "is_baseline": false
+    }
+   ]
+  }
+ }
 }

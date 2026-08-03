@@ -51,7 +51,13 @@
   "interpretation": "In 51 of 200 clips (25.5%), the entire actor-centric block flips as a unit between two versions of the same system. Only 16 of the 67 clips with any dependent-field change show partial movement. The fields are effectively one decision, not seven."
  },
  "why_this_matters_for_scoring": "The official per-field scores were violation type 0.1578, violator type 0.3127, color 0.2434, initial/final position 0.1239/0.1278, initial/final lane 0.1780/0.1694, against weather and lighting at 1.0000 and date at 1.0000. Because the low-scoring fields are one coupled decision rather than seven independent estimates, their errors are correlated and a single upstream fix addresses all of them at once. Averaging them as independent fields understates how concentrated the failure is.",
- "known_regression": "v8 scored 0.4505 on the portal against v7's 0.4621. Its second pass flipped 40 clips from no_violation to a real violation and improved violation-type F1 from 0.1720 to 0.1944, but every cascade field fell, so the categorical mean dropped from 0.5061 to 0.4853. Populating the dependent block from a low-confidence violator guess scored worse than leaving it at the na default.",
+ "portal_scores": {
+  "source": "eval.aicitychallenge.org Track 7 submission history, retrieved 2026-08-03; all rows are full-test-set scores",
+  "fetv_submission_v8.json": {"submission_name": "8", "final": 0.4616, "violation_type_f1": 0.1908, "violator_type_f1": 0.2613, "categorical_mean": 0.5016, "submitted": "2026-07-11T10:58:18"},
+  "fetv_submission_v11.json": {"submission_name": "11", "final": 0.4634, "violation_type_f1": 0.1578, "violator_type_f1": 0.3127, "categorical_mean": 0.5031, "submitted": "2026-07-11T18:05:59"},
+  "note": "v8's second pass flipped 40 clips from no_violation to a real violation. It RAISED violation-type F1 from 0.1535 to 0.1908 and raised the final score from v7's 0.4584 to 0.4616. v11 then traded some violation-type F1 back (0.1908 -> 0.1578) for a large violator-type gain (0.2613 -> 0.3127) and finished highest at 0.4634. Neither version dominates the other field by field.",
+  "correction": "An earlier draft of this file described v8 as a regression to 0.4505 against v7 at 0.4621. Both numbers were wrong; they came from development notes rather than the portal. The portal history above supersedes them."
+ },
  "frame_rendering": "Frames are not committed — the FETV clips are distributed through the challenge portal and their redistribution terms are not established. Render locally with scripts/render_case_studies.py --data-root /path/to/FETV_public_clips.",
  "reproduce": "python3 scripts/render_case_studies.py --case fetv_violator_misselection --data-root /path/to/FETV_public_clips"
 }

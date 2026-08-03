@@ -219,13 +219,24 @@ These are recorded rather than filled with plausible-looking values.
    portal-side confirmation.
 5. **Official-run wall-clock and peak memory were not logged.** Only
    reproduction-run measurements exist.
-6. **Leaderboard denominators were not archived.** See
-   [`leaderboards/README.md`](leaderboards/README.md); the FETV and PSI tables
-   were transcribed from the paper and their completeness is unverified, and
-   the TAR scored-team count is unknown.
-7. **Team names on the evaluation system were updated after paper submission**
-   (organizer notice, 2026-08-02). The names stored in `leaderboards/` predate
-   that update.
+6. ~~Leaderboard denominators were not archived.~~ **Resolved 2026-08-03.**
+   Exported from the portal's public endpoint: TAR 24 of 27, FETV 3 of 8,
+   PSI-VQA 5 of 7 on the public board. See
+   [`leaderboards/README.md`](leaderboards/README.md) and refresh with
+   `python3 scripts/fetch_leaderboards.py`.
+7. ~~Team names predate the organizers' update.~~ **Resolved 2026-08-03** — the
+   stored export postdates the 2026-08-02 notice.
+8. ~~The PSI portal upload filename was not retained.~~ **Resolved 2026-08-03.**
+   The Track 8 submission history shows submission `7` scoring 57.0400 at
+   2026-07-11 16:15, and its component scores (BCQ 0.5045, Cue-F1 0.6019,
+   MCQ 0.6044, mIoU 0.5708) match `psi_vqa_submission_v7.csv` exactly. Gap 4
+   above is superseded.
+9. **Some scores recorded in this repository during the challenge were wrong.**
+   The portal history contradicts development notes in several places — most
+   importantly, FETV v8 scored 0.4616 and did *not* regress against v7's 0.4584,
+   though a note in this repository claimed 0.4505 versus 0.4621. Every score
+   now cited in [`ABLATIONS.md`](ABLATIONS.md) comes from the portal export.
+   Treat any score not traceable to the portal as unverified.
 
 ## Research-only artifacts
 

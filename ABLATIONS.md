@@ -173,28 +173,58 @@ improvements must not be attributed to any single component.
 
 ### B2. FETV submission sequence
 
-Artifacts and dates are verifiable from the repository; portal scores are
-recorded only where they were preserved.
+Retrieved from the portal's Track 7 submission history on 2026-08-03. Every row
+is a full-test-set score. Artifacts are matched to submissions by timestamp.
 
-| Artifact | Date | Portal score |
-|---|---|---|
-| `fetv_submission_v2_scored_0.3898.json` | 2026-07-06 | 0.3898 (encoded in the filename) |
-| `fetv_submission_v3` … `v10` | 07-06 … 07-11 | not archived in this repository |
-| `fetv_submission_v11.json` | 2026-07-11 | **0.4634 official full test, rank 3** |
+| Submission | Artifact | Submitted | Final | Violation type F1 | Violator type F1 | Categorical mean |
+|---|---|---|---:|---:|---:|---:|
+| `tr` | `fetv_submission_v2.json` | 07-05 21:33 | 0.3907 | 0.1820 | 0.4011 | 0.3993 |
+| `V4` | `fetv_submission_v4.json` | 07-08 16:36 | 0.3960 | 0.1288 | 0.2256 | 0.4252 |
+| `5` | `fetv_submission_v5.json` | 07-09 10:08 | 0.4063 | 0.1628 | 0.2823 | 0.4351 |
+| `6` | `fetv_submission_v6_fewshot.json` | 07-10 14:39 | 0.4238 | 0.1535 | 0.2595 | 0.4830 |
+| `7` | `fetv_submission_v7.json` | 07-11 07:51 | 0.4584 | 0.1535 | 0.2595 | 0.4960 |
+| `8` | `fetv_submission_v8.json` | 07-11 10:58 | 0.4616 | 0.1908 | 0.2613 | 0.5016 |
+| **`11`** | **`fetv_submission_v11.json`** | **07-11 18:05** | **0.4634** | 0.1578 | 0.3127 | 0.5031 |
 
-The intermediate public-leaderboard scores were tracked during the challenge
-but never written into the repository. They must be re-exported from the portal
-before being cited.
+`v9` and `v10` exist in the repository but were never submitted. One earlier
+attempt (`teat`, 07-05 19:36) failed on the server.
+
+Two things this corrects. The filename
+`fetv_submission_v2_scored_0.3898.json` encodes 0.3898; the portal recorded
+0.3907 for that submission. And v8 was **not** a regression — an earlier note in
+this repository claimed v8 fell to 0.4505 against v7 at 0.4621, but both figures
+came from development notes rather than the portal. v8 improved on v7, and v11
+improved again.
+
+Note how little of the movement is attributable to any single change: between
+`6` and `7` the violation-type and violator-type F1 are byte-identical while the
+final score moves 0.0346, which is the description opener and time-field work,
+not the cascade fields.
 
 ### B3. PSI-VQA submission sequence
 
-| Artifact | Date | Portal score |
-|---|---|---|
-| `psi_vqa_submission.csv` … `v6.csv` | 07-05 … 07-11 | not archived in this repository |
-| `psi_vqa_submission_v7.csv` | 2026-07-11 | **57.0400 official full test, rank 5** |
+Retrieved from the portal's Track 8 submission history on 2026-08-03. Full test
+set throughout.
 
-`v7` differs from `v6` only in the 126 Open QA rows — see the
-"What v7 actually is" section of [`REPRODUCE.md`](REPRODUCE.md).
+| Submission | Submitted | Final | BCQ mF1 | Open QA Cue-F1 | MCQ Acc | Temporal mIoU |
+|---|---|---:|---:|---:|---:|---:|
+| `1` | 07-06 09:42 | 44.5735 | 0.5528 | 0.5970 | 0.6044 | 0.0287 |
+| `2` | 07-07 13:12 | 49.5260 | 0.5528 | 0.5970 | 0.6044 | 0.2268 |
+| `3` (General) | 07-08 16:52 | 55.4135 | 0.5528 | 0.5970 | 0.6044 | 0.4623 |
+| `4` | 07-09 11:28 | 52.8314 | 0.5045 | 0.5970 | 0.5495 | 0.4623 |
+| `5` | 07-09 11:34 | 54.2050 | 0.5045 | 0.5970 | 0.6044 | 0.4623 |
+| `6` | 07-11 07:53 | 56.9175 | 0.5045 | 0.5970 | 0.6044 | 0.5708 |
+| **`7`** | **07-11 16:15** | **57.0400** | 0.5045 | **0.6019** | 0.6044 | 0.5708 |
+
+`v7` differs from `v6` only in the 126 Open QA rows — see the "What v7 actually
+is" section of [`REPRODUCE.md`](REPRODUCE.md) — and the portal confirms it: Cue-F1
+moved 0.5970 → 0.6019 while every other component stayed identical. That is
+**+0.12 final points**, against the +4.5 to +7.5 the cross-validation in A4
+projected. It is the cleanest single-factor row in this document, and it is the
+one that most contradicts its own local validation.
+
+Self-consistency voting (`4`) cost 0.55 MCQ accuracy points and was reverted in
+`5`. The temporal prior (`6`) is the largest single move: mIoU 0.4623 → 0.5708.
 
 ### B4. Post-deadline, never submitted
 
