@@ -1,3 +1,19 @@
+# Paper
+
+The workshop paper was **accepted as a poster** at the ECCV 2026 AI City
+Challenge Workshop on 2026-08-02. Camera-ready is due **2026-08-15**.
+
+- **Start here: [`CAMERA_READY.md`](CAMERA_READY.md)** — every revision the
+  camera-ready needs, with the numbers and the files they come from.
+- Submitted PDF: [`submitted/korea_drive_aicity2026_submitted.pdf`](submitted/korea_drive_aicity2026_submitted.pdf)
+
+Note that the submitted paper contains a factual error about the TAR backbone;
+see `CAMERA_READY.md` §1.
+
+The outline below predates acceptance and is kept for reference.
+
+---
+
 # Paper Draft: Generalizing Traffic Video Reasoning Across Domains
 
 ## Proposed title

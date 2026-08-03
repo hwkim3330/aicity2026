@@ -146,6 +146,7 @@ boundary and [`REPRODUCE.md`](REPRODUCE.md) for the reproducibility record.
 | [`leaderboards/`](leaderboards/) | Final standings as data, with rank denominators and their unverified status |
 | [`docs/case_studies/`](docs/case_studies/) | Two worked failure cases, one of which contradicts our own published diagnosis |
 | [`track3_anomaly/analysis/temporal_prior_protocol.md`](track3_anomaly/analysis/temporal_prior_protocol.md) | Search space, objective, split construction, and per-split refit for the PSI temporal prior |
+| [`paper/CAMERA_READY.md`](paper/CAMERA_READY.md) | Every revision the camera-ready needs, with sources |
 | [`POSTMORTEM.md`](POSTMORTEM.md) | Engineering retrospective |
 
 Run everything checkable without a GPU:

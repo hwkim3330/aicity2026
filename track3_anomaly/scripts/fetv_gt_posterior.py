@@ -5,7 +5,7 @@ violator_type, color) + exact violation_type marginals + published GT row 001_00
 
 Simulated annealing with incremental per-class TP/FP/FN bookkeeping; many
 restarts -> ensemble of near-exact fits = crude posterior."""
-import json, random, math, sys, collections
+import json, os, random, math, sys, collections
 
 BASE = '/home/kim/aicity2026/track3_anomaly/'
 sub_meta = json.load(open(BASE + 'data/fetv/fetv_repo/eval_subset_50.json'))
@@ -132,10 +132,12 @@ def anneal(seed, iters=40000, t0=0.02, t1=1e-5):
 
 if __name__ == '__main__':
     n_restarts = int(sys.argv[1]) if len(sys.argv) > 1 else 20
+    out_path = sys.argv[2] if len(sys.argv) > 2 else '../results/fetv_gt_posterior_ensemble.json'
     out = []
     for s in range(n_restarts):
         b = anneal(1000 + s)
         out.append({'loss': b[0], 'viol': b[1], 'vtype': b[2], 'color': b[3]})
         print(f"restart {s}: loss={b[0]:.6f} rmse={math.sqrt(b[0]/15):.4f}", flush=True)
-    json.dump({'clips': CLIPS, 'solutions': out},
-              open('ensemble.json', 'w'))
+    os.makedirs(os.path.dirname(os.path.abspath(out_path)), exist_ok=True)
+    json.dump({'clips': CLIPS, 'solutions': out}, open(out_path, 'w'))
+    print(f"wrote {out_path}")
