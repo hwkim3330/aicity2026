@@ -1,0 +1,44 @@
+{
+ "n_paired": 24,
+ "conditions": {
+  "generic": {
+   "description": "shared Track 3 MCQ prompt, no PSI routing",
+   "accuracy": 0.3333333333333333,
+   "correct": 8
+  },
+  "routed": {
+   "description": "shipped psi_mcq prompt program",
+   "accuracy": 0.125,
+   "correct": 3
+  },
+  "boxaware": {
+   "description": "routed + explicit red-box re-location",
+   "accuracy": 0.375,
+   "correct": 9
+  }
+ },
+ "mcnemar": [
+  {
+   "a": "generic",
+   "b": "routed",
+   "a_only": 5,
+   "b_only": 0,
+   "p_two_sided": 0.0625
+  },
+  {
+   "a": "generic",
+   "b": "boxaware",
+   "a_only": 3,
+   "b_only": 4,
+   "p_two_sided": 1.0
+  },
+  {
+   "a": "routed",
+   "b": "boxaware",
+   "a_only": 0,
+   "b_only": 6,
+   "p_two_sided": 0.03125
+  }
+ ],
+ "caveat": "The paired subset holds only 24 items. Directions are informative; absolute differences are not precise."
+}

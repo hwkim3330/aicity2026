@@ -34,7 +34,11 @@ therefore has no scored leaderboard row.
 
 ### Track 3 · Traffic anomaly reasoning
 
-| Mean | BCQ | MCQ | BCQ OE F1 | MCQ OE F1 | Open QA F1 |
+All ten scored task types, where BCQ-OE and MCQ-OE denote the binary-choice
+open-ended and multiple-choice open-ended tasks (free-text justifications
+scored by BERTScore-F1 rather than exact match):
+
+| Mean | BCQ | MCQ | BCQ-OE F1 | MCQ-OE F1 | Open QA F1 |
 |---:|---:|---:|---:|---:|---:|
 | 0.4256 | 0.5438 | 0.5875 | 0.4824 | 0.7664 | 0.3333 |
 
@@ -43,7 +47,8 @@ therefore has no scored leaderboard row.
 | 0.2874 | 0.3282 | 0.1856 | 0.3160 | 0.1990 |
 
 `*` Temporal localization was reported by the API but excluded from the final
-Track 3 mean after the July 1 rule update.
+Track 3 mean after the July 1 rule update. The nine scored components average
+to 0.42562, which reconstructs the official 0.4256.
 
 ### Track 4 · Text-based person ReID
 
@@ -123,15 +128,41 @@ external models and datasets must be cited and their licenses followed.
 See [`OFFICIAL_RESULTS.md`](OFFICIAL_RESULTS.md) for the official/post-deadline
 boundary and [`REPRODUCE.md`](REPRODUCE.md) for the reproducibility record.
 
+## Evidence map
+
+| Document | What it holds |
+|---|---|
+| [`REPRODUCE.md`](REPRODUCE.md) | Per-track environment, exact commands, expected record counts and hashes, and every known provenance gap |
+| [`ABLATIONS.md`](ABLATIONS.md) | Controlled experiments (Section A) kept strictly separate from submission-to-submission leaderboard movements (Section B) |
+| [`BENCHMARKS.md`](BENCHMARKS.md) | Measured runtime and peak VRAM, labelled as reproduction runs because the official runs logged neither |
+| [`leaderboards/`](leaderboards/) | Final standings as data, with rank denominators and their unverified status |
+| [`docs/case_studies/`](docs/case_studies/) | Two worked failure cases, one of which contradicts our own published diagnosis |
+| [`track3_anomaly/analysis/temporal_prior_protocol.md`](track3_anomaly/analysis/temporal_prior_protocol.md) | Search space, objective, split construction, and per-split refit for the PSI temporal prior |
+| [`POSTMORTEM.md`](POSTMORTEM.md) | Engineering retrospective |
+
+Run everything checkable without a GPU:
+
+```bash
+./scripts/validate_official_artifacts.sh                       # hashes, counts, structure
+cd track3_anomaly/analysis && python3 temporal_prior_baselines.py   # ~25 s, CPU
+cd track3_anomaly/analysis && python3 prompt_ablation_psi_mcq.py    # instant
+```
+
 ## Publication
 
-A workshop-paper outline is available at [`paper/README.md`](paper/README.md).
-It separates official full-test results from local cross-validation and
-post-deadline analysis. The project report is published through GitHub Pages.
-The detailed engineering retrospective is in [`POSTMORTEM.md`](POSTMORTEM.md).
+The submitted workshop paper is in
+[`paper/submitted/`](paper/submitted/); a camera-ready outline is at
+[`paper/README.md`](paper/README.md). Official full-test results are kept
+separate from local cross-validation and post-deadline analysis throughout. The
+project report is published through GitHub Pages.
 
 ## License and data
 
+Repository code is released under the MIT License (see [`LICENSE`](LICENSE)).
+Challenge datasets, pretrained model weights, and third-party components remain
+subject to their respective licenses.
+
 No challenge dataset is redistributed here. Dataset access remains subject to
 the licenses of AI City Challenge, PSI-VQA, FETV, WTS, Hafnia, and their source
-datasets. Code licensing should be confirmed before third-party reuse.
+datasets. PSI-VQA in particular inherits the TASI Benchmark Data Sharing
+Agreement from PSI 2.0.

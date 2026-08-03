@@ -1,0 +1,29 @@
+{
+ "evaluation": "Track 8 tab — PSI-VQA (Pedestrian Situated Intent VQA), OOD Test Set 2 of Track 3",
+ "phase": "final full test set",
+ "source": "transcribed from Table 5 of the submitted workshop paper (OpenReview submission 4)",
+ "snapshot_date": null,
+ "exported_from_portal": false,
+ "completeness": "unverified",
+ "completeness_note": "It is not established whether this is the complete leaderboard or a top-7 excerpt. Do not publish '5 of 7' as a denominator until a portal export confirms it.",
+ "team_names_note": "Pre-update names. The organizers stated on 2026-08-02 that evaluation-system team names have been updated; re-export before the camera-ready.",
+ "data_quality_flag": "Ranks 6 and 7 carry identical bcq_mf1 (0.5796) and openqa (0.5793) values while differing on mcq_accuracy and final. Verify against a fresh export; this may be a transcription slip in the source table.",
+ "our_team": {
+  "name_at_submission": "Korea Drive",
+  "team_id": 277,
+  "rank": 5,
+  "final": 57.04
+ },
+ "metrics": ["final", "bcq_mf1", "openqa", "mcq_accuracy", "temporal_miou"],
+ "teams": [
+  {"rank": 1, "team": "UWIPL_ETRI", "final": 70.64, "bcq_mf1": 0.7084, "openqa": 0.5833, "mcq_accuracy": 0.7912, "temporal_miou": 0.7427},
+  {"rank": 2, "team": "MobilityAI", "final": 69.07, "bcq_mf1": 0.6136, "openqa": 0.6674, "mcq_accuracy": 0.7912, "temporal_miou": 0.6906},
+  {"rank": 3, "team": "OptimAI", "final": 65.55, "bcq_mf1": 0.6464, "openqa": 0.5846, "mcq_accuracy": 0.7253, "temporal_miou": 0.6656},
+  {"rank": 4, "team": "MR-CAS", "final": 64.42, "bcq_mf1": 0.5934, "openqa": 0.6389, "mcq_accuracy": 0.7692, "temporal_miou": 0.5751},
+  {"rank": 5, "team": "Korea Drive", "final": 57.04, "bcq_mf1": 0.5045, "openqa": 0.6019, "mcq_accuracy": 0.6044, "temporal_miou": 0.5708},
+  {"rank": 6, "team": "SMART Lab", "final": 54.24, "bcq_mf1": 0.5796, "openqa": 0.5793, "mcq_accuracy": 0.6154, "temporal_miou": 0.3955},
+  {"rank": 7, "team": "Team KODE", "final": 53.15, "bcq_mf1": 0.5796, "openqa": 0.5793, "mcq_accuracy": 0.5714, "temporal_miou": 0.3955}
+ ],
+ "artifact": "track3_anomaly/submissions/psi_vqa_submission_v7.csv",
+ "artifact_note": "Repository-side candidate. The portal upload filename/ID was not retained."
+}

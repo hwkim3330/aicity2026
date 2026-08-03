@@ -1,0 +1,57 @@
+{
+ "case_id": "fetv_violator_misselection",
+ "claim_under_test": "A wrong actor selection can simultaneously corrupt violation type, actor type, color, position, and lane (submitted paper, Section 5.2).",
+ "evidence_type": "archived submission artifacts only — no ground truth is used, and none is available for the FETV test split",
+ "what_this_shows": "That the twelve structured fields are not independently estimated: one upstream decision moves a block of six dependent fields together. It does NOT show which of the two records is correct.",
+ "clip": "019_004.mp4",
+ "date_time_fields_unchanged": {
+  "answer_date": "2018-07-17",
+  "answer_time": "06:04:51",
+  "answer_intersection_type": "four-way intersection",
+  "answer_weather": "clear",
+  "answer_light": "daylight",
+  "note": "Global scene attributes and overlay-derived metadata are identical in both records. Only the actor-centric block moves."
+ },
+ "records": {
+  "fetv_submission_v8.json": {
+   "answer_violation_type": "no_violation",
+   "answer_violator_type": "na",
+   "answer_color": "na",
+   "answer_initial_position": "na",
+   "answer_final_position": "na",
+   "answer_initial_lane": "na",
+   "answer_final_lane": "na",
+   "answer_description": "On 2018-07-17 at 06:04:51, traffic moved normally through the four-way intersection with no violation."
+  },
+  "fetv_submission_v11.json": {
+   "answer_violation_type": "red_light",
+   "answer_violator_type": "car",
+   "answer_color": "yellow",
+   "answer_initial_position": "Top-Left",
+   "answer_final_position": "Middle-Center",
+   "answer_initial_lane": "1",
+   "answer_final_lane": "2",
+   "answer_description": "On 2018-07-17 at 06:04:51, a traffic incident occurred at a four-way intersection. A yellow car proceeded through the intersection against a red traffic signal, moving from lane 1 into lane 2 as it crossed from the top-left of the frame toward the middle-center in a red-light violation."
+  }
+ },
+ "fields_that_moved_together": [
+  "answer_violation_type",
+  "answer_violator_type",
+  "answer_color",
+  "answer_initial_position",
+  "answer_final_position",
+  "answer_initial_lane",
+  "answer_final_lane"
+ ],
+ "population_statistics": {
+  "clips_compared": 200,
+  "violation_type_differs_v8_vs_v11": 57,
+  "any_dependent_field_differs": 67,
+  "violation_type_plus_all_six_dependent_fields_move_together": 51,
+  "interpretation": "In 51 of 200 clips (25.5%), the entire actor-centric block flips as a unit between two versions of the same system. Only 16 of the 67 clips with any dependent-field change show partial movement. The fields are effectively one decision, not seven."
+ },
+ "why_this_matters_for_scoring": "The official per-field scores were violation type 0.1578, violator type 0.3127, color 0.2434, initial/final position 0.1239/0.1278, initial/final lane 0.1780/0.1694, against weather and lighting at 1.0000 and date at 1.0000. Because the low-scoring fields are one coupled decision rather than seven independent estimates, their errors are correlated and a single upstream fix addresses all of them at once. Averaging them as independent fields understates how concentrated the failure is.",
+ "known_regression": "v8 scored 0.4505 on the portal against v7's 0.4621. Its second pass flipped 40 clips from no_violation to a real violation and improved violation-type F1 from 0.1720 to 0.1944, but every cascade field fell, so the categorical mean dropped from 0.5061 to 0.4853. Populating the dependent block from a low-confidence violator guess scored worse than leaving it at the na default.",
+ "frame_rendering": "Frames are not committed — the FETV clips are distributed through the challenge portal and their redistribution terms are not established. Render locally with scripts/render_case_studies.py --data-root /path/to/FETV_public_clips.",
+ "reproduce": "python3 scripts/render_case_studies.py --case fetv_violator_misselection --data-root /path/to/FETV_public_clips"
+}

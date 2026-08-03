@@ -43,6 +43,18 @@ track2_captioning/vjepa2_weights/
 # Selected small final artifacts are force-added explicitly. Large generated
 # submissions are recorded by checksum in ARTIFACTS.md instead of Git history.
 
+# Rendered case-study frames — regenerate with scripts/render_case_studies.py.
+# Never commit: FETV and PSI-VQA redistribution terms are not established.
+docs/case_studies/rendered/
+
+# Analysis evidence is small and IS tracked, overriding *.jsonl above. These
+# files back the tables in ABLATIONS.md and must ship for the results to be
+# checkable without a GPU.
+!track3_anomaly/results/
+!track3_anomaly/results/**
+!track3_anomaly/psi_mcq_cv_results/
+!track3_anomaly/psi_mcq_cv_results/*.jsonl
+
 # cloned external reference repos (nested .git -- not our code)
 track2_captioning/wts_test_repo/
 track4_reid/repo/

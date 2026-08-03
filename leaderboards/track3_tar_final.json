@@ -1,0 +1,32 @@
+{
+ "evaluation": "Track 3 — TAR (Traffic Anomaly Reasoning), in-domain",
+ "phase": "final full test set",
+ "source": "Team 277 row returned by the final Public leaderboard API; competitor rows were never archived",
+ "snapshot_date": null,
+ "exported_from_portal": false,
+ "completeness": "our_row_only",
+ "completeness_note": "The scored-team denominator for TAR was not archived locally. Report 'rank 24' without a denominator until a portal export supplies one; do not infer a count.",
+ "team_names_note": "Pre-update name. The organizers stated on 2026-08-02 that evaluation-system team names have been updated; re-export before the camera-ready.",
+ "our_team": {
+  "name_at_submission": "Korea Drive",
+  "team_id": 277,
+  "rank": 24,
+  "final": 0.4256
+ },
+ "our_component_scores": {
+  "bcq": 0.5438,
+  "mcq": 0.5875,
+  "bcq_openended_f1": 0.4824,
+  "mcq_openended_f1": 0.7664,
+  "open_qa_f1": 0.3333,
+  "causal_linkage_f1": 0.2874,
+  "scene_description_f1": 0.3282,
+  "temporal_description_f1": 0.1856,
+  "video_summarization_f1": 0.316,
+  "temporal_localization_miou": 0.199
+ },
+ "scoring_note": "temporal_localization was reported by the API but excluded from the final Track 3 mean after the organizers' 2026-07-01 rule update. The mean of the nine scored components is 0.4256.",
+ "teams": [],
+ "artifact": null,
+ "artifact_note": "UNRESOLVED. The repository holds nine TAR candidates (submission_qwen25vl_4bit.csv and submission_qwen3vl8b_v2..v9.csv) and the portal submission that produced 0.4256 was not recorded. See the 'Known provenance gaps' section of REPRODUCE.md."
+}

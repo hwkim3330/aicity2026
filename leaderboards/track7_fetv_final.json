@@ -1,0 +1,39 @@
+{
+ "evaluation": "Track 7 tab — FETV (Fisheye Traffic Violation Understanding), OOD Test Set 1 of Track 3",
+ "phase": "final full test set",
+ "source": "transcribed from Table 3 of the submitted workshop paper (OpenReview submission 4)",
+ "snapshot_date": null,
+ "exported_from_portal": false,
+ "completeness": "unverified",
+ "completeness_note": "It is not established whether this is the complete leaderboard or a top-5 excerpt. Do not publish '3 of 5' as a denominator until a portal export confirms it.",
+ "team_names_note": "Pre-update names. The organizers stated on 2026-08-02 that evaluation-system team names have been updated; re-export before the camera-ready.",
+ "our_team": {
+  "name_at_submission": "Korea Drive",
+  "team_id": 277,
+  "rank": 3,
+  "final": 0.4634
+ },
+ "metrics": ["final", "description", "categorical_mean"],
+ "teams": [
+  {"rank": 1, "team": "UWIPL_ETRI", "final": 0.4891, "description": 0.4171, "categorical_mean": 0.5612},
+  {"rank": 2, "team": "MR-CAS", "final": 0.4884, "description": 0.4411, "categorical_mean": 0.5358},
+  {"rank": 3, "team": "Korea Drive", "final": 0.4634, "description": 0.4238, "categorical_mean": 0.5031},
+  {"rank": 4, "team": "MobilityAI", "final": 0.4525, "description": 0.4087, "categorical_mean": 0.4963},
+  {"rank": 5, "team": "GDG", "final": 0.4209, "description": 0.3582, "categorical_mean": 0.4835}
+ ],
+ "our_per_field_scores": {
+  "weather": 1.0,
+  "lighting": 1.0,
+  "date": 1.0,
+  "time": 0.94,
+  "intersection_type": 0.7841,
+  "violator_type": 0.3127,
+  "color": 0.2434,
+  "initial_lane": 0.178,
+  "final_lane": 0.1694,
+  "violation_type": 0.1578,
+  "initial_position": 0.1239,
+  "final_position": 0.1278
+ },
+ "artifact": "track3_anomaly/submissions/fetv_submission_v11.json"
+}

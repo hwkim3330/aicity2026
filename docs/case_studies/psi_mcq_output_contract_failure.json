@@ -1,0 +1,37 @@
+{
+ "case_id": "psi_mcq_output_contract_failure",
+ "claim_under_test": "PSI BCQ and MCQ failures come from losing the identity of the marked pedestrian after the annotation disappears (submitted paper, Section 6).",
+ "verdict": "Not supported by this case. The model tracked the pedestrian correctly and described exactly the ground-truth option, then failed to emit a parseable answer. This is an output-contract failure, not an identity failure.",
+ "evidence_type": "held-out PSI training item with real ground truth, scored locally",
+ "item_index": "e686c1a878234aa1",
+ "video_id": "PSI/ambiguous/video_0026_track_25.mp4",
+ "condition": "shipped psi_mcq routed prompt program (mcq_baseline)",
+ "question_polarity": "why the pedestrian might NOT intend to cross",
+ "ground_truth": {
+  "letter": "D",
+  "text": "- Pedestrian was standing still and not moving into the roadway.\n- Pedestrian remained on the sidewalk."
+ },
+ "prediction": {
+  "letter": "",
+  "parsed": false,
+  "note": "No 'Final answer: X' line was produced. make_submission.py would substitute the type-correct fallback 'A' for this item at submission time."
+ },
+ "what_the_model_actually_saw": "The pedestrian marked with the red bounding box is visible at t=0s and remains visible through t=2s. At t=0s, the pedestrian is standing on the sidewalk at the edge of the road, near the curb. ... The pedestrian does not move into the roadway; they remain on the sidewalk throughout the clip.",
+ "diagnosis": [
+  "The opening description is correct and matches ground-truth option D almost word for word: standing still, on the sidewalk, not entering the roadway.",
+  "The routed prompt then asks the model to eliminate every option containing a false claim. The model negates each option in turn and mis-negates the correct one: 'The pedestrian is not standing still and not moving into the roadway; they are standing still on the sidewalk at the edge of the road.' The double negative rules out the option its own description supports.",
+  "The elimination pass then loops, repeating three earlier sentences nearly verbatim, and the generation is cut off mid-sentence at 1497 characters ('...they are not on the far-left/opposite side,') before reaching the required final line.",
+  "Identity was never lost. Geometry was never needed. The failure is entirely in the answer-formatting contract that the paper lists as a system contribution."
+ ],
+ "population_statistics": {
+  "note": "Items with no parseable final letter, on the ambiguous-split held-out sample.",
+  "shipped_routed_prompt": {"n": 47, "no_letter": 7, "rate": 0.149},
+  "generic_prompt": {"n": 24, "no_letter": 6, "rate": 0.25},
+  "box_aware_prompt": {"n": 24, "no_letter": 4, "rate": 0.167},
+  "interpretation": "Between 15% and 25% of generations on this sample produce no parseable answer under every prompt program tried. These items are silently converted to a fallback letter, so they are scored as ordinary wrong answers rather than surfacing as contract violations.",
+  "caveat": "The PSI 'ambiguous' split is deliberately the hard subset — annotators disagreed on these clips. These rates are not the rate on the official test set, where MCQ accuracy was 0.6044."
+ },
+ "related_ablation": "ABLATIONS.md section A2. On the paired 24-item subset the routed prompt scored 3/24 against the generic prompt's 8/24, losing every discordant pair 5-0.",
+ "frame_rendering": "Frames are not committed — PSI-VQA inherits the TASI Benchmark Data Sharing Agreement. Render locally with scripts/render_case_studies.py --data-root track3_anomaly/data/psi_vqa.",
+ "reproduce": "python3 scripts/render_case_studies.py --case psi_mcq_output_contract_failure --data-root track3_anomaly/data/psi_vqa"
+}

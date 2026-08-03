@@ -1,0 +1,6 @@
+Selection under PESSIMISTIC combo (one-to-one, macro); held-out scores under all 4 variant combos:
+k | m2m+macro  m2m+micro  1to1+macro  1to1+micro   (means over 5 folds x 3 directions)
+1 |   0.8002     0.8502     0.5819     0.6082
+2 |   0.8504     0.8962     0.7816     0.8191
+3 |   0.8559     0.9022     0.6618     0.6910
+4 |   0.8394     0.8841     0.5660     0.5886
