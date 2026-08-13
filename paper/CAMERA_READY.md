@@ -382,8 +382,10 @@ the other workloads: [`../BENCHMARKS.md`](../BENCHMARKS.md).
   recover. The same applies to TAR's `bcq_accuracy`.
 - Do not claim byte-level reproduction of FETV either. It was attempted on
   2026-08-13 with the revision pinned and **0 of 200 records matched**: the
-  shipped v11 is the last of an eleven-step chain, and greedy decoding still
-  drifts on `answer_time` (31/200) even where no chain step touched the field.
+  shipped v11 is the last of an eleven-version chain, and `answer_time` still
+  differs (31/200) even where no chain step touched the field. Two identical
+  reruns agree bit-for-bit, so that residual is systematic and unexplained, not
+  nondeterminism — do not describe it as run-to-run variance.
   See [`../REPRODUCE.md`](../REPRODUCE.md).
 - **Disclose the FETV v9 → v10 step, and bound it.** Fifteen rows were edited
   and all fifteen fall inside the 100 clips FETV scores, while `no_violation`

@@ -188,16 +188,29 @@ this from the chain:
 | `answer_time` | **31/200** | no |
 
 Date, weather and light are perfect, so the public clips are the right clips
-and the pipeline is wired correctly. `answer_time` is not: reading a six-digit
-burned-in timestamp puts the model near a decision boundary on almost every
-frame, and kernel-level numeric differences flip digits there, after which the
-autoregressive continuation diverges. Date is constant across a clip and the
-other two are three-way choices, so they survive.
+and the pipeline is wired correctly.
 
-This is what the earlier wording — "deterministic up to kernel
-nondeterminism" — was pointing at. It is measured now: **that qualifier costs
-about 85% of the timestamp field.** Pinning the seed and the revision does not
-remove it, because the variation is below the sampler, not in it.
+**The `answer_time` gap is not run-to-run noise.** The pipeline was run twice,
+same code, same seed, same clips, and the two runs agree on **all thirteen
+fields for every clip compared** — bit-stable. Kernel nondeterminism was the
+obvious explanation and it is wrong: whatever separates today's output from the
+July artifact is *systematic*, so it has a cause and the cause is findable
+rather than something to shrug at.
+
+Open candidates, in the order worth testing:
+
+1. **The determinism pin itself.** The July runs left cuDNN at torch defaults;
+   `pin()` sets `cudnn.deterministic=True`, which can select different kernels.
+   `AICITY_NO_PIN=1` disables all pinning for exactly this comparison.
+2. **The clips.** A re-encode of the same footage shifts where 16 uniformly
+   sampled frames land, which moves a burned-in clock by seconds while leaving
+   date, weather and light untouched — the observed signature. The July clips
+   were deleted, so this may only be arguable, not decidable.
+3. **`fetv_submission.py` changed on 2026-07-11** (`c441d15`, +41 lines) after
+   the earlier artifacts were made.
+
+Recorded as open. Attributing the gap to kernel nondeterminism, as an earlier
+revision of this file did, was refuted by the two-run test.
 
 ---
 
@@ -331,12 +344,14 @@ submissions; the controls below fix subsequent runs only.
 
 The official runs of 2026-07-10 were produced with no seeding and no cuDNN
 pinning at all. That is a property of those runs and **cannot be repaired after
-the fact**: the seeds were never recorded, so the shipped artifacts stay as
-described above — greedy paths reproducible up to kernel nondeterminism, sampled
-voting paths not reproducible. Nothing below changes the recorded SHA256s.
+the fact**: the seeds were never recorded, so the sampled voting paths stay
+unreproducible. The greedy paths turned out not to reproduce either, for a
+separate and still-unexplained reason — see the FETV section. Nothing below
+changes the recorded SHA256s.
 
 What it does give is a reviewer re-running the pipeline twice getting identical
-bytes, so any difference they observe is a real difference and not sampling
+bytes — measured, 13 fields across 160 FETV clips — so any difference they
+observe is a real difference and not sampling
 noise.
 
 [`shared/scripts/determinism.py`](shared/scripts/determinism.py) is wired into

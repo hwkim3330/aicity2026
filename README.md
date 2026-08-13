@@ -157,9 +157,11 @@ demands bit-reproducible kernels. Verify it reaches the sampler with
 **None of this was in force for the official runs**, and re-running does not
 recover them. Measured on FETV, 2026-08-13, 200 clips, revision pinned: **0 of
 200 records matched.** Two reasons, both in [`REPRODUCE.md`](REPRODUCE.md) —
-the shipped artifact is the last of an eleven-step chain rather than one run,
-and greedy decoding is deterministic in policy but not in bits, which costs
-about 85% of the timestamp field while date, weather and light hold at 200/200.
+the shipped artifact is the last of an eleven-version chain rather than one run,
+and a second, so-far-unexplained systematic difference costs about 85% of the
+timestamp field while date, weather and light hold at 200/200. Two identical
+runs agree bit-for-bit on all thirteen fields, so that second difference is not
+nondeterminism.
 The seeds behind the sampled paths were never generated and are gone for good.
 None of it affects a rank.
 

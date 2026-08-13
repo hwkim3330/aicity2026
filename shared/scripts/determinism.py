@@ -44,8 +44,21 @@ def resolve_seed(explicit: int | None = None) -> int:
 
 
 def pin(seed: int | None = None, strict: bool = False, verbose: bool = True) -> int:
-    """Seed every RNG in play and fix the cuDNN/cuBLAS knobs. Returns the seed."""
+    """Seed every RNG in play and fix the cuDNN/cuBLAS knobs. Returns the seed.
+
+    `AICITY_NO_PIN=1` skips everything and leaves torch at its defaults. That
+    exists to test whether pinning is itself what makes a run differ from the
+    2026-07-10 artifacts, which were produced with no pinning at all — asserting
+    it does not would be guessing.
+    """
     seed = resolve_seed(seed)
+
+    if os.environ.get("AICITY_NO_PIN") == "1":
+        if verbose:
+            import sys
+            print("[determinism] AICITY_NO_PIN=1 — torch defaults, nothing pinned",
+                  file=sys.stderr, flush=True)
+        return seed
 
     # Set before torch touches CUDA: cuBLAS reads this when it creates its
     # workspace, and a later change is ignored for the rest of the process.
