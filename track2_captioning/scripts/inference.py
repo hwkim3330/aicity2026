@@ -15,6 +15,11 @@ import sys
 
 import torch
 
+sys.path.insert(0, os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+    "shared", "scripts"))
+import determinism  # noqa: E402
+
 MODEL_ID = os.environ.get("T2_MODEL_ID", "Qwen/Qwen3-VL-8B-Instruct")
 HF_CACHE = os.environ.get(
     "T2_HF_CACHE",
@@ -63,8 +68,14 @@ VQA_SYSTEM = (
 
 
 class QwenVLBackend:
-    def __init__(self, quant="bf16", device="cuda", dtype=torch.bfloat16, verbose=True):
+    def __init__(self, quant="bf16", device="cuda", dtype=torch.bfloat16, verbose=True,
+                 seed=None, strict_determinism=False):
         from transformers import AutoProcessor, BitsAndBytesConfig
+
+        # Decoding here is greedy, so there is no sampling RNG to fix -- this is
+        # about the cuDNN autotuner, which picks kernels by timing them and can
+        # therefore choose differently for the same clip on two runs.
+        self.seed = determinism.pin(seed, strict=strict_determinism, verbose=verbose)
 
         if "qwen3" in MODEL_ID.lower():
             from transformers import Qwen3VLForConditionalGeneration as ModelClass
@@ -238,9 +249,11 @@ def main():
     ap.add_argument("--end", type=float, default=None)
     ap.add_argument("--question", default=None)
     ap.add_argument("--quant", default="bf16", choices=["4bit", "8bit", "bf16"])
+    determinism.add_args(ap)
     args = ap.parse_args()
 
-    backend = QwenVLBackend(quant=args.quant)
+    backend = QwenVLBackend(quant=args.quant, seed=args.seed,
+                            strict_determinism=args.strict_determinism)
     if args.mode == "caption":
         ped, veh = backend.caption_segment(args.video, args.start, args.end)
         print("---PEDESTRIAN---")

@@ -105,7 +105,9 @@ coverage stays at 960/960.
 
 Seeds were not set by the official script; greedy decoding makes the run
 deterministic up to kernel nondeterminism, but byte-level reproduction has not
-been verified because the Hub revision was not preserved.
+been verified because the Hub revision was not preserved. New runs can pin both
+— see [Determinism controls](#determinism-controls) — though that fixes future
+runs rather than recovering this one.
 
 ---
 
@@ -160,6 +162,58 @@ Steps 4 (temporal prior) and 5 (OpenQA cues) are fully deterministic. MCQ,
 OpenQA, and temporal generation use greedy decoding. The 55 BCQ rows use
 unseeded 5-sample voting and are **not** expected to reproduce bit-for-bit, so
 a reproduced file will not match the recorded SHA256.
+
+---
+
+## Determinism controls
+
+The official runs of 2026-07-10 were produced with no seeding and no cuDNN
+pinning at all. That is a property of those runs and **cannot be repaired after
+the fact**: the seeds were never recorded, so the shipped artifacts stay as
+described above — greedy paths reproducible up to kernel nondeterminism, sampled
+voting paths not reproducible. Nothing below changes the recorded SHA256s.
+
+What it does give is a reviewer re-running the pipeline twice getting identical
+bytes, so any difference they observe is a real difference and not sampling
+noise.
+
+[`shared/scripts/determinism.py`](shared/scripts/determinism.py) is wired into
+both inference backends
+([`track3_anomaly/scripts/inference.py`](track3_anomaly/scripts/inference.py),
+[`track2_captioning/scripts/inference.py`](track2_captioning/scripts/inference.py)):
+
+| | |
+|---|---|
+| Seed | `--seed N`, else `$AICITY_SEED`, else 1234 |
+| Seeded | `random`, `PYTHONHASHSEED`, `numpy`, `torch`, `torch.cuda` (all devices) |
+| cuDNN | `benchmark=False`, `deterministic=True`, applied before the model loads so the autotuner never runs |
+| Strict | `--strict-determinism` adds `use_deterministic_algorithms(True)` and `CUBLAS_WORKSPACE_CONFIG=:4096:8` |
+
+Two details worth knowing before relying on it:
+
+- **Sampled draws are seeded per question, not per process.** The seed for draw
+  *k* of a clip is `blake2b(seed, basename, task_type, question) + k`. Seeding
+  once at startup would make every answer depend on how many samples happened to
+  be drawn before it, so a resumed or reordered run would diverge; this way it
+  does not. blake2b rather than `hash()` because `PYTHONHASHSEED` randomises
+  string hashing per process — measured: `hash()` gave three different values
+  across three runs where blake2b gave one.
+- **`--strict-determinism` is off by default on purpose.** It changes which
+  kernels run, and therefore the numbers, so defaulting it on would silently
+  diverge from what the repository's recorded results were produced with. It is
+  also slower and raises on any op lacking a deterministic implementation.
+
+Verify the plumbing without loading a model:
+
+```bash
+python3 -c "
+import sys; sys.path.insert(0, 'shared/scripts')
+import determinism, torch
+determinism.pin(1234); a = torch.randn(4, device='cuda')
+determinism.pin(1234, verbose=False); b = torch.randn(4, device='cuda')
+assert torch.equal(a, b) and torch.backends.cudnn.deterministic
+print('determinism OK')"
+```
 
 ---
 

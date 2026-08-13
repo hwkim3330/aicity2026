@@ -15,6 +15,7 @@ Usage:
 """
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -23,7 +24,11 @@ import sys
 import torch
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+    "shared", "scripts"))
 from prompts import build_prompt  # noqa: E402
+import determinism  # noqa: E402
 
 MODEL_ID = os.environ.get("TAR_MODEL_ID", "Qwen/Qwen3-VL-8B-Instruct")
 HF_CACHE = os.environ.get(
@@ -162,8 +167,12 @@ TAR_FPS_OVERRIDE = float(TAR_FPS_OVERRIDE) if TAR_FPS_OVERRIDE else None
 
 
 class QwenVLBackend:
-    def __init__(self, quant="bf16", device="cuda", dtype=torch.bfloat16, verbose=True):
+    def __init__(self, quant="bf16", device="cuda", dtype=torch.bfloat16, verbose=True,
+                 seed=None, strict_determinism=False):
         from transformers import AutoProcessor, BitsAndBytesConfig
+
+        # Pinned before the model is built so the cuDNN autotuner never runs.
+        self.seed = determinism.pin(seed, strict=strict_determinism, verbose=verbose)
 
         if "qwen3" in MODEL_ID.lower():
             from transformers import Qwen3VLForConditionalGeneration as ModelClass
@@ -210,9 +219,16 @@ class QwenVLBackend:
             print(f"[QwenVLBackend] {msg}", file=sys.stderr)
 
     @torch.inference_mode()
-    def _generate_once(self, inputs, max_new_tokens, do_sample):
+    def _generate_once(self, inputs, max_new_tokens, do_sample, seed=None):
         gen_kwargs = dict(max_new_tokens=max_new_tokens)
         if do_sample:
+            # Seeded per draw rather than once per process, so a resumed or
+            # reordered run answers each question identically. Seeding only at
+            # startup would make every answer depend on how many samples
+            # happened to be drawn before it.
+            if seed is not None:
+                torch.manual_seed(seed)
+                torch.cuda.manual_seed_all(seed)
             gen_kwargs.update(do_sample=True, temperature=0.7, top_p=0.9)
         else:
             gen_kwargs.update(do_sample=False, temperature=None, top_p=None, top_k=None)
@@ -274,6 +290,16 @@ class QwenVLBackend:
             m3 = re.findall(r"^\s*\(?([A-D])\)[.:]", text, re.MULTILINE)
             return m3[-1].upper() if m3 else None
         return None
+
+    def _draw_seed(self, video_path: str, task_type: str, question: str) -> int:
+        """Stable per-question seed base.
+
+        blake2b rather than hash() because PYTHONHASHSEED randomises str
+        hashing per process, which would defeat the point.
+        """
+        key = f"{self.seed}|{os.path.basename(video_path)}|{task_type}|{question}"
+        digest = hashlib.blake2b(key.encode("utf-8"), digest_size=4).digest()
+        return int.from_bytes(digest, "big") % (2 ** 31 - 16)
 
     @torch.inference_mode()
     def answer(self, video_path: str, task_type: str, question: str,
@@ -366,8 +392,12 @@ class QwenVLBackend:
         if spec.final_answer:
             n = max(1, samples) if spec.self_consistency else 1
             votes = []
+            # Derived from the question, not from a counter, so draw k for a
+            # given clip is the same whatever else the run did before it.
+            base = self._draw_seed(video_path, task_type, question)
             for i in range(n):
-                out = self._generate_once(inputs, spec.max_new_tokens, do_sample=(i > 0))
+                out = self._generate_once(inputs, spec.max_new_tokens,
+                                          do_sample=(i > 0), seed=base + i)
                 tok = self._extract_final(out, spec.final_answer)
                 if tok:
                     votes.append(tok)
@@ -389,9 +419,11 @@ def main():
     ap.add_argument("--task_type", required=True)
     ap.add_argument("--question", required=True)
     ap.add_argument("--quant", default="bf16", choices=["4bit", "8bit", "bf16"])
+    determinism.add_args(ap)
     args = ap.parse_args()
 
-    backend = QwenVLBackend(quant=args.quant)
+    backend = QwenVLBackend(quant=args.quant, seed=args.seed,
+                            strict_determinism=args.strict_determinism)
     ans = backend.answer(args.video, args.task_type, args.question)
     print("---ANSWER---")
     print(ans)
