@@ -165,6 +165,49 @@ a reproduced file will not match the recorded SHA256.
 
 ---
 
+## What the official runs pinned, and what was recovered afterwards
+
+The 2026-07-10 submissions that produced the final ranks were run with no seed
+and no weight revision. One of those is recoverable and the other is not.
+
+| Value | Status | Evidence |
+|---|---|---|
+| Weight revision | **Recovered** — `0c351dd01ed87e9c1b53cbc748cba10e6187ff3b` | see below |
+| Sampling seeds | **Unrecoverable** | never generated; no RNG was seeded, so no value exists to record |
+| Model id, precision, frames, pixel budget | Already recorded | [Common environment](#common-environment) |
+| Library and driver versions | Already recorded | [Common environment](#common-environment) |
+
+### Why the revision is certain
+
+The scripts pinned no `revision=`, so every load resolved whatever `main`
+pointed at on the run date. The Hub repo `Qwen/Qwen3-VL-8B-Instruct` reports
+`lastModified: 2025-10-15` and its newest commit is `0c351dd` of the same day —
+there has been no commit since, so `main` on 2026-07-10 can only have been
+`0c351dd`. The local cache agrees: it holds exactly one snapshot, `0c351dd`,
+whose config blobs were fetched 2026-01-31, i.e. already after that commit.
+
+```bash
+curl -s https://huggingface.co/api/models/Qwen/Qwen3-VL-8B-Instruct \
+  | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['sha'], d['lastModified'])"
+# 0c351dd01ed87e9c1b53cbc748cba10e6187ff3b 2025-10-15T16:16:59.000Z
+```
+
+It is now pinned in both backends as `MODEL_REVISION`, overridable with
+`$TAR_MODEL_REVISION` / `$T2_MODEL_REVISION`. The pin applies only while
+`MODEL_ID` is the default, so pointing the scripts at another checkpoint does
+not attach this hash to it.
+
+### Why the seeds are not recoverable
+
+Nothing seeded `random`, `numpy`, or `torch`, so the sampled draws consumed
+whatever state the interpreter started with — a value that was never
+materialised, never logged, and is not derivable from the outputs. The
+five-sample BCQ/MCQ votes therefore cannot be replayed exactly, and no amount of
+searching the artifacts will change that. This is a permanent property of those
+submissions; the controls below fix subsequent runs only.
+
+---
+
 ## Determinism controls
 
 The official runs of 2026-07-10 were produced with no seeding and no cuDNN

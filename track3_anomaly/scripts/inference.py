@@ -30,7 +30,16 @@ sys.path.insert(0, os.path.join(
 from prompts import build_prompt  # noqa: E402
 import determinism  # noqa: E402
 
-MODEL_ID = os.environ.get("TAR_MODEL_ID", "Qwen/Qwen3-VL-8B-Instruct")
+DEFAULT_MODEL_ID = "Qwen/Qwen3-VL-8B-Instruct"
+MODEL_ID = os.environ.get("TAR_MODEL_ID", DEFAULT_MODEL_ID)
+
+# Weight revision actually used by the official 2026-07-10 runs. The scripts
+# originally pinned nothing and resolved whatever `main` pointed at; the Hub
+# repo has had no commit since 2025-10-15, so `main` on the run date was this
+# and no other. Pinned now so a future upload cannot silently change the model
+# under a re-run. Override only to reproduce a different revision on purpose.
+MODEL_REVISION = os.environ.get(
+    "TAR_MODEL_REVISION", "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b")
 HF_CACHE = os.environ.get(
     "TAR_HF_CACHE",
     os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "hf_cache"),
@@ -200,8 +209,10 @@ class QwenVLBackend:
         else:
             raise ValueError(f"unknown quant mode {quant!r}")
 
+        rev = MODEL_REVISION if MODEL_ID == DEFAULT_MODEL_ID else None
         self.model = ModelClass.from_pretrained(
             MODEL_ID,
+            revision=rev,
             cache_dir=HF_CACHE,
             device_map=device,
             attn_implementation="sdpa",
@@ -209,7 +220,7 @@ class QwenVLBackend:
         )
         self.model.eval()
         self.processor = AutoProcessor.from_pretrained(
-            MODEL_ID, cache_dir=HF_CACHE, min_pixels=64 * 28 * 28,
+            MODEL_ID, revision=rev, cache_dir=HF_CACHE, min_pixels=64 * 28 * 28,
             max_pixels=MAX_PIXELS_PER_FRAME,
         )
         self._log("Model loaded.")
