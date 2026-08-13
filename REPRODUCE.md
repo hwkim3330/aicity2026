@@ -55,7 +55,7 @@ Environment variables read by the inference backend:
 | | |
 |---|---|
 | Model ID | `Qwen/Qwen3-VL-8B-Instruct` — the portal records `models_used: qwen3` for the scored submission |
-| Hub revision | **not recorded in the original runs** |
+| Hub revision | `0c351dd01ed87e9c1b53cbc748cba10e6187ff3b` — recovered, see [above](#why-the-revision-is-certain) (applies to the scored qwen3 run; the Qwen2.5-VL-7B General entry is not in cache and its revision stays unknown) |
 | Precision | bf16 |
 | Official artifact | `track3_anomaly/submissions/submission_qwen3vl8b_v9.csv` (portal submission `9`, 2026-07-11 16:14) |
 | Expected SHA256 | `243a5e8b67310428096cfc760ddeedaf5bc9d280729ad73f4c940eb3da759f6f` |
@@ -89,7 +89,7 @@ coverage stays at 960/960.
 | | |
 |---|---|
 | Model ID | `Qwen/Qwen3-VL-8B-Instruct` |
-| Hub revision | **not recorded in the original run** (do not infer a hash) |
+| Hub revision | `0c351dd01ed87e9c1b53cbc748cba10e6187ff3b` — recovered, see [above](#why-the-revision-is-certain) |
 | Precision | bf16 |
 | Frame sampling | 16 max / 4 min |
 | Pixel budget | 151,200 per frame (360 × 420) |
@@ -116,7 +116,7 @@ runs rather than recovering this one.
 | | |
 |---|---|
 | Model ID | `Qwen/Qwen3-VL-8B-Instruct` |
-| Hub revision | **not recorded in the original run** |
+| Hub revision | `0c351dd01ed87e9c1b53cbc748cba10e6187ff3b` — recovered, see [above](#why-the-revision-is-certain) |
 | Precision | bf16 |
 | Frame sampling | 16 max / 4 min, real-fps metadata via decord (`return_video_metadata=True`) |
 | Pixel budget | 151,200 per frame |
@@ -274,6 +274,28 @@ Two details worth knowing before relying on it:
   diverge from what the repository's recorded results were produced with. It is
   also slower and raises on any op lacking a deterministic implementation.
 
+### Verified on the real model
+
+`track3_anomaly/tests/test_determinism_live.py` runs the `bcq` path — the
+sampled 5-vote one — three times and hashes every individual generation, not
+just the majority vote, because a single letter could match by luck.
+
+```
+RTX 3090, Qwen3-VL-8B-Instruct @ 0c351dd, bf16
+  run A  seed=1234  sha=5f6bf78990911223
+  run B  seed=1234  sha=5f6bf78990911223   <- all five draws byte-identical
+  run C  seed=4321  sha=de206dfcca17a06f   <- changing the seed changes them
+  PASS
+```
+
+Both halves matter: same-seed equality alone would also pass if the seed were
+being ignored and decoding had silently become greedy.
+
+```bash
+ffmpeg -f lavfi -i "testsrc2=size=640x360:rate=10:duration=4" -pix_fmt yuv420p /tmp/clip.mp4
+python3 track3_anomaly/tests/test_determinism_live.py /tmp/clip.mp4
+```
+
 Verify the plumbing without loading a model:
 
 ```bash
@@ -343,8 +365,12 @@ These are recorded rather than filled with plausible-looking values.
    runs used Qwen3-VL-8B-Instruct in bf16. **This must be corrected in the
    camera-ready**, and it removes the backbone/precision confound the paper
    cited as its reason for declining a controlled cross-domain claim.
-3. **No Hub revision/commit was persisted for any official run.** The model ids
-   are recorded; the exact weight revisions are not, and are not guessed.
+3. **No Hub revision/commit was persisted at run time — one was recovered
+   afterwards.** `Qwen/Qwen3-VL-8B-Instruct` resolves to
+   `0c351dd01ed87e9c1b53cbc748cba10e6187ff3b` because the Hub repo has had no
+   commit since 2025-10-15, so `main` on the run date can only have been that;
+   it is now pinned in both backends. The Qwen2.5-VL-7B General entry is not in
+   the cache and its revision remains unknown, and is not guessed.
 4. **The PSI portal upload filename/ID was not retained.**
    `psi_vqa_submission_v7.csv` is the repository-side candidate associated with
    the final 57.0400 result. This is a repository-history association, not a
