@@ -229,6 +229,40 @@ Note how little of the movement is attributable to any single change: between
 final score moves 0.0346, which is the description opener and time-field work,
 not the cascade fields.
 
+#### One step edited only the clips the leaderboard scores
+
+FETV scores 100 of the 200 clips; the list is public in
+`eval_subset_50.json`. Testing every local step for whether its edits fall
+inside that subset, only one does:
+
+| Step | Rows changed | Inside the scored 100 | Outside | p if content-driven |
+|---|---:|---:|---:|---|
+| v2 → … → v7 | 200 each | 100 | 100 | 0.53 |
+| v7 → v8 | 56 | 28 | 28 | 0.55 |
+| v8 → v9 | 57 | 29 | 28 | 0.50 |
+| **v9 → v10** | **15** | **15** | **0** | **3.05e-05** |
+| v10 → v11 | 92 | 45 | 47 | 0.62 |
+
+All fifteen are `no_violation` clips whose `answer_violator_type` and
+`answer_color` went from `na` to a concrete value. `no_violation` rows split 54
+inside / 53 outside, so a content-driven edit had an even chance of landing
+either side and landed inside fifteen times out of fifteen.
+
+The repository also contains
+[`track3_anomaly/scripts/fetv_gt_posterior.py`](track3_anomaly/scripts/fetv_gt_posterior.py),
+which anneals against the recorded leaderboard macro-F1 of five submissions to
+reconstruct the hidden labels for exactly those 100 clips, over exactly those
+fields. Its output file was not retained, so **whether it produced v10's fifteen
+values cannot be established either way.** What is established is the table
+above and the script's presence.
+
+**What it was worth.** v9 and v10 were never submitted; the fifteen rows reached
+the portal inside v11. The submitted step around them is v8 → v11, which moved
+the score **+0.0018**, from 0.4616 to 0.4634. The margin over rank 4
+(MobilityAI, 0.4525) is +0.0110 — six times the entire gain. Submitting v8 and
+stopping would have placed third as well, so nothing in this step affects the
+result.
+
 ### B3. PSI-VQA submission sequence
 
 Retrieved from the portal's Track 8 submission history on 2026-08-03. Full test

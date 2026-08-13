@@ -371,7 +371,10 @@ the other workloads: [`../BENCHMARKS.md`](../BENCHMARKS.md).
   `Qwen/Qwen3-VL-8B-Instruct` = `0c351dd01ed87e9c1b53cbc748cba10e6187ff3b`,
   because the Hub repo has had no commit since 2025-10-15 and the run resolved
   `main`. Safe to state; it is now pinned in the code. The Qwen2.5-VL-7B
-  General entry is still unknown — do not guess that one. See
+  General entry turned out to be recorded too, in
+  `track3_anomaly/model_download.log`:
+  `cc594898137f460bfe9f0759e9844b3ce807cfb5`, still Hub `main` and unchanged
+  since 2025-04-06. Both are now known; neither is guessed. See
   [`../REPRODUCE.md`](../REPRODUCE.md#why-the-revision-is-certain).
   *Nothing in the submitted PDF asserts a revision, so this needs no PDF edit.*
 - Do not claim byte-level reproduction of the PSI artifact. The 55 BCQ rows use
@@ -382,6 +385,19 @@ the other workloads: [`../BENCHMARKS.md`](../BENCHMARKS.md).
   shipped v11 is the last of an eleven-step chain, and greedy decoding still
   drifts on `answer_time` (31/200) even where no chain step touched the field.
   See [`../REPRODUCE.md`](../REPRODUCE.md).
+- **Disclose the FETV v9 → v10 step, and bound it.** Fifteen rows were edited
+  and all fifteen fall inside the 100 clips FETV scores, while `no_violation`
+  rows split 54 inside / 53 outside — p = 3.05e-05 under a content-driven null.
+  The repository also holds `fetv_gt_posterior.py`, which anneals against
+  recorded leaderboard macro-F1 to reconstruct those clips' hidden labels over
+  those exact fields; its output was not retained, so its role cannot be
+  established either way. State the bound in the same breath: the submitted
+  step containing it is v8 → v11, worth **+0.0018** (0.4616 → 0.4634) against a
+  **+0.0110** margin over rank 4, so third place does not depend on it. This is
+  more specific than the paper's current "informed by sequential leaderboard
+  feedback" and should replace it. A reviewer opening the repository sees the
+  script and the artifacts; better that we characterised it first.
+  Evidence: [`../ABLATIONS.md`](../ABLATIONS.md) §B2.
 - Do not cite any score that is not traceable to
   `leaderboards/submission_history.json`. Several figures previously recorded
   in this repository were wrong.

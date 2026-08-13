@@ -55,7 +55,7 @@ Environment variables read by the inference backend:
 | | |
 |---|---|
 | Model ID | `Qwen/Qwen3-VL-8B-Instruct` — the portal records `models_used: qwen3` for the scored submission |
-| Hub revision | `0c351dd01ed87e9c1b53cbc748cba10e6187ff3b` — recovered, see [above](#why-the-revision-is-certain) (applies to the scored qwen3 run; the Qwen2.5-VL-7B General entry is not in cache and its revision stays unknown) |
+| Hub revision | `0c351dd01ed87e9c1b53cbc748cba10e6187ff3b` — recovered, see [above](#why-the-revision-is-certain) (scored qwen3 run). The Qwen2.5-VL-7B General entry used `cc594898137f460bfe9f0759e9844b3ce807cfb5`, logged at download time in [`track3_anomaly/model_download.log`](track3_anomaly/model_download.log) |
 | Precision | bf16 |
 | Official artifact | `track3_anomaly/submissions/submission_qwen3vl8b_v9.csv` (portal submission `9`, 2026-07-11 16:14) |
 | Expected SHA256 | `243a5e8b67310428096cfc760ddeedaf5bc9d280729ad73f4c940eb3da759f6f` |
@@ -109,9 +109,11 @@ Run 2026-08-13 on the public FETV clips with the revision pinned: **0 of 200
 records matched.** Two independent reasons, and the table row above overstated
 what a single command can do.
 
-**v11 is the last of an eleven-step chain, not one run.** `fetv_submission.py`
+**v11 is the last of an eleven-version chain, not one run.** `fetv_submission.py`
 produces the *first* pass. The shipped artifact is v2 → … → v7 → v8 → v9 → v10
-→ v11, and each step rewrote fields:
+→ v11, and each step rewrote fields. Only v2, v4, v5, v6, v7, v8 and v11 were
+ever submitted — v9 and v10 are local intermediates whose content reached the
+portal inside v11:
 
 | Step | Rows changed |
 |---|---|
@@ -136,7 +138,11 @@ cd track3_anomaly/scripts && python3 make_fetv_v11_descriptions.py --verify
 because v10 already held the exemplar sentence the template produces.
 
 **The commands behind v9 and v10 are still not recorded.** No script in the
-repository writes those filenames. Those two steps are a real provenance gap.
+repository writes those filenames, neither file is tracked in Git, and the
+shell history no longer reaches July. Those two steps are a real provenance gap,
+and one of them edited only the clips the leaderboard scores — see
+[`ABLATIONS.md`](ABLATIONS.md) §B2, which bounds it at +0.0018 against a
++0.0110 margin.
 
 **Separately, greedy decoding does not reproduce bit-for-bit.** Comparing the
 fresh first pass against v11 on the fields *no* chain step touched isolates
@@ -225,7 +231,8 @@ and no weight revision. One of those is recoverable and the other is not.
 
 | Value | Status | Evidence |
 |---|---|---|
-| Weight revision | **Recovered** — `0c351dd01ed87e9c1b53cbc748cba10e6187ff3b` | see below |
+| Weight revision, Qwen3-VL-8B | **Recovered** — `0c351dd01ed87e9c1b53cbc748cba10e6187ff3b` | see below |
+| Weight revision, Qwen2.5-VL-7B | **Logged all along** — `cc594898137f460bfe9f0759e9844b3ce807cfb5` | `track3_anomaly/model_download.log`, written 2026-07-02; matches Hub `main`, unchanged since 2025-04-06 |
 | Sampling seeds | **Unrecoverable** | never generated; no RNG was seeded, so no value exists to record |
 | Model id, precision, frames, pixel budget | Already recorded | [Common environment](#common-environment) |
 | Library and driver versions | Already recorded | [Common environment](#common-environment) |
@@ -423,7 +430,10 @@ These are recorded rather than filled with plausible-looking values.
    `0c351dd01ed87e9c1b53cbc748cba10e6187ff3b` because the Hub repo has had no
    commit since 2025-10-15, so `main` on the run date can only have been that;
    it is now pinned in both backends. The Qwen2.5-VL-7B General entry is not in
-   the cache and its revision remains unknown, and is not guessed.
+   the cache, but its revision was logged at download time in
+   `track3_anomaly/model_download.log`: `cc594898137f460bfe9f0759e9844b3ce807cfb5`,
+   which is still Hub `main` and has been since 2025-04-06. Nothing here is
+   guessed; this one was simply never read.
 4. **The PSI portal upload filename/ID was not retained.**
    `psi_vqa_submission_v7.csv` is the repository-side candidate associated with
    the final 57.0400 result. This is a repository-history association, not a
