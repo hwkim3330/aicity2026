@@ -158,11 +158,12 @@ demands bit-reproducible kernels. Verify it reaches the sampler with
 recover them. Measured on FETV, 2026-08-13, 200 clips, revision pinned: **0 of
 200 records matched.** Two reasons, both in [`REPRODUCE.md`](REPRODUCE.md) —
 the shipped artifact is the last of an eleven-version chain rather than one run,
-and a second systematic difference costs about 85% of the timestamp field while
-date, weather and light hold at 200/200. Five explanations for that residual
-were tested and ruled out — nondeterminism, the determinism pin, a different
-clip encode, frame-sampling drift, and the few-shot exemplars — so it is
-recorded as unexplained rather than guessed at.
+and one committed code state covers nine artifacts made across six days, so the
+repository never held the code that produced any particular one. Against
+`v6_fewshot`, the artifact whose configuration matches a single pass, the fresh
+run reaches 67.0% of fields. Six other explanations — nondeterminism, the
+determinism pin, a different clip encode, frame-sampling drift, the few-shot
+exemplars, and the NumPy upgrade — were each tested and ruled out.
 The seeds behind the sampled paths were never generated and are gone for good.
 None of it affects a rank.
 

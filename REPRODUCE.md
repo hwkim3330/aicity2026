@@ -190,41 +190,58 @@ this from the chain:
 Date, weather and light are perfect, so the public clips are the right clips
 and the pipeline is wired correctly.
 
-**The residual gap is systematic, and five explanations for it were tested and
-ruled out.** Each row below is a measurement, not an argument:
+**Compare against the right artifact.** v11 is the end of a chain; the fresh run
+is a single pass. The single-pass artifact made under the same configuration is
+`v6_fewshot` (2026-07-10), and against that the run does much better:
+
+| Compared against | Total field matches | `answer_time` |
+|---|---:|---:|
+| **`v6_fewshot`** | **1742 / 2600 (67.0%)** | **70 / 200** |
+| `v7` | 1704 | 31 / 200 |
+| `v8` | 1647 | 31 / 200 |
+| `v11` | 1695 | 31 / 200 |
+
+The jump from 31 to 70 on the timestamp is the point: `v6 → v7` is where the
+time-field post-processing entered, which [`ABLATIONS.md`](ABLATIONS.md) §B2
+already recorded. A single pass was never going to reproduce a post-processed
+field, so 31/200 against v11 measured the wrong thing.
+
+**Six explanations for the remaining gap were tested and ruled out.** Each row is
+a measurement, not an argument:
 
 | Explanation | Test | Result |
 |---|---|---|
-| Run-to-run nondeterminism | pipeline run twice, same code and seed | **ruled out** — identical on 13 fields × 200 clips, canonical SHA256 `77a8fd4c…` both times |
-| The determinism pin selecting different kernels | rerun with `AICITY_NO_PIN=1`, torch defaults as in July | **ruled out** — 25/25 identical on every field, pinned or not |
-| The public clips being a different encode | pulled the burned-in clock out of the frames | **ruled out** — `002_006.mp4` spans 17:09:32–17:09:39 and holds *both* our 17:09:32 and v11's 17:09:35 |
+| Run-to-run nondeterminism | run twice, same code and seed | **ruled out** — identical on 13 fields × 200 clips, canonical SHA256 `77a8fd4c…` both times |
+| The determinism pin selecting different kernels | `AICITY_NO_PIN=1`, torch defaults as in July | **ruled out** — 25/25 identical either way |
+| The public clips being a different encode | read the burned-in clock off the frames | **ruled out** — `002_006.mp4` spans 17:09:32–17:09:39 and holds both our 17:09:32 and v11's 17:09:35 |
 | Frame sampling landing elsewhere | recomputed the sampled indices | **ruled out** — 14 frames at 0, 8, … 104; both candidate timestamps are among them |
-| The FETV few-shot exemplars, which the archive commit added six hours after v11 was written | rerun with `FETV_FEWSHOT=0` | **ruled out** — 193 field matches with them, 135 without, so v11 had them on |
+| The FETV few-shot exemplars | `FETV_FEWSHOT=0` | **ruled out** — 193 field matches with them, 135 without, so the artifacts had them on |
+| NumPy, the only library that moved after 2026-07-11 (2.2.6 → 2.5.1 on 07-20) | venv pinned to 2.2.6 against the same torch | **ruled out** — 25/25 identical, 199 field matches against v6 either way |
 
-What the timestamp differences look like: of 200 clips, 31 match exactly and
-**126 differ by 1–5 seconds** (median 3 s), with 111 of ours earlier than v11's.
-A clean 3-second bias on 7-second clips, not scatter. The model sees both
-timestamps in its 14 frames and reports a different one; the earlier bias is
-consistent with ours reading the first frame while v11 read into the clip.
+`huggingface_hub` (07-06), `transformers` (07-08), `torch` (07-08) and
+`safetensors` (07-06) all predate every artifact in the chain, so the environment
+that produced them is the environment here.
 
-The only recorded environment change after 2026-07-11 is **NumPy, upgraded
-1.26.4 → 2.5.1 on 2026-07-20** (dist-info mtime; the environment table above was
-written later and records the post-upgrade state). It is a weak candidate — the
-frame index path is `torch.linspace(...).round().long()`, with no NumPy in it —
-and it has not been tested, because that needs the old NumPy against the current
-torch build.
+### What is actually missing
 
-So: **cause not identified.** Recorded this way rather than left implicit,
-because "not reproducible" and "not reproducible and nobody knows why" are
-different claims, and five specific dead ends are worth more to the next reader
-than a shrug. Attributing the gap to kernel nondeterminism, as an earlier
-revision of this file did, was refuted by the first row of that table.
+Nine FETV artifacts were produced between 07-05 19:38 and 07-11 16:44. The last
+commit before that window is 07-06 09:58; the next is the archive commit at
+07-11 22:51. **One committed code state covers nine artifacts**, and it is the
+state at the end of the last night, six hours after v11 was written — not the
+state that produced any particular one. The working tree moved between artifacts
+and only its final position was recorded.
+
+That is the whole finding. Not nondeterminism, not the environment, not the
+clips: the repository never held the code that made these files, and no test of
+the current code against them can close that. The reproducible claims are the
+ones above — the pipeline is bit-stable, the artifacts are sealed and unmodified,
+the v10 → v11 step is recovered exactly — plus a 67.0% field-level baseline
+against the one artifact whose configuration matches.
 
 `answer_description` sits at 0/200 for a separate and fully understood reason:
 v11's violation descriptions are template output, not model output, so no model
 configuration can match them. They reproduce exactly from the structured fields
-via `make_fetv_v11_descriptions.py` — but only when those fields already
-match.
+via `make_fetv_v11_descriptions.py` — but only when those fields already match.
 
 ---
 

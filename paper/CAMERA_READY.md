@@ -384,9 +384,12 @@ the other workloads: [`../BENCHMARKS.md`](../BENCHMARKS.md).
   2026-08-13 with the revision pinned and **0 of 200 records matched**: the
   shipped v11 is the last of an eleven-version chain, and `answer_time` still
   differs (31/200) even where no chain step touched the field. Two identical
-  reruns agree bit-for-bit, and five explanations were tested and ruled out, so
-  that residual is systematic and unexplained — do not describe it as run-to-run
-  variance, and do not offer a cause the repository has not established.
+  reruns agree bit-for-bit and six explanations were tested and ruled out
+  (nondeterminism, the determinism pin, clip encoding, frame sampling, the
+  few-shot exemplars, the NumPy upgrade). The cause is structural: one committed
+  code state covers nine artifacts produced across six days. Do not describe the
+  gap as run-to-run variance, and do not offer a mechanism the repository has not
+  established.
   See [`../REPRODUCE.md`](../REPRODUCE.md).
 - **Disclose the FETV v9 → v10 step, and bound it.** Fifteen rows were edited
   and all fifteen fall inside the 100 clips FETV scores, while `no_violation`
