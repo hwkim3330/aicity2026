@@ -145,8 +145,12 @@ def main():
             continue
         video_path = os.path.join(args.clips, clip)
         try:
-            # reuse the open-ended path (no final_answer extraction)
-            out = backend.answer(video_path, "fetv_structured", PROMPT, fewshot=True)
+            # reuse the open-ended path (no final_answer extraction).
+            # FETV_FEWSHOT=0 turns the exemplars off. The few-shot wiring landed
+            # in c441d15, six hours after v11 was written, so whether v11 was
+            # produced with it on is an open question rather than a given.
+            out = backend.answer(video_path, "fetv_structured", PROMPT,
+                                 fewshot=os.environ.get("FETV_FEWSHOT", "1") != "0")
             raw = parse_response(out)
         except Exception as e:  # noqa: BLE001
             print(f"  ERROR {clip_name}: {e}", file=sys.stderr)

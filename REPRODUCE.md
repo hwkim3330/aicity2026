@@ -190,27 +190,41 @@ this from the chain:
 Date, weather and light are perfect, so the public clips are the right clips
 and the pipeline is wired correctly.
 
-**The `answer_time` gap is not run-to-run noise.** The pipeline was run twice,
-same code, same seed, same clips, and the two runs agree on **all thirteen
-fields for every clip compared** — bit-stable. Kernel nondeterminism was the
-obvious explanation and it is wrong: whatever separates today's output from the
-July artifact is *systematic*, so it has a cause and the cause is findable
-rather than something to shrug at.
+**The residual gap is systematic, and five explanations for it were tested and
+ruled out.** Each row below is a measurement, not an argument:
 
-Open candidates, in the order worth testing:
+| Explanation | Test | Result |
+|---|---|---|
+| Run-to-run nondeterminism | pipeline run twice, same code and seed | **ruled out** — identical on 13 fields × 200 clips, canonical SHA256 `77a8fd4c…` both times |
+| The determinism pin selecting different kernels | rerun with `AICITY_NO_PIN=1`, torch defaults as in July | **ruled out** — 25/25 identical on every field, pinned or not |
+| The public clips being a different encode | pulled the burned-in clock out of the frames | **ruled out** — `002_006.mp4` spans 17:09:32–17:09:39 and holds *both* our 17:09:32 and v11's 17:09:35 |
+| Frame sampling landing elsewhere | recomputed the sampled indices | **ruled out** — 14 frames at 0, 8, … 104; both candidate timestamps are among them |
+| The FETV few-shot exemplars, which the archive commit added six hours after v11 was written | rerun with `FETV_FEWSHOT=0` | **ruled out** — 193 field matches with them, 135 without, so v11 had them on |
 
-1. **The determinism pin itself.** The July runs left cuDNN at torch defaults;
-   `pin()` sets `cudnn.deterministic=True`, which can select different kernels.
-   `AICITY_NO_PIN=1` disables all pinning for exactly this comparison.
-2. **The clips.** A re-encode of the same footage shifts where 16 uniformly
-   sampled frames land, which moves a burned-in clock by seconds while leaving
-   date, weather and light untouched — the observed signature. The July clips
-   were deleted, so this may only be arguable, not decidable.
-3. **`fetv_submission.py` changed on 2026-07-11** (`c441d15`, +41 lines) after
-   the earlier artifacts were made.
+What the timestamp differences look like: of 200 clips, 31 match exactly and
+**126 differ by 1–5 seconds** (median 3 s), with 111 of ours earlier than v11's.
+A clean 3-second bias on 7-second clips, not scatter. The model sees both
+timestamps in its 14 frames and reports a different one; the earlier bias is
+consistent with ours reading the first frame while v11 read into the clip.
 
-Recorded as open. Attributing the gap to kernel nondeterminism, as an earlier
-revision of this file did, was refuted by the two-run test.
+The only recorded environment change after 2026-07-11 is **NumPy, upgraded
+1.26.4 → 2.5.1 on 2026-07-20** (dist-info mtime; the environment table above was
+written later and records the post-upgrade state). It is a weak candidate — the
+frame index path is `torch.linspace(...).round().long()`, with no NumPy in it —
+and it has not been tested, because that needs the old NumPy against the current
+torch build.
+
+So: **cause not identified.** Recorded this way rather than left implicit,
+because "not reproducible" and "not reproducible and nobody knows why" are
+different claims, and five specific dead ends are worth more to the next reader
+than a shrug. Attributing the gap to kernel nondeterminism, as an earlier
+revision of this file did, was refuted by the first row of that table.
+
+`answer_description` sits at 0/200 for a separate and fully understood reason:
+v11's violation descriptions are template output, not model output, so no model
+configuration can match them. They reproduce exactly from the structured fields
+via `make_fetv_v11_descriptions.py` — but only when those fields already
+match.
 
 ---
 
