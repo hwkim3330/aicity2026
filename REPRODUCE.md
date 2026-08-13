@@ -197,6 +197,34 @@ It is now pinned in both backends as `MODEL_REVISION`, overridable with
 `MODEL_ID` is the default, so pointing the scripts at another checkpoint does
 not attach this hash to it.
 
+### How much of each result the missing seeds actually touch
+
+Sampled voting is not spread across the system. Of the thirteen task types in
+[`track3_anomaly/scripts/prompts.py`](track3_anomaly/scripts/prompts.py) exactly
+**two** carry `self_consistency: True` — `bcq` and `psi_bcq`. The other eleven,
+including `psi_mcq`, decode greedily and reproduce.
+
+| Submission | Deterministic | Sampled |
+|---|---|---|
+| Track 7 FETV, 0.4634 | all of it | — |
+| Track 8 PSI, 57.04 | `mcq_norm`, `open_qa_norm`, `temporal_norm` | `bcq_norm` (55 rows) |
+| Track 3 TAR, 0.4256 | 8 of the 9 scored components | `bcq_accuracy` |
+
+The ranks do not depend on the sampled part:
+
+- **Track 8** is rank 5 on the public board at 57.04, with 54.2445 below and
+  64.4161 above. `final` is the unweighted mean of the four `*_norm` values, so
+  losing a place needs `bcq_norm` to fall 11.18 points. One of the 55 rows is
+  worth 1.82 points, so **six or more rows would have to flip**. Gaining a place
+  needs +29.50, i.e. BCQ macro-F1 from 0.5045 to about 0.80.
+- **Track 3** is rank 24 at 0.4256, with 0.3575 below and 0.4867 above. `mean`
+  averages nine components, so losing a place needs `bcq_accuracy` to fall
+  0.6130 from 0.5437 — **below zero**, which is unreachable. Gaining a place
+  needs 1.09, above the metric's ceiling. This rank is structurally immune.
+
+So the unrecoverable seeds cost bit-exactness on two components and change no
+placement.
+
 ### Why the seeds are not recoverable
 
 Nothing seeded `random`, `numpy`, or `torch`, so the sampled draws consumed
