@@ -366,10 +366,19 @@ the other workloads: [`../BENCHMARKS.md`](../BENCHMARKS.md).
   `fetv_structured_pipeline.py` as official results. Both are post-deadline.
 - Do not cite any `*.results.json` file. They report `final_score: 1.0` because
   they scored a submission against itself.
-- Do not report a Hub revision/commit for any official run. None was persisted;
-  the model ids are known, the exact weight revisions are not.
+- ~~Do not report a Hub revision/commit for any official run.~~ **Superseded.**
+  None was persisted at run time, but the qwen3 one was recovered afterwards:
+  `Qwen/Qwen3-VL-8B-Instruct` = `0c351dd01ed87e9c1b53cbc748cba10e6187ff3b`,
+  because the Hub repo has had no commit since 2025-10-15 and the run resolved
+  `main`. Safe to state; it is now pinned in the code. The Qwen2.5-VL-7B
+  General entry is still unknown — do not guess that one. See
+  [`../REPRODUCE.md`](../REPRODUCE.md#why-the-revision-is-certain).
+  *Nothing in the submitted PDF asserts a revision, so this needs no PDF edit.*
 - Do not claim byte-level reproduction of the PSI artifact. The 55 BCQ rows use
-  unseeded 5-sample voting.
+  unseeded 5-sample voting, which is permanent — no seed was ever generated to
+  recover. The same applies to TAR's `bcq_accuracy`. FETV is greedy throughout
+  and is the one submission that *could* reproduce byte-for-byte, but that has
+  not been run, so do not claim it either until it has.
 - Do not cite any score that is not traceable to
   `leaderboards/submission_history.json`. Several figures previously recorded
   in this repository were wrong.

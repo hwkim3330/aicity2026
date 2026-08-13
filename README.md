@@ -20,8 +20,8 @@ Ranks are the values returned for Team 277 by the final Public leaderboard
 API. The portal also keeps a `general` board including non-public submissions,
 where the same scores rank 55/76, 5/15 and 9/15 on tracks 3, 7 and 8 — always
 name the board when quoting a rank. Denominators for tracks 3, 7 and 8 are
-exported in [`leaderboards/`](leaderboards/); the others have not been
-re-exported. Track 6 had two before-deadline submissions, both marked `Failed`,
+exported in [`leaderboards/`](leaderboards/), together with every row of all
+eight tracks on both boards as HTML, markdown, PDF and per-track images. Track 6 had two before-deadline submissions, both marked `Failed`,
 and therefore has no scored leaderboard row.
 
 All three Track 3 evaluations used **Qwen3-VL-8B-Instruct in bf16**, including
@@ -124,14 +124,43 @@ The repository excludes challenge datasets, model weights, virtual
 environments, training caches, and large generated submissions. See
 [`ARTIFACTS.md`](ARTIFACTS.md) for retained local artifacts and checksums.
 
-## Reproducibility
+## Reproduction quick start
 
-Each track directory documents its own environment and commands. The official
-FETV v11 run used `Qwen/Qwen3-VL-8B-Instruct` in bf16, with 16 sampled frames
-and a 151200-pixel-per-frame budget, plus greedy decoding. The original run
-did not persist a Hub revision/commit, so that provenance gap is recorded
-explicitly in [`REPRODUCE.md`](REPRODUCE.md) rather than guessed. Public
-external models and datasets must be cited and their licenses followed.
+Everything the official Track 3/7/8 runs were made with, in one place.
+[`REPRODUCE.md`](REPRODUCE.md) carries the per-track commands and every
+provenance gap.
+
+| | |
+|---|---|
+| Backbone | `Qwen/Qwen3-VL-8B-Instruct`, revision `0c351dd01ed87e9c1b53cbc748cba10e6187ff3b`, bf16 |
+| Frames / pixels | 16 max, 4 min · 151,200 per frame (360 × 420) |
+| Decoding | greedy everywhere except `bcq` and `psi_bcq`, which majority-vote 5 samples at temperature 0.7 / top-p 0.9 |
+| GPU / driver | 1 × RTX 3090 24 GB · 580.173.02 |
+| Stack | Python 3.12.3 · PyTorch 2.10.0+cu128 · Transformers 5.13.0 · NumPy 2.5.1 · decord 0.6.0 |
+| Scorer | **separate env**, `transformers==4.57.0` — BERTScore shifts up to ~0.02 under 5.x |
+
+```bash
+pip install -r requirements-inference.txt        # inference
+pip install -r requirements-tar-evaluator.txt    # organizer's scorer, separate env
+
+./scripts/validate_official_artifacts.sh         # hashes, counts, structure — no GPU
+FETV_CLIPS=/path/to/FETV_public_clips ./scripts/reproduce_fetv_official.sh
+./scripts/reproduce_psi_vqa_official.sh
+./scripts/reproduce_tar_official.sh
+```
+
+Reproduction runs seed `random`, NumPy and torch and fix the cuDNN autotuner;
+`--seed N` or `$AICITY_SEED` selects the seed, `--strict-determinism` also
+demands bit-reproducible kernels. Verify it reaches the sampler with
+`python3 track3_anomaly/tests/test_determinism_live.py <any.mp4>`.
+
+**None of this was in force for the official runs.** They set no seed and
+pinned no revision. The revision was recovered afterwards and is certain; the
+seeds were never generated and are gone for good, so `bcq` on TAR and the 55
+BCQ rows on PSI cannot reproduce byte-for-byte. Neither affects a rank —
+[`REPRODUCE.md`](REPRODUCE.md) bounds it. FETV is greedy throughout and is the
+one submission that could match its recorded hash exactly; that run is pending
+the dataset.
 
 See [`OFFICIAL_RESULTS.md`](OFFICIAL_RESULTS.md) for the official/post-deadline
 boundary and [`REPRODUCE.md`](REPRODUCE.md) for the reproducibility record.
@@ -143,7 +172,7 @@ boundary and [`REPRODUCE.md`](REPRODUCE.md) for the reproducibility record.
 | [`REPRODUCE.md`](REPRODUCE.md) | Per-track environment, exact commands, expected record counts and hashes, and every known provenance gap |
 | [`ABLATIONS.md`](ABLATIONS.md) | Controlled experiments (Section A) kept strictly separate from submission-to-submission leaderboard movements (Section B) |
 | [`BENCHMARKS.md`](BENCHMARKS.md) | Measured runtime and peak VRAM, labelled as reproduction runs because the official runs logged neither |
-| [`leaderboards/`](leaderboards/) | Final standings as data, with rank denominators and their unverified status |
+| [`leaderboards/`](leaderboards/) | Final standings for all eight tracks, both boards, every row — data plus rendered HTML/PDF/PNG |
 | [`docs/case_studies/`](docs/case_studies/) | Two worked failure cases, one of which contradicts our own published diagnosis |
 | [`track3_anomaly/analysis/temporal_prior_protocol.md`](track3_anomaly/analysis/temporal_prior_protocol.md) | Search space, objective, split construction, and per-split refit for the PSI temporal prior |
 | [`paper/CAMERA_READY.md`](paper/CAMERA_READY.md) | Every revision the camera-ready needs, with sources |
