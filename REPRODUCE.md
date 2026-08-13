@@ -103,6 +103,37 @@ coverage stays at 960/960.
 | SHA256 of that artifact | `39abdb0a8cca7a7fa18dbd31374ee353e032977df9928d54734a53e9ec43e835` — verified present; **not** a value the command above reproduces |
 | Official result | rank 3, final 0.4634 (description 0.4238, categorical mean 0.5031) |
 
+### What third place does rest on
+
+Regenerating v11 from code is out of reach, but the result does not depend on
+that. FETV's ground truth is not published — the Drive folder linked from
+[github.com/MoyoG/FETV](https://github.com/MoyoG/FETV) carries the 200 clips and
+nothing else, and `evaluate.py` there needs a `groundtruth.json` that is not
+distributed. Only the evaluation server can compute 0.4634.
+
+What *is* checkable is that the file it scored is the file in this repository,
+and that nothing has touched it since:
+
+| | |
+|---|---|
+| v11 written | 2026-07-11 16:44:01 KST (file mtime) |
+| Portal submission `11` | 2026-07-11 18:05:59 (portal clock; its timezone is not recorded) |
+| Committed | 2026-07-11 22:51:49 KST, `c441d15` |
+| Blob SHA256 at that commit | `39abdb0a8cca7a7fa18dbd31374ee353e032977df9928d54734a53e9ec43e835` |
+| SHA256 today | identical; one commit touches the file, no later modification |
+
+The hash is not self-certifying paperwork written after the fact — Git's
+content-addressed history fixed it on the submission day, and
+`git show c441d15:track3_anomaly/submissions/fetv_submission_v11.json | sha256sum`
+recomputes it from the 2026-07-11 object. `psi_vqa_submission_v7.csv` has the
+same seal. The TAR artifact `submission_qwen3vl8b_v9.csv` does not: it was first
+committed 2026-08-03, so its chain rests on file mtime and the portal timestamp
+alone.
+
+The only way to re-derive the number itself is to put v11 back through the
+evaluation server. That has not been done, and would want deciding on
+deliberately: the challenge is closed and the standings are final.
+
 ### The command above does not produce v11, and cannot
 
 Run 2026-08-13 on the public FETV clips with the revision pinned: **0 of 200
