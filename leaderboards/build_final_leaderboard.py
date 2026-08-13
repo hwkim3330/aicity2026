@@ -98,9 +98,7 @@ def table_html(view: str, track: int) -> str:
             f"<tbody>{''.join(body)}</tbody></table>")
 
 
-def main() -> None:
-    parts = [
-        "<title>AI City Challenge 2026 — final standings, all tracks</title>",
+CSS = "\n".join([
         "<style>",
         ":root{--bg:#fff;--fg:#111;--mut:#666;--line:#e3e3e3;--mine:#fff3cd;--minefg:#7a5b00;--base:#f5f7fa}",
         "@media(prefers-color-scheme:dark){:root{--bg:#14161a;--fg:#e8e8e8;--mut:#9aa0a6;--line:#2a2f36;--mine:#3a3000;--minefg:#ffd866;--base:#1c2027}}",
@@ -130,6 +128,13 @@ def main() -> None:
         "h3{page-break-after:avoid}table{font-size:8px}th,td{padding:2px 4px}"
         "tr{page-break-inside:avoid}.wrap{overflow:visible}}",
         "</style>",
+])
+
+
+def main() -> None:
+    parts = [
+        "<title>AI City Challenge 2026 — final standings, all tracks</title>",
+        CSS,
         "<h1>AI City Challenge 2026 — final standings</h1>",
         "<p class='sub'>Team <strong>Korea Drive</strong> (id 277). Every row of all eight tracks, "
         "both the full <em>general</em> field and the opted-in <em>public</em> board. "
