@@ -95,19 +95,72 @@ coverage stays at 960/960.
 | Pixel budget | 151,200 per frame (360 × 420) |
 | Decoding | greedy (`do_sample=False`), one structured JSON call per clip, few-shot enabled |
 | Prompt/config | `track3_anomaly/scripts/fetv_submission.py::PROMPT`, budgets in `prompts.py` |
-| Dataset | FETV public clips, distributed through the challenge portal (not redistributable here) |
-| Command | `FETV_CLIPS=/path/to/FETV_public_clips ./scripts/reproduce_fetv_official.sh` |
+| Dataset | FETV public clips — **public**, 200 clips / 563 MiB, linked from [github.com/MoyoG/FETV](https://github.com/MoyoG/FETV) to a Google Drive folder. Fetch with `python3 -m gdown --folder <folder-url>` and unzip. |
+| Command | `FETV_CLIPS=/path/to/FETV_public_clips ./scripts/reproduce_fetv_official.sh` — **produces the first pass only**, not v11; see below |
 | Output | `track3_anomaly/submissions/reproduced_fetv_v11.json` |
 | Records | 200 |
 | Official artifact | `track3_anomaly/submissions/fetv_submission_v11.json` |
-| Expected SHA256 | `39abdb0a8cca7a7fa18dbd31374ee353e032977df9928d54734a53e9ec43e835` |
+| SHA256 of that artifact | `39abdb0a8cca7a7fa18dbd31374ee353e032977df9928d54734a53e9ec43e835` — verified present; **not** a value the command above reproduces |
 | Official result | rank 3, final 0.4634 (description 0.4238, categorical mean 0.5031) |
 
-Seeds were not set by the official script; greedy decoding makes the run
-deterministic up to kernel nondeterminism, but byte-level reproduction has not
-been verified because the Hub revision was not preserved. New runs can pin both
-— see [Determinism controls](#determinism-controls) — though that fixes future
-runs rather than recovering this one.
+### The command above does not produce v11, and cannot
+
+Run 2026-08-13 on the public FETV clips with the revision pinned: **0 of 200
+records matched.** Two independent reasons, and the table row above overstated
+what a single command can do.
+
+**v11 is the last of an eleven-step chain, not one run.** `fetv_submission.py`
+produces the *first* pass. The shipped artifact is v2 → … → v7 → v8 → v9 → v10
+→ v11, and each step rewrote fields:
+
+| Step | Rows changed |
+|---|---|
+| v7 → v8 | 56 — `fetv_second_pass.py`, re-checks weak violation calls |
+| v8 → v9 | 57 — same fields again |
+| v9 → v10 | 15 — `violator_type`, `color` |
+| v10 → v11 | 92 — `description` only |
+
+The v10 → v11 step is now recovered:
+[`track3_anomaly/scripts/make_fetv_v11_descriptions.py`](track3_anomaly/scripts/make_fetv_v11_descriptions.py).
+It was a template fill from each row's own structured fields, applied to every
+violation row and to none of the 107 `no_violation` rows — 36 jaywalking rows
+share one skeleton, the other classes one each. Verified exactly:
+
+```bash
+cd track3_anomaly/scripts && python3 make_fetv_v11_descriptions.py --verify
+# violation rows: 93   reconstructed exactly: 93
+# all 200 descriptions match the shipped v11
+```
+
+`001_001.mp4` is the 93rd violation row and did not change at that step,
+because v10 already held the exemplar sentence the template produces.
+
+**The commands behind v9 and v10 are still not recorded.** No script in the
+repository writes those filenames. Those two steps are a real provenance gap.
+
+**Separately, greedy decoding does not reproduce bit-for-bit.** Comparing the
+fresh first pass against v11 on the fields *no* chain step touched isolates
+this from the chain:
+
+| Field | Matches v11 | Rewritten by the chain |
+|---|---:|---|
+| `answer_date` | **200/200** | no |
+| `answer_weather` | **200/200** | no |
+| `answer_light` | **200/200** | no |
+| `answer_intersection_type` | 172/200 | no |
+| `answer_time` | **31/200** | no |
+
+Date, weather and light are perfect, so the public clips are the right clips
+and the pipeline is wired correctly. `answer_time` is not: reading a six-digit
+burned-in timestamp puts the model near a decision boundary on almost every
+frame, and kernel-level numeric differences flip digits there, after which the
+autoregressive continuation diverges. Date is constant across a clip and the
+other two are three-way choices, so they survive.
+
+This is what the earlier wording — "deterministic up to kernel
+nondeterminism" — was pointing at. It is measured now: **that qualifier costs
+about 85% of the timestamp field.** Pinning the seed and the revision does not
+remove it, because the variation is below the sampler, not in it.
 
 ---
 

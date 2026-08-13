@@ -376,9 +376,12 @@ the other workloads: [`../BENCHMARKS.md`](../BENCHMARKS.md).
   *Nothing in the submitted PDF asserts a revision, so this needs no PDF edit.*
 - Do not claim byte-level reproduction of the PSI artifact. The 55 BCQ rows use
   unseeded 5-sample voting, which is permanent — no seed was ever generated to
-  recover. The same applies to TAR's `bcq_accuracy`. FETV is greedy throughout
-  and is the one submission that *could* reproduce byte-for-byte, but that has
-  not been run, so do not claim it either until it has.
+  recover. The same applies to TAR's `bcq_accuracy`.
+- Do not claim byte-level reproduction of FETV either. It was attempted on
+  2026-08-13 with the revision pinned and **0 of 200 records matched**: the
+  shipped v11 is the last of an eleven-step chain, and greedy decoding still
+  drifts on `answer_time` (31/200) even where no chain step touched the field.
+  See [`../REPRODUCE.md`](../REPRODUCE.md).
 - Do not cite any score that is not traceable to
   `leaderboards/submission_history.json`. Several figures previously recorded
   in this repository were wrong.

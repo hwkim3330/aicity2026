@@ -154,13 +154,14 @@ Reproduction runs seed `random`, NumPy and torch and fix the cuDNN autotuner;
 demands bit-reproducible kernels. Verify it reaches the sampler with
 `python3 track3_anomaly/tests/test_determinism_live.py <any.mp4>`.
 
-**None of this was in force for the official runs.** They set no seed and
-pinned no revision. The revision was recovered afterwards and is certain; the
-seeds were never generated and are gone for good, so `bcq` on TAR and the 55
-BCQ rows on PSI cannot reproduce byte-for-byte. Neither affects a rank —
-[`REPRODUCE.md`](REPRODUCE.md) bounds it. FETV is greedy throughout and is the
-one submission that could match its recorded hash exactly; that run is pending
-the dataset.
+**None of this was in force for the official runs**, and re-running does not
+recover them. Measured on FETV, 2026-08-13, 200 clips, revision pinned: **0 of
+200 records matched.** Two reasons, both in [`REPRODUCE.md`](REPRODUCE.md) —
+the shipped artifact is the last of an eleven-step chain rather than one run,
+and greedy decoding is deterministic in policy but not in bits, which costs
+about 85% of the timestamp field while date, weather and light hold at 200/200.
+The seeds behind the sampled paths were never generated and are gone for good.
+None of it affects a rank.
 
 See [`OFFICIAL_RESULTS.md`](OFFICIAL_RESULTS.md) for the official/post-deadline
 boundary and [`REPRODUCE.md`](REPRODUCE.md) for the reproducibility record.
