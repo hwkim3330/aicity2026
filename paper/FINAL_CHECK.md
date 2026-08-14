@@ -271,8 +271,7 @@ It can be closed with data already in the repository, and the comparison is
 stronger than the ones §6 currently reports because it runs on the **official
 test set with the official scorer** rather than on 24–25 local items.
 
-Between submitted artifacts `v6_fewshot` and `v7`, **all eleven categorical
-fields are byte-identical** on the portal — violation type, violator type,
+Between submitted artifacts `v6_fewshot` and `v7`, **all ten non-temporal structured fields are byte-identical** on the portal — violation type, violator type,
 colour, both positions, both lanes, intersection type, weather and lighting.
 Only three numbers moved:
 
@@ -296,7 +295,7 @@ categorical mean — verified, 0.4237 and 0.4585 reconstruct the reported 0.4238
 and 0.4584 — the gain decomposes:
 
 - description $0.3645 \to 0.4209$ contributes $+0.0282$
-- categorical mean $0.483 \to 0.496$ contributes $+0.0065$, and since eleven of
+- categorical mean $0.483 \to 0.496$ contributes $+0.0065$, and since ten of
   the thirteen fields are identical this comes entirely from date and time
 - total $+0.0347$ against the reported $+0.0346$
 
@@ -326,13 +325,13 @@ way.** Every piece of evidence in the repository:
 |---|---|---|
 | §6.2 PSI MCQ, 24 paired items | **prompt program only** | shipped routed prompt **3/24**, generic no-routing prompt **8/24** |
 | FETV `v5 → v6_fewshot`, official scorer | few-shot prompt **plus other changes** | 11 of 13 fields moved — confounded, nothing attributable |
-| FETV `v6_fewshot → v7`, official scorer | output contract + timestamp | **+0.0346**, of which **+0.0282 (81%) is the description formatting** and +0.0065 is date/time; all eleven categorical fields byte-identical |
+| FETV `v6_fewshot → v7`, official scorer | output contract + timestamp | **+0.0346**, of which **+0.0282 (81%) is the description formatting** and +0.0065 is date/time; all ten categorical fields byte-identical |
 | §6.3 TAR | frame policy | 15/25 → 16/25 |
 
 So: the only controlled test of a shipped prompt program found it **below** the
 generic prompt, and the largest clean official gain on FETV came from the
 **output contract**, not from prompting. The `v5 → v6_fewshot` step is the one
-place a prompt change might have helped, and it moved eleven of thirteen fields
+place a prompt change might have helped, and it moved ten of thirteen fields
 at once, so it cannot carry the claim.
 
 The defensible statement is that **output contracts and post-processing carry the
@@ -598,3 +597,17 @@ Table 5.
 If the 47-item figure is kept instead, it needs the clause the review suggests —
 that the routed condition was run on a larger set and 47 is its full-run rate.
 Recomputing is the cleaner option.
+
+---
+
+## 14. Correction: ten identical fields, not eleven
+
+I wrote that **eleven** categorical fields were byte-identical across
+`v6_fewshot → v7`. It is **ten**: violation type, violator type, colour, both
+positions, both lanes, intersection type, weather, lighting. Date accuracy and
+time accuracy are the two that changed, which is the whole point of the
+comparison — counting them as identical inflated the claim.
+
+The paper says *ten* and is correct. Every occurrence above is fixed. The
+decomposition is unaffected: 0.0282 from description, 0.0065 from the categorical
+half, 0.0347 against a reported 0.0346.

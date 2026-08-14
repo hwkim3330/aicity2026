@@ -1,144 +1,123 @@
-# Camera-ready checklist — 2026-08-15 deadline
+# Camera-ready checklist — regenerated against the Overleaf source of 2026-08-14 evening
 
-Eight edits, each with the exact string to find. Nothing here introduces a number
-that has not been recomputed from the portal export or the artifacts. Reasoning
-for each is in [`FINAL_CHECK.md`](FINAL_CHECK.md) at the section noted.
-
----
-
-### 1 · §1, the team is `KoreaDrive`, the system is `the KoreaDrive System` — §11.1
-
-The §4 title and Figure 1 keep *KoreaDrive System*; that rename was deliberate.
-Only the introduction changes, because its parenthetical introduces the **team**
-and the two table captions already define *KoreaDrive* as Team 277.
-
-**Find** `This paper describes KoreaDrive System (Team 277;`
-**Replace** `This paper describes KoreaDrive (Team 277;`
+Six of the eight earlier items are applied. **Two edits and one final step remain**,
+plus one optional improvement. Find-strings below were checked against the current
+source, so they can be applied directly.
 
 ---
 
-### 2 · §1 item 1, the baselines are on the General board — §11.2
+## Remaining
 
-The comparison is sound — the same submission scores 0.4256 on both boards — but
-the sentence credits it to the public board, where no baseline exists.
+### 1 · §3.1 — name the TAR BERTScore configuration
 
 **Find**
 
-> the official public-board score is 0.4256 (24th of 27). For reference, the
-> separate TAR General board includes 13 organizer baselines. KoreaDrive's
-> public-board score is 0.1113 above the organizer baseline labeled
-> Qwen3-VL-8B-Instruct (0.3143) and numerically exceeds 11 of the 13 baselines;
-> the strongest organizer baseline, Cosmos3-Super, scores 0.5729.
+```
+open-ended tasks are evaluated with BERTScore-F1~\cite{bertscore}
+```
 
 **Replace**
 
-> the official public-board score is 0.4256 (24th of 27). The same submission also
-> appears on the TAR General board, where the organizers publish 13 baselines.
-> There it is 0.1113 above their `Qwen3-VL-8B-Instruct` baseline (0.3143), which
-> runs the same backbone as this system, and exceeds 11 of the 13; the strongest,
-> `Cosmos3-Super`, reaches 0.5729.
+```
+open-ended tasks are evaluated with BERTScore-F1 (\texttt{roberta-large}, rescaled with baseline)~\cite{bertscore}
+```
+
+### 2 · §3.2 — name the FETV BERTScore configuration
+
+**Find**
+
+```
+The description metric combines normalized CIDEr~\cite{cider} and BERTScore;
+```
+
+**Replace**
+
+```
+The description metric combines normalized CIDEr~\cite{cider} and IDF-weighted BERTScore (\texttt{microsoft/deberta-xlarge-mnli});
+```
+
+**Why these two are worth the space.** BERTScore is the organizers' scorer, not
+ours, and it carries most of the paper's headline numbers:
+
+- **TAR: 7 of the 9 scored components are BERTScore** — 78% of that mean by
+  weight, contributing 0.2999 of the reported 0.4256. The "strongest component,
+  MCQ-OE at 0.7664" *is* a BERTScore value.
+- **FETV: 25% of the final score.** `description = (CIDEr + BERTScore)/2` and
+  `final = (categorical + description)/2`.
+- **PSI-VQA: not used** — cue matching is SBERT.
+
+The two benchmarks use different configurations and the paper names neither:
+`deberta`, `roberta`, `idf`, `rescale` appear zero times. §9 already pins
+`transformers==4.57.0` because BERTScore moves up to 0.02 absolute across
+versions — a reader warned the metric is version-sensitive, but not told which
+model produced the numbers, cannot act on that warning. Both additions are facts
+about the organizers' scorers, so neither adds a claim about our system.
+
+Sources: the AI City Track 3 page for TAR; `evaluate.py` in the FETV repository
+for FETV.
+
+### 3 · The footnote commit — do this last
+
+Currently `d100b24`, already behind. Set it immediately before generating the
+final PDF; it moves with every push.
+
+**Find** `commit \texttt{d100b24}`
 
 ---
 
-### 3 · Abstract, do not order 9/24 above 8/24 — §11.3
+## Optional
 
-§6.2 calls the two statistically indistinguishable, so the abstract must not
-assert an ordering the body declines to.
+### §4.2 — the three contract rates still are not on one basis
 
-**Find** `from 3/24 to 9/24, above the generic prompt at 8/24,`
-**Replace** `from 3/24 to 9/24, matching the 8/24 generic prompt,`
+The added clause *"Using all available held-out generations per condition"* fixes
+the ambiguity and is a legitimate resolution. It explains why the denominators
+differ; it does not make 7/47, 6/24 and 4/24 comparable, since the 24 are a
+subset of the 47. On the paired 24 the routed condition is **3/24**, which is the
+basis Table 5 uses. Adding that in parentheses would let a reader compare
+directly:
 
----
-
-### 4 · §4.2, put all three rates on the paired 24 — §13
-
-Not a typo: the routed prompt ran on 47 items, generic and box-aware on the same
-24, and those 24 are a subset of the 47. So `7/47` is a full-run rate printed
-beside two paired-subset rates. Recomputed on the paired 24 the routed condition
-is **3/24**. The ordering is unchanged either way, and this matches Table 5's
-denominators.
-
-**Find** `In the controlled PSI prompt study, 7/47 routed, 6/24 generic, and 4/24 box-aware generations omitted a parseable final letter.`
-**Replace** `On the 24 paired items, 3/24 routed, 6/24 generic, and 4/24 box-aware generations omitted a parseable final letter.`
-
-*(Keeping 47 instead is defensible but then needs a clause saying the routed
-condition was run on a larger set and 47 is its full-run rate.)*
+> …7/47 routed, 6/24 generic, and 4/24 box-aware outputs omitted a parseable
+> final letter (3/24 for the routed condition when restricted to the paired
+> subset).
 
 ---
 
-### 5 · §3.1 and §3.2, name the BERTScore configuration — §12.1
+## Applied since the last list — verified in place
 
-BERTScore is the organizers' scorer, not ours, and it carries **7 of the 9 scored
-TAR components — 78% of that mean by weight, 0.2999 of our 0.4256** — plus
-**25% of the FETV final score**. The two benchmarks use different setups, and the
-paper names neither: `deberta`, `roberta`, `idf` and `rescale` appear zero times.
-This matters because §9 already pins `transformers==4.57.0` on the ground that
-BERTScore moves up to 0.02 absolute under 5.x — a reader warned the metric is
-version-sensitive, but not told which model produced the numbers, cannot act on
-the warning.
+| | |
+|---|---|
+| §1 team name | now `KoreaDrive (Team 277; …)`; §4 title and Figure 1 keep *KoreaDrive System* |
+| §1 baseline attribution | now credited to the General board, with the caveat that the export exposes only model labels — more accurate than what I proposed |
+| Abstract MCQ ordering | now *"statistically indistinguishable from the 8/24 generic prompt"* |
+| §7.3 clause | now *"is where stronger explicit structure would help most"* |
+| Abstract contents sentence | replaced by the same-backbone baseline result |
+| §4.2 denominators | clause added |
 
-**§3.1 find** `evaluated with BERTScore-F1~\cite{bertscore}`
-**§3.1 replace** `evaluated with BERTScore-F1 (\texttt{roberta-large}, rescaled with baseline)~\cite{bertscore}`
+**Also newly added and checked:** the FETV `v6_fewshot → v7` comparison in §6, the
+TAR 32B baseline sentence in §5.2, and the annotated FETV frame as
+`\Cref{fig:fetvcase}`. All thirteen new numbers match the values recomputed from
+the portal export and the artifacts. The frame figure cites
+`aicity2026track3,fisheye8k`, states that the box marks a prediction rather than
+ground truth, and the worked-PSI caption is correctly narrowed to *PSI-VQA
+frames*.
 
-**§3.2 find** `combines normalized CIDEr~\cite{cider} and BERTScore`
-**§3.2 replace** `combines normalized CIDEr~\cite{cider} and IDF-weighted BERTScore (\texttt{microsoft/deberta-xlarge-mnli})`
-
-Sources: the AI City Track 3 page for TAR, `evaluate.py` in the FETV repository
-for FETV. Both are facts about the organizers' scorers, so neither adds a claim
-about our system. PSI-VQA does not use BERTScore — its cue matching is SBERT.
-
----
-
-### 6 · §7.3, a clause with the wrong subject — §11.6
-
-**Find** `FETV shows that violator-centric geometry motivates the need for stronger explicit structure`
-**Replace** `FETV shows that violator-centric geometry is where explicit structure would help most`
+One correction to my own earlier reports: I wrote that **eleven** categorical
+fields were byte-identical across `v6_fewshot → v7`. It is **ten** — date and time
+accuracy are the two that changed, which is the point of the comparison. The paper
+says ten and is right; `paper/FINAL_CHECK.md` §14 records the fix.
 
 ---
-
-### 7 · Abstract, trade a contents list for the strongest result — §11.5
-
-The removed sentence lists the paper's own sections. The replacement is the only
-controlled comparison in the paper where the organizers ran the same backbone.
-
-**Find** `We further provide diagnostic case studies, exploratory design implications, and reproducibility and limitations analyses.`
-**Replace** `On the TAR General board the organizers publish a baseline using the same backbone, which this system exceeds by 0.1113 under an identical checkpoint.`
-
----
-
-### 8 · The footnote commit — §11.4
-
-Currently `4e9d92a`, already several pushes behind. Set it **last**, immediately
-before generating the final PDF; it moves with every commit.
-
-**Find** `commit \texttt{4e9d92a}`
-
----
-
-## Optional, only if the annotated frame is used
-
-`camera_ready_src/frames/fetv_019_004_annotated.jpg` — the box marks the road user
-versions v9–v11 designated as the violator, with a strip recording that v8
-predicted `no_violation` for the same clip. It marks a prediction, not ground
-truth; FETV labels for the scored subset are not public.
-
-If it goes in: cite FETV and FishEye8K at the figure, and narrow the worked-PSI
-caption's *"frames are not redistributed under the benchmark data terms"* to
-PSI-VQA, which is the benchmark that actually carries the TASI agreement.
-`frames/README.md` records what the licensing does and does not support.
 
 ## Not to do
 
-- Do not add a claim that the prompt program improved performance. There is no
-  evidence for it, the one controlled test found the shipped routed prompt below
-  the generic one, and the paper currently claims nothing — which is correct.
-- Do not remove TAR. A reviewer asked for the full component breakdown, the title
-  names three benchmarks, and the same-backbone baseline is now the paper's
-  clearest quantitative reference.
+- Do not add a claim that the prompt program improved performance — no evidence
+  exists, and the paper currently claims none, which is correct.
+- Do not remove TAR.
+- Do not introduce a number that is not in this file or in `FINAL_CHECK.md`.
 
 ## Page budget
 
-16 pages against a 14-page main-text allowance with references permitted beyond
-it — inside, with no margin. If space is needed, §8 *Design Implications and
-Exploratory Prototypes* is the candidate: it reports nothing scored, and Reviewer
-vmz20 warned against presenting those prototypes as evaluated systems.
+16 pages against a 14-page main-text allowance with references beyond it. Inside,
+without margin. If space is needed, §8 *Design Implications and Exploratory
+Prototypes* reports nothing scored and Reviewer vmz20 warned against presenting
+those prototypes as evaluated systems.
