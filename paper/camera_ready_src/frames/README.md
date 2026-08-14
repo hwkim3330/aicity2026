@@ -30,6 +30,23 @@ actual traffic situation under fisheye distortion.
   Drive folder linked from that repository's README.
 - Cite FETV and FishEye8K when a frame is reproduced.
 
+## What the challenge documents actually say (checked 2026-08-14)
+
+Searched the AI City data-access page, the 2026 FAQs, the Track 3 page, and both
+dataset repositories for anything governing reuse in a publication:
+
+| Source | Finding |
+|---|---|
+| FETV repository | **no LICENSE file, no terms section**; README embeds three dataset frames as public examples |
+| FishEye8K repository (upstream) | **no LICENSE declared**, no terms language in its README |
+| AI City data-access page | registration and account rules only; nothing about figures or publication |
+| 2026 FAQs | rules on training data, external data and open-sourcing; **nothing restricting publication of a frame** |
+| Track 3 page | TAR annotation metadata carries `"license": "CC-BY-4.0"`; **PSI-VQA is explicitly gated** under the TASI Benchmark Data Sharing Agreement, academic and non-commercial research only |
+
+So: **nothing found forbids a figure, and nothing found grants one.** The only
+benchmark with an explicit restriction is PSI-VQA, which this paper already
+excludes.
+
 ## Terms — read before publishing
 
 The FETV repository ships **no LICENSE file and no terms section**. What can be
