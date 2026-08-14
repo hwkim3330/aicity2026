@@ -38,7 +38,29 @@ the part that sits on one line.
 019\_004.mp4 (\Cref{fig:fetvcase}), one system version predicts no violation
 ```
 
-### 2 · The footnote commit — do this last
+### 2 · Figure 1 tags §6.2 to the wrong box
+
+§6 was renumbered when the FETV subsection was inserted, and the figure's tags
+were updated with it — TAR frame policy → §6.4 and FETV output control → §6.3 both
+match. **PSI does not.** The figure puts `§6.1-2` on PSI's *output control* box
+and leaves its *prompt program* box untagged, but the two analyses vary different
+components:
+
+| Subsection | What it varies | Paper's own wording |
+|---|---|---|
+| §6.1 Temporal localization | PSI **output / post-processing** | *"corresponds to the PSI-VQA output / post-processing block"* |
+| §6.2 Target grounding | PSI **prompt program** | *"corresponds to the PSI-VQA prompt program block: only the target-grounding instruction is changed"* |
+
+So the figure contradicts the text it points at. This matters more than a
+placement detail: §6.2 is the paper's clearest positive controlled result — target
+grounding takes the routed configuration from 3/24 to 9/24 — and the figure
+currently attributes it to the output contract instead of the prompt.
+
+**Fix in `fig_system_overview_source.py`:** move the `§6.2` tag to the PSI-VQA
+*prompt program* box and leave `§6.1` alone on PSI's *output control*. The TAR and
+FETV tags are correct as drawn.
+
+### 3 · The footnote commit — do this last
 
 Currently `7787a98`. Set it immediately before generating the final PDF.
 
