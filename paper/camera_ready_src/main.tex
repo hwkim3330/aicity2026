@@ -25,7 +25,7 @@
 
 \begin{document}
 
-\title{A System-Level Capability Analysis of\\ Video-Language Understanding on TAR, FETV, and PSI-VQA: \\ KoreaDrive at AI City Challenge 2026}
+\title{KoreaDrive: A System-Level Capability Analysis of Video-Language Understanding across TAR, FETV, and PSI-VQA at AI City Challenge 2026}
 \titlerunning{Task-Routed Video-Language Reasoning Across Traffic Domains}
 
 \author{Hyunwoo Kim \and Yooseung Wang \and Pusik Park\thanks{Corresponding author.}}
@@ -40,7 +40,12 @@ Track 3 of the 2026 AI City Challenge evaluates traffic-video reasoning across T
 %
 KoreaDrive uses a frozen Qwen3-VL-8B-Instruct (Vision-Language Model, VLM) inference pipeline with task-specific prompts, frame policies, output contracts, parsing, and optional calibration; no task-specific parameter update or adapter generated the official predictions.
 %
-The archived runs record the same model identifier, bf16 precision, and visual budget, but not the exact Hub revisions, so we present a capability audit rather than a causal domain-generalization study. Official scores were 0.4256 on TAR, 0.4634 on FETV, and 57.04 on PSI-VQA. Controlled analyses show that routing is not uniformly beneficial: a generic PSI multiple-choice prompt scored 8/24, the shipped routed prompt 3/24, and a red-box-aware prompt 9/24. The VLM exceeded a random temporal baseline but trailed metadata-only priors under video-grouped validation. Field-level FETV results and a worked PSI case expose distinct bottlenecks in actor-centric geometry and answer-contract compliance. We release official artifacts, controlled analyses, and provenance limitations.
+The archived runs record the same model identifier, bf16 precision, and visual budget, but not the exact Hub revisions, so we present a capability audit rather than a causal domain-generalization study. Official scores were 0.4256 on TAR, 0.4634 on FETV, and 57.04 on PSI-VQA. 
+%
+Controlled analyses isolate the conditions under which routing helps: a generic PSI multiple-choice prompt scored 8/24, the shipped routed prompt 3/24, and a red-box-aware prompt 9/24.
+The VLM exceeded a random temporal baseline but trailed metadata-only priors under video-grouped validation. 
+
+Field-level FETV results and a worked PSI case expose distinct bottlenecks in actor-centric geometry and answer-contract compliance. We release official artifacts, controlled analyses, and provenance limitations.
 \keywords{Traffic video understanding \and Vision-language models \and Cross-domain evaluation \and Structured output \and AI City Challenge}
 \end{abstract}
 
