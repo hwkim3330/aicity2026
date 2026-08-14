@@ -1,7 +1,7 @@
 # Camera-ready checklist — regenerated against the Overleaf source of 2026-08-14 evening
 
-Six of the eight earlier items are applied. **Two edits and one final step remain**,
-plus one optional improvement. Find-strings below were checked against the current
+Six of the eight earlier items are applied. **Three edits and one final step
+remain.** Find-strings below were checked against the current
 source, so they can be applied directly.
 
 ---
@@ -56,29 +56,46 @@ about the organizers' scorers, so neither adds a claim about our system.
 Sources: the AI City Track 3 page for TAR; `evaluate.py` in the FETV repository
 for FETV.
 
-### 3 · The footnote commit — do this last
+### 4 · The footnote commit — do this last
 
 Currently `d100b24`, already behind. Set it immediately before generating the
 final PDF; it moves with every push.
 
 **Find** `commit \texttt{d100b24}`
 
----
+### 3 · §4.2 — put the three contract rates on one basis
 
-## Optional
+Raised in review: only the routed condition has denominator 47. The clause
+*"Using all available held-out generations per condition"* was added, which
+explains why they differ but does not make them comparable — the 24 are a subset
+of the 47, so the reader is asked to compare a full-run rate against two
+paired-subset rates.
 
-### §4.2 — the three contract rates still are not on one basis
+**Find**
 
-The added clause *"Using all available held-out generations per condition"* fixes
-the ambiguity and is a legitimate resolution. It explains why the denominators
-differ; it does not make 7/47, 6/24 and 4/24 comparable, since the 24 are a
-subset of the 47. On the paired 24 the routed condition is **3/24**, which is the
-basis Table 5 uses. Adding that in parentheses would let a reader compare
-directly:
+```
+Using all available held-out generations per condition, 7/47 routed, 6/24 generic, and 4/24 box-aware outputs omitted a parseable final letter.
+```
 
-> …7/47 routed, 6/24 generic, and 4/24 box-aware outputs omitted a parseable
-> final letter (3/24 for the routed condition when restricted to the paired
-> subset).
+**Replace**
+
+```
+On the 24 items answered in all three conditions, 3/24 routed, 6/24 generic, and 4/24 box-aware outputs omitted a parseable final letter; across the routed condition's full 47-item run the rate is 7/47.
+```
+
+This is one series on one basis, matching Table 5's denominators, with the 47-item
+figure kept as context rather than dropped.
+
+**Verified from `track3_anomaly/psi_mcq_cv_results/`:** `mcq_baseline.jsonl` holds
+47 items, `mcq_generic.jsonl` and `mcq_boxaware.jsonl` hold the same 24, and those
+24 are a strict subset of the 47 — the three-way intersection is exactly 24, so 23
+routed items have no counterpart. Restricted to those 24 the routed condition has
+**3** unparseable outputs. The paired accuracies are 3/24, 8/24 and 9/24, which
+reproduce Table 5 exactly, so the pairing itself is sound.
+
+The ordering does not change: the routed prompt has the lowest contract-failure
+rate on either basis. The fix costs nothing and removes the discrepancy a reviewer
+would otherwise have to resolve.
 
 ---
 
@@ -91,7 +108,7 @@ directly:
 | Abstract MCQ ordering | now *"statistically indistinguishable from the 8/24 generic prompt"* |
 | §7.3 clause | now *"is where stronger explicit structure would help most"* |
 | Abstract contents sentence | replaced by the same-backbone baseline result |
-| §4.2 denominators | clause added |
+| §4.2 denominators | clause added — see item 3, which finishes it |
 
 **Also newly added and checked:** the FETV `v6_fewshot → v7` comparison in §6, the
 TAR 32B baseline sentence in §5.2, and the annotated FETV frame as
