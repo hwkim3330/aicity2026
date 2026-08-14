@@ -128,8 +128,28 @@ right and the contract broke.
 - One chain step edited only the scored clips — disclosed, p = 3.05e-05, worth
   +0.0018 against a +0.0110 margin
 
-That last bullet is the most credible thing on the poster. It is the team
-reporting something against its own interest, and people notice.
+That last bullet is the most credible thing on the poster: reporting something
+against your own interest is what makes the rest believed.
+
+**But it is not currently in the paper.** `main.tex` has no mention of the scored
+subset; its Limitations say only *"some development used sequential leaderboard
+feedback"*, while `ABLATIONS.md` §B2 carries the full analysis. A poster that
+discloses more than the paper invites *"why isn't this in the paper?"*
+
+Two consistent options — pick one before printing:
+
+1. **Add one clause to the paper's Limitations** (today, cheap). After
+   *"some development used sequential leaderboard feedback"* add: *"one
+   intermediate FETV step modified only clips in the scored subset; it is
+   documented in the repository and is worth +0.0018 against a +0.0110 margin
+   over the next-ranked team."* Then the poster bullet stands as written.
+2. **Drop the bullet from the poster** and keep the generic sentence in both.
+   The repository still carries the full record for anyone who looks.
+
+Option 1 is stronger. The repository is registered with the organizers, the
+script and the intermediate artifacts are visible in it, and the analysis is
+already written — being the one to say it first is worth more than the two lines
+it costs.
 
 **4.4 QR code** → `github.com/hwkim3330/aicity2026`
 
