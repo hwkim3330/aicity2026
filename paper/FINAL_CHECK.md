@@ -495,3 +495,48 @@ pages, so the camera-ready has grown by six. If space is needed, §8 *Design
 Implications and Exploratory Prototypes* is the candidate: it is the only section
 that reports nothing scored, and Reviewer vmz20 explicitly warned against
 presenting those prototypes as evaluated systems.
+
+---
+
+## 12. Second review pass — what is clean, and one real gap
+
+**Clean.** Checked and found nothing to fix:
+
+- **The FETV metric formula matches the official scorer exactly.** `evaluate.py`
+  computes `desc = (cider_norm + bert)/2` and `final = (cat_mean + desc)/2`,
+  which is the paper's $0.25\,\mathrm{CIDEr}+0.25\,\mathrm{BERTScore}+0.5\,\mathrm{MacroF1}$.
+  Calling the categorical part *MacroF1* also follows the benchmark's own README,
+  even though it averages two non-F1 scores (date accuracy, time tolerance) in
+  with the per-field F1s.
+- **Citations**: 15 cited, 15 defined, nothing dangling and nothing unused.
+- **Cross-references**: every `\Cref` resolves and every `\label` is referenced.
+- **PSI final score** is the unweighted mean of the four normalised task scores —
+  reconstructed from the export earlier.
+- **TAR mean** is the mean of the nine scored components — 0.42561.
+
+### 12.1 The BERTScore configuration is never stated, and it differs by benchmark
+
+`deberta`, `roberta`, `idf` and `rescale` appear **zero times** in the source. The
+two benchmarks do not use the same setup:
+
+| | Model | Weighting |
+|---|---|---|
+| TAR open-ended | `roberta-large` | `rescale_with_baseline=True` |
+| FETV description | `microsoft/deberta-xlarge-mnli` | IDF weighting, on by default |
+
+Sources: the AI City Track 3 page for TAR, `evaluate.py` in the FETV repository
+for FETV.
+
+This matters more here than in most papers, because §9 already pins
+`transformers==4.57.0` on the ground that BERTScore moves by up to 0.02 absolute
+under 5.x. A reader told the metric is version-sensitive, but not which model or
+weighting produced the numbers, cannot act on that warning. One clause in §3.1 and
+§3.2 closes it:
+
+> …evaluated with BERTScore-F1 (`roberta-large`, rescaled with baseline)~\cite{bertscore}
+
+> …combines normalized CIDEr~\cite{cider} and IDF-weighted BERTScore
+> (`microsoft/deberta-xlarge-mnli`)
+
+Both are facts about the organizers' scorers, not about our system, so neither
+adds a claim.
