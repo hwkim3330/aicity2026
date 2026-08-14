@@ -23,16 +23,19 @@ An orphan float has no textual anchor: LaTeX places it wherever it fits and the
 reader is never sent to it. §7.1 discusses exactly this clip, so the reference
 belongs in its first sentence.
 
+The source wraps the line as `In clip` / newline / `019\_004.mp4`, so anchor on
+the part that sits on one line.
+
 **Find**
 
 ```
-In clip 019\_004.mp4, one system version predicts no violation
+019\_004.mp4, one system version predicts no violation
 ```
 
 **Replace**
 
 ```
-In clip 019\_004.mp4 (\Cref{fig:fetvcase}), one system version predicts no violation
+019\_004.mp4 (\Cref{fig:fetvcase}), one system version predicts no violation
 ```
 
 ### 2 · The footnote commit — do this last
