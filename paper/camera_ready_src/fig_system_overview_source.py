@@ -8,7 +8,7 @@ from reportlab.pdfgen import canvas
 
 ROOT = Path(__file__).resolve().parent
 OUTPUT = ROOT / "fig_system_overview.pdf"
-W, H = 900, 380
+W, H = 900, 342
 
 pdfmetrics.registerFont(TTFont("Serif", "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf"))
 pdfmetrics.registerFont(TTFont("Serif-Bold", "/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf"))
@@ -127,7 +127,7 @@ def snowflake(c, x, y, r=8, color=(0.16, 0.60, 0.95), width=1.4):
 
 def section_tag(c, x, y, label):
     box(c, x, y, x + 32, y + 14, fill=C["paper"], stroke=C["orange"],
-        width=1.0, dash=(3, 2), radius=2)
+        width=1.0, radius=2)
     text(c, label, x + 16, y + 10.2, 7.3, bold=True, center=True, color=C["orange"])
 
 
@@ -158,126 +158,164 @@ def stack(c, x, y, n=4, w=70, h=11):
 
 def pill(c, x0, y0, x1, y1, label, fill):
     box(c, x0, y0, x1, y1, fill=fill, stroke=C["line"], width=0.9, radius=7)
-    text(c, label, (x0 + x1) / 2, y0 + 13.3, 9, bold=True, center=True, serif=True)
+    # Optical vertical center: ReportLab positions text by its baseline.
+    text(c, label, (x0 + x1) / 2, (y0 + y1) / 2 + 3.8,
+         11.2, bold=True, center=True, serif=True)
 
 
 def control_block(c, x0, y0, x1, y1, title, detail, fill=C["paper"], tag=None):
     box(c, x0, y0, x1, y1, fill=fill, stroke=C["line"], width=0.8, radius=3)
-    title_size = 6.3 if tag else 7.3
+    title_size = 7.2 if tag else 8.0
     text(c, title, x0 + 7, y0 + 12, title_size, bold=True, color=C["muted"])
-    text(c, detail, (x0 + x1) / 2, y0 + 27, 8.1, bold=True, center=True, serif=True)
+    if isinstance(detail, (tuple, list)):
+        text(c, detail[0], (x0 + x1) / 2, y0 + 27, 8.3,
+             bold=True, center=True, serif=True)
+        text(c, detail[1], (x0 + x1) / 2, y0 + 39, 8.3,
+             bold=True, center=True, serif=True)
+    else:
+        text(c, detail, (x0 + x1) / 2, y0 + 28, 9.3,
+             bold=True, center=True, serif=True)
     if tag:
         section_tag(c, x1 - 35, y0 + 3, tag)
 
 
-def draw_shared_inference(c):
-    text(c, "1", 25, 30, 11, bold=True, center=True, color=C["paper"], serif=True)
-    c.setFillColorRGB(*C["ink"])
-    c.circle(25, yy(26), 10, stroke=0, fill=1)
-    text(c, "1", 25, 30, 11, bold=True, center=True, color=C["paper"], serif=True)
-    text(c, "Shared frozen video-language inference", 44, 31, 15, bold=True, serif=True)
-
-    # Benchmark-provided multimodal input, grouped as one direct model input.
-    box(c, 28, 48, 253, 145, fill=C["paper"], stroke=C["soft"], width=0.8, dash=(4, 3), radius=4)
-    text(c, "Benchmark-provided input", 38, 62, 9.5, bold=True, serif=True)
-    road_frame(c, 38, 69, 54, 40)
-    road_frame(c, 48, 75, 54, 40, (0.85, 0.22, 0.15))
-    road_frame(c, 58, 81, 54, 40, (0.20, 0.55, 0.85))
-    text(c, "video clip", 75, 136, 8.2, bold=True, center=True)
-    question_card(c, 128, 76, 108, 42)
-    text(c, "instruction / question", 182, 136, 8.2, bold=True, center=True)
-
-    # Direct path to the shared backbone.
-    arrow(c, 253, 98, 322, 98, C["line"], 1.5)
-    text(c, "direct model input", 288, 86, 7.2, center=True, color=C["muted"])
-
-    # Backbone shown as the single visual center of gravity.
-    poly(c, [(322, 63), (505, 72), (505, 131), (322, 140)], C["blue_fill"], C["line"], 1.3)
-    snowflake(c, 340, 69, 8)
-    text(c, "Qwen3-VL-8B-Instruct", 414, 91, 12.2, bold=True, center=True, serif=True)
-    text(c, "shared frozen backbone", 414, 108, 9.2, bold=True, center=True, color=C["blue"])
-    stack(c, 382, 116, n=3, w=66, h=7)
-
-    # Draft output and submission program hand-off.
-    arrow(c, 505, 101, 557, 101, C["line"], 1.5)
-    box(c, 557, 78, 677, 124, fill=C["paper"], stroke=C["line"], width=1.0, radius=3)
-    text(c, "Draft response", 617, 98, 11.2, bold=True, center=True, serif=True)
-    text(c, "text / fields / interval", 617, 114, 7.4, center=True, color=C["muted"])
-    arrow(c, 677, 101, 733, 101, C["line"], 1.5)
-    box(c, 733, 69, 873, 133, fill=C["green"], stroke=C["line"], width=1.1, radius=3)
-    text(c, "Benchmark-valid", 803, 91, 10.2, bold=True, center=True, serif=True)
-    text(c, "submission artifact", 803, 108, 10.2, bold=True, center=True, serif=True)
-    text(c, "CSV or 13-field JSON", 803, 123, 7.4, center=True, color=C["muted"])
-
-    # Compact configuration bar and legend.
-    box(c, 322, 146, 677, 168, fill=C["panel"], stroke=C["soft"], width=0.7)
-    text(c, "bf16", 350, 160, 7.7, bold=True, center=True)
-    text(c, "rev. 0c351dd0", 428, 160, 7.7, bold=True, center=True)
-    text(c, "up to 16 frames", 526, 160, 7.7, bold=True, center=True)
-    text(c, "151,200 px/frame", 623, 160, 7.7, bold=True, center=True)
-    line(c, 380, 150, 380, 164, C["soft"], 0.7)
-    line(c, 479, 150, 479, 164, C["soft"], 0.7)
-    line(c, 574, 150, 574, 164, C["soft"], 0.7)
-    snowflake(c, 727, 153, 6)
-    text(c, "Frozen; no adapter or parameter update", 741, 157, 7.4, color=C["muted"])
+def plain_module(c, x0, y0, x1, y1, title, detail, fill=C["paper"]):
+    """Square-cornered module styled like a conventional paper schematic."""
+    box(c, x0, y0, x1, y1, fill=fill, stroke=C["line"], width=0.9)
+    text(c, title, x0 + 6, y0 + 11, 6.7, bold=True, color=C["muted"])
+    if isinstance(detail, (tuple, list)):
+        text(c, detail[0], (x0 + x1) / 2, y0 + 26, 8.2,
+             bold=True, center=True, serif=True)
+        text(c, detail[1], (x0 + x1) / 2, y0 + 38, 8.2,
+             bold=True, center=True, serif=True)
+    else:
+        text(c, detail, (x0 + x1) / 2, y0 + 29, 8.7,
+             bold=True, center=True, serif=True)
 
 
-def draw_task_controls(c):
-    line(c, 20, 180, 880, 180, C["soft"], 0.8)
-    c.setFillColorRGB(*C["ink"])
-    c.circle(25, yy(201), 10, stroke=0, fill=1)
-    text(c, "2", 25, 205, 11, bold=True, center=True, color=C["paper"], serif=True)
-    text(c, "Deterministic task-specific control (not learned)", 44, 206, 15, bold=True, serif=True)
+def analysis_marker(c, x, y, label):
+    """Place a Section 6 marker outside a module so it cannot cover labels."""
+    line(c, x - 16, y + 2, x, y + 2, C["orange"], 1.2)
+    text(c, label, x, y, 7.3, bold=True, right=True, color=C["orange"])
 
-    # Selector and unmistakable three-way branch.
-    text(c, "benchmark task ID", 37, 232, 8.2, bold=True, color=C["muted"])
-    arrow(c, 88, 238, 88, 248, C["line"], 1.2)
-    poly(c, [(36, 248), (140, 248), (152, 282), (24, 282)], C["peach"], C["line"], 1.1)
-    text(c, "Task-control", 87, 264, 10.2, bold=True, center=True, serif=True)
-    text(c, "selection", 87, 278, 10.2, bold=True, center=True, serif=True)
+
+def task_label(c, x, cy, label, color):
+    box(c, x, cy - 15, x + 5, cy + 15, fill=color, stroke=None)
+    text(c, label, x + 31, cy + 4, 9.5, bold=True, center=True, serif=True)
+
+
+def document_artifact(c, x, cy, label, color, w=86, h=38):
+    """Small document glyph replaces the former green rounded output card."""
+    y0 = cy - h / 2
+    fold = 10
+    pts = [(x, y0), (x + w - fold, y0), (x + w, y0 + fold),
+           (x + w, y0 + h), (x, y0 + h)]
+    poly(c, pts, C["paper"], C["line"], 0.9)
+    line(c, x + w - fold, y0, x + w - fold, y0 + fold, C["line"], 0.7)
+    line(c, x + w - fold, y0 + fold, x + w, y0 + fold, C["line"], 0.7)
+    line(c, x + 7, y0 + 8, x + 28, y0 + 8, color, 2.5)
+    text(c, label, x + w / 2, y0 + 27, 7.5, bold=True, center=True, serif=True)
+
+
+def draw_system(c):
+    """Draw a sparse academic schematic rather than a card-style UI."""
+    text(c, "KoreaDrive: one frozen VLM, three deterministic task programs",
+         18, 22, 13.5, bold=True, serif=True)
+    text(c, "one row is activated by the benchmark task ID",
+         882, 22, 7.4, right=True, color=C["muted"])
+
+    headers = [
+        (216, "TASK"), (362, "PRE-VLM TASK PROGRAM"),
+        (560, "SHARED FROZEN VLM"), (706, "POST-VLM CONTROL"),
+        (837, "ARTIFACT"),
+    ]
+    for x, label in headers:
+        text(c, label, x, 49, 6.9, bold=True, center=True, color=C["muted"])
+    line(c, 252, 54, 475, 54, C["soft"], 0.7)
+
+    # Benchmark content and its task ID are dispatched together.
+    box(c, 18, 58, 151, 122, fill=C["paper"], stroke=C["line"], width=0.9)
+    text(c, "Benchmark-provided item", 84.5, 71, 8.6, bold=True,
+         center=True, serif=True)
+    road_frame(c, 27, 77, 46, 28)
+    question_card(c, 80, 76, 61, 30)
+    text(c, "video", 50, 116, 6.8, bold=True, center=True, color=C["muted"])
+    text(c, "instruction", 110.5, 116, 6.8, bold=True, center=True, color=C["muted"])
+    text(c, "benchmark task ID", 84.5, 138, 8.1, bold=True,
+         center=True, color=C["muted"])
+    arrow(c, 84.5, 141, 84.5, 149, C["line"], 1.0, head=4)
+    poly(c, [(31, 149), (142, 149), (149, 183), (24, 183)],
+         C["panel"], C["line"], 1.0)
+    text(c, "Task-control selection", 86.5, 171, 8.7,
+         bold=True, center=True, serif=True)
+
+    row_y = {"TAR": 88, "FETV": 165, "PSI-VQA": 242}
+    task_colors = {"TAR": C["yellow"], "FETV": C["peach"], "PSI-VQA": C["lav"]}
+    rows = [
+        ("TAR", "MM:SS window", "exact / descriptive",
+         ("token extraction", "BCQ vote"), "TAR CSV"),
+        ("FETV", "uniform, max 16", "one-call 13 fields",
+         ("schema validation", "description template"), "13-field JSON"),
+        ("PSI-VQA", "real-fps, max 16", "per-subtask",
+         ("type fallback", "temporal prior"), "PSI-VQA CSV"),
+    ]
+
+    # Thin separators and unboxed task names follow the reference-paper style.
+    line(c, 181, 126, 884, 126, C["soft"], 0.65)
+    line(c, 181, 203, 884, 203, C["soft"], 0.65)
+
+    # One encoder-shaped backbone is shared by all three paths.
+    poly(c, [(503, 59), (617, 67), (617, 270), (503, 278)],
+         C["blue_fill"], C["line"], 1.2)
+    snowflake(c, 517, 75, 7)
+    text(c, "Qwen3-VL-8B-", 560, 116, 10.8, bold=True, center=True, serif=True)
+    text(c, "Instruct", 560, 132, 10.8, bold=True, center=True, serif=True)
+    text(c, "ONE SHARED", 560, 189, 7.8, bold=True, center=True, color=C["blue"])
+    text(c, "FROZEN BACKBONE", 560, 203, 7.8, bold=True, center=True, color=C["blue"])
+    text(c, "one checkpoint", 560, 229, 7.1, center=True, color=C["muted"])
+    text(c, "no adapter or parameter update", 560, 260, 6.6,
+         center=True, color=C["muted"])
 
     branch_x = 171
-    line(c, 152, 265, branch_x, 265, C["line"], 1.3)
-    line(c, branch_x, 231, branch_x, 331, C["line"], 1.3)
-    row_y = {"TAR": 231, "FETV": 281, "PSI-VQA": 331}
-    fills = {"TAR": C["yellow_fill"], "FETV": C["peach"], "PSI-VQA": C["lav"]}
+    line(c, 149, 166, branch_x, 166, C["line"], 1.2)
+    line(c, branch_x, row_y["TAR"], branch_x, row_y["PSI-VQA"], C["line"], 1.2)
 
-    rows = [
-        ("TAR", "MM:SS window", "exact / descriptive", "token extraction + BCQ vote", "TAR CSV", "§6.4", None),
-        ("FETV", "uniform, up to 16", "one-call 13 fields", "schema + description template", "13-field JSON", None, "§6.3"),
-        ("PSI-VQA", "real-fps, up to 16", "per-subtask", "type fallback + temporal prior", "PSI-VQA CSV", None, "§6.1-2"),
-    ]
-    for name, frame, prompt, post, contract, frame_tag, post_tag in rows:
+    for name, frame, prompt, post, contract in rows:
         cy = row_y[name]
-        # A task lane contains the task's individual control modules.  The
-        # nesting mirrors conventional architecture figures and avoids a
-        # floating sequence of unrelated boxes.
-        box(c, 184, cy - 22, 885, cy + 22, fill=(0.997, 0.997, 0.997),
-            stroke=C["soft"], width=0.55, radius=3)
-        arrow(c, branch_x, cy, 190, cy, C["line"], 1.2)
-        pill(c, 190, cy - 18, 264, cy + 18, name, fills[name])
-        arrow(c, 264, cy, 280, cy, C["line"], 1.0)
-        control_block(c, 280, cy - 19, 394, cy + 19, "FRAME POLICY", frame, C["paper"], frame_tag)
-        arrow(c, 394, cy, 410, cy, C["line"], 1.0)
-        control_block(c, 410, cy - 19, 536, cy + 19, "PROMPT PROGRAM", prompt, C["yellow_fill"])
-        arrow(c, 536, cy, 556, cy, C["line"], 1.0)
+        color = task_colors[name]
+        arrow(c, branch_x, cy, 187, cy, C["line"], 1.1, head=4)
+        task_label(c, 187, cy, name, color)
+        arrow(c, 245, cy, 251, cy, C["line"], 0.9, head=4)
+        plain_module(c, 251, cy - 21, 345, cy + 21,
+                     "FRAME POLICY", frame, C["paper"])
+        arrow(c, 345, cy, 365, cy, C["line"], 0.9, head=4)
+        plain_module(c, 365, cy - 21, 476, cy + 21,
+                     "PROMPT PROGRAM", prompt, C["yellow_fill"])
+        arrow(c, 476, cy, 503, cy, C["line"], 1.0, head=5)
+        arrow(c, 617, cy, 644, cy, C["line"], 1.0, head=5)
+        plain_module(c, 644, cy - 21, 768, cy + 21,
+                     "OUTPUT CONTROL", post, C["paper"])
+        arrow(c, 768, cy, 792, cy, C["line"], 0.9, head=4)
+        document_artifact(c, 792, cy, contract, color)
 
-        # Repeated ports call the same frozen backbone drawn once above.
-        box(c, 556, cy - 14, 620, cy + 14, fill=C["blue_fill"], stroke=C["blue"], width=0.9, radius=4)
-        snowflake(c, 566, cy, 4.5)
-        text(c, "frozen VLM", 597, cy + 4, 7.1, bold=True, center=True, color=C["blue"])
-        arrow(c, 620, cy, 636, cy, C["line"], 1.0)
-        control_block(c, 636, cy - 19, 788, cy + 19, "OUTPUT CONTROL", post, C["paper"], post_tag)
-        arrow(c, 788, cy, 804, cy, C["line"], 1.0)
-        box(c, 804, cy - 19, 880, cy + 19, fill=C["green"], stroke=C["line"], width=0.9, radius=3)
-        text(c, contract, 842, cy + 4, 8.0, bold=True, center=True, serif=True)
+    # Section markers live outside modules; none can obscure a module title.
+    analysis_marker(c, 345, row_y["TAR"] - 26, "§6.4")
+    analysis_marker(c, 768, row_y["FETV"] - 26, "§6.3")
+    analysis_marker(c, 476, row_y["PSI-VQA"] - 26, "§6.2")
+    analysis_marker(c, 768, row_y["PSI-VQA"] - 26, "§6.1")
 
-    # Small, factual legend.
-    box(c, 281, 362, 301, 373, fill=C["yellow_fill"], stroke=C["soft"], width=0.6)
-    text(c, "KoreaDrive prompt program used in the submission", 308, 371, 6.8, color=C["muted"])
-    box(c, 617, 362, 645, 374, fill=C["paper"], stroke=C["orange"], width=0.9, dash=(3, 2), radius=2)
-    text(c, "§6", 631, 371, 7.1, bold=True, center=True, color=C["orange"])
-    text(c, "variable analyzed in Sec. 6", 652, 371, 6.8, color=C["muted"])
+    # Minimal legend: color is semantic, not decorative.
+    line(c, 18, 293, 882, 293, C["soft"], 0.65)
+    arrow(c, 29, 316, 54, 316, C["line"], 1.1, head=5)
+    text(c, "selected inference path", 62, 320, 7.0, color=C["muted"])
+    snowflake(c, 219, 315, 5.5)
+    text(c, "frozen", 231, 320, 7.0, color=C["muted"])
+    box(c, 292, 309, 312, 321, fill=C["yellow_fill"], stroke=C["soft"], width=0.6)
+    text(c, "KoreaDrive prompt program used in the submission",
+         320, 319, 6.8, color=C["muted"])
+    text(c, "§6", 699, 319, 7.2, bold=True, color=C["orange"])
+    line(c, 698, 321, 719, 321, C["orange"], 1.2)
+    text(c, "variable analyzed in Sec. 6", 727, 319, 6.8, color=C["muted"])
 
 
 def main():
@@ -285,8 +323,7 @@ def main():
     c = canvas.Canvas(str(OUTPUT), pagesize=(W, H), pageCompression=1)
     c.setTitle("KoreaDrive: one frozen backbone with deterministic task-specific control")
     c.setAuthor("KoreaDrive")
-    draw_shared_inference(c)
-    draw_task_controls(c)
+    draw_system(c)
     c.showPage()
     c.save()
 

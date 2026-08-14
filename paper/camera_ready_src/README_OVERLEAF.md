@@ -41,7 +41,7 @@ Official references:
 
 Do not modify page dimensions, margins, base font sizes, or other layout parameters in the ECCV/LNCS template.
 
-The verified local build has 14 manuscript pages including acknowledgements,
-followed only by references on pages 15--16. The AI City Challenge paper-
-submission page and the ECCV 2026 policy both state that references are excluded
-from the 14-page manuscript limit.
+The verified local build has 15 pages. Manuscript content and acknowledgements
+end on page 14; references begin at the bottom of page 14 and continue on page
+15. The AI City Challenge paper-submission page and the ECCV 2026 policy both
+state that references are excluded from the 14-page manuscript limit.
