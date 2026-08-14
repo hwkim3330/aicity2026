@@ -372,3 +372,51 @@ Fix in the caption: **"used in the submitted pipeline"** or **"in the scored
 submissions"**. Elsewhere, define the term once at first use — *we write* official
 *for the submissions that were scored on the evaluation server* — and keep
 organizer-defined objects as *organizer scorer*, *organizer baseline*.
+
+---
+
+## 10. Correction to §9.1, and the figure's appearance
+
+**Correcting myself.** §9.1 said the pale-yellow highlight "asserts a
+contribution the paper cannot show". That was too strong. The caption says the
+yellow rows *are* the prompt programs — a description, not a performance claim —
+and §4.1 says prompt engineering was the primary task-specific adaptation, which
+describes what was done rather than what it achieved. **No sentence in the paper
+claims the prompt program improved the score.** The correct answer to the review
+question is simply: there is no supporting evidence, so nothing should be added.
+Leaving the text and the highlight as they are is right. The evidence table in
+§9.1 stands; the conclusion I drew from it about the figure does not.
+
+The one wording fix in §9.2 — "official pipeline" in the caption — remains worth
+making, since that is ambiguity rather than overclaiming.
+
+**On the figure looking machine-made.** Concretely, the tells are: a vendor logo
+inside a system box, three columns of identical width regardless of content,
+uniform rounded corners with pale tint fills throughout, and a legend of coloured
+chips. Conventional CV system diagrams use thin rules, at most one neutral fill,
+no brand assets, and box sizes driven by content. Removing the logo and the fills
+and letting the three branches differ in height would do most of the work without
+touching the structure, which is now correct.
+
+**Real frames are available, and the licensing is a judgment call.**
+`scripts/render_case_studies.py` regenerates case-study frames from a local
+dataset copy; `docs/case_studies/rendered/` is gitignored precisely so no frames
+enter this repository. The FETV case is now rendered locally at
+`docs/case_studies/rendered/fetv_violator_misselection/` (three frames of
+`019_004.mp4`, the clip already discussed in §7.1).
+
+Whether one may appear in the paper is not settled by anything in the repository:
+
+- **For:** the FETV authors publish three example frames in their own public
+  repository, embedded in the README as dataset examples. Illustrating a public
+  dataset with an attributed frame is ordinary practice.
+- **Against:** that repository ships **no LICENSE file and no terms section**, so
+  there is no grant to rely on. PSI-VQA is stricter still — it inherits the TASI
+  Benchmark Data Sharing Agreement — and TAR clips come from third-party source
+  datasets with their own terms.
+
+If a frame is used, the safest choice is one of the three the FETV repository
+itself publishes, with attribution, and Figure 4's caption must stop saying
+frames are not redistributed. Given the deadline, asking the organizers is
+probably not possible; this is the corresponding author's call, not a decision
+the repository can make.
