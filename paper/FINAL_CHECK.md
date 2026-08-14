@@ -256,3 +256,59 @@ same model and that a stronger model still leads.
 
 Evidence: `leaderboards/raw/general_3.json`, `data.models_used` on rows where
 `isBaseline` is true; refetched 2026-08-14.
+
+---
+
+## 8. FETV has no entry in Section 6 — and one is available
+
+Figure 1 marks §6.3 on TAR's frame policy and §6.2 / §6.1 on PSI's prompt program
+and post-processing. FETV carries no marker, which is correct: §6 covers PSI
+temporal calibration, PSI target grounding, TAR sampling and scorer sensitivity,
+and the TAR adapter study. **The benchmark the paper places third of eight has no
+controlled analysis at all.** The gap is real, not a drawing error.
+
+It can be closed with data already in the repository, and the comparison is
+stronger than the ones §6 currently reports because it runs on the **official
+test set with the official scorer** rather than on 24–25 local items.
+
+Between submitted artifacts `v6_fewshot` and `v7`, **all eleven categorical
+fields are byte-identical** on the portal — violation type, violator type,
+colour, both positions, both lanes, intersection type, weather and lighting.
+Only three numbers moved:
+
+| | v6\_fewshot | v7 |
+|---|---:|---:|
+| `date_accuracy` | 0.995 | 1.000 |
+| `time_accuracy` | 0.79 | 0.94 |
+| `description` | 0.3645 | 0.4209 |
+| **final** | **0.4238** | **0.4584** |
+
+Two changes produced this, both identifiable in the artifacts:
+
+1. **Deterministic description formatting.** 0/200 v6 descriptions begin with
+   `On <date> at <time>, `; 200/200 of v7's do. This is the opener enforcement in
+   `fetv_submission.py`, i.e. the FETV *output / post-processing* block already
+   drawn in Figure 1.
+2. **Timestamp re-reading.** Only 37/200 `answer_time` values are unchanged.
+
+Because the official score is the mean of the description score and the
+categorical mean — verified, 0.4237 and 0.4585 reconstruct the reported 0.4238
+and 0.4584 — the gain decomposes:
+
+- description $0.3645 \to 0.4209$ contributes $+0.0282$
+- categorical mean $0.483 \to 0.496$ contributes $+0.0065$, and since eleven of
+  the thirteen fields are identical this comes entirely from date and time
+- total $+0.0347$ against the reported $+0.0346$
+
+So **81% of the official FETV improvement came from the output contract and the
+timestamp field, with every categorical prediction held fixed.** That is exactly
+the claim the paper makes about inference-time control, measured on the official
+scorer.
+
+Caveat to state: two components changed together, so this attributes the gain to
+the pair rather than isolating either. It is a clean joint attribution with the
+categorical half frozen, not a single-variable ablation — stronger than the other
+historical comparisons in §6.3 and weaker than the paired PSI studies.
+
+If this is added, mark FETV's *Output / post-processing* box in Figure 1 with the
+matching section number so all three branches carry one.
