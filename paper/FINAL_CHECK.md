@@ -540,3 +540,42 @@ weighting produced the numbers, cannot act on that warning. One clause in §3.1 
 
 Both are facts about the organizers' scorers, not about our system, so neither
 adds a claim.
+
+---
+
+## 13. §4.2 sample sizes — not a typo, but not comparable either
+
+The review asks whether *"7/47 routed, 6/24 generic, and 4/24 box-aware"* is
+intentional. It is, and the underlying runs are sound, but as written the three
+rates cannot be read side by side.
+
+From `track3_anomaly/psi_mcq_cv_results/`:
+
+- `mcq_baseline.jsonl` (the shipped routed prompt) holds **47 items**
+- `mcq_generic.jsonl` and `mcq_boxaware.jsonl` hold **24 items each**, and the two
+  cover the *same* 24
+- those 24 are a strict subset of the 47; the three-way intersection is exactly
+  24, so 23 routed items have no counterpart
+
+So `7/47` is a rate over the full routed run while `6/24` and `4/24` are rates
+over the paired subset. Different item sets, printed as if they were one series.
+
+Recomputed on the paired 24, which is the basis Table 5 uses:
+
+| Condition | Full run | **Paired 24** |
+|---|---:|---:|
+| shipped routed `psi_mcq` | 7/47 | **3/24** |
+| generic Track 3 MCQ | 6/24 | 6/24 |
+| routed + red-box re-location | 4/24 | 4/24 |
+
+Reporting the paired column makes §4.2 consistent with Table 5 and with the
+sentence that introduces the paired subset. The ordering does not change — the
+routed prompt has the lowest contract-failure rate either way — so this costs
+nothing and removes the discrepancy a reviewer would otherwise have to resolve.
+
+The pairing itself checks out: paired accuracy is 3/24, 8/24 and 9/24, exactly
+Table 5.
+
+If the 47-item figure is kept instead, it needs the clause the review suggests —
+that the routed condition was run on a larger set and 47 is its full-run rate.
+Recomputing is the cleaner option.
