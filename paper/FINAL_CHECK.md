@@ -432,9 +432,28 @@ labels and "used in the submission". What follows is new.
 
 ### Must fix
 
-**11.1 A stray word in the first line of §1.** *"This paper describes KoreaDrive
-System (Team 277; …)"* — should be *KoreaDrive (Team 277; …)*. The team is named
-KoreaDrive throughout; "KoreaDrive System" appears nowhere else.
+**11.1 `KoreaDrive System` in §1 attaches to the wrong noun.** *Revised after
+learning the rename was deliberate:* the word is intentional — §4 is titled
+*KoreaDrive System* to match Figure 1 — so the section title should stay. The
+issue is the one other place it appears.
+
+`KoreaDrive System` occurs exactly twice: the §4 title and §1's opening sentence.
+The other dozen occurrences are bare `KoreaDrive`, including two table captions
+that read *"KoreaDrive denotes Team 277"*. But §1 says:
+
+> This paper describes **KoreaDrive System** (Team 277; registered as *Korea
+> Drive* on the evaluation portal)
+
+That parenthetical introduces the **team**, so the sentence defines
+*KoreaDrive System* as Team 277 while the captions define *KoreaDrive* as Team
+277 — two definitions of the same parenthetical. As a proper noun it would also
+need an article, *the KoreaDrive System*.
+
+Keeping both usages is cleanest: **the team is `KoreaDrive`**, so §1 reads
+*KoreaDrive (Team 277; …)* and the captions stay; **the system is
+`the KoreaDrive System`**, so the §4 title and Figure 1 stay. Terminology stays
+unified and the team is not equated with the system. Going the other way means
+also rewriting both table captions, and leaves a system standing in for a team.
 
 **11.2 The baseline comparison mixes boards.** Intro item 1 reads:
 
