@@ -420,3 +420,78 @@ itself publishes, with attribution, and Figure 4's caption must stop saying
 frames are not redistributed. Given the deadline, asking the organizers is
 probably not possible; this is the corresponding author's call, not a decision
 the repository can make.
+
+---
+
+## 11. Review of the current source, 2026-08-14 evening
+
+Everything from §§1–3 is applied. No stale revision hedge, no `capability audit`,
+no `negative result`, no `two late system versions`, §7.3 no longer contradicts
+the rest, and Figure 1 is redrawn without the vendor logo, with Track 3/7/8
+labels and "used in the submission". What follows is new.
+
+### Must fix
+
+**11.1 A stray word in the first line of §1.** *"This paper describes KoreaDrive
+System (Team 277; …)"* — should be *KoreaDrive (Team 277; …)*. The team is named
+KoreaDrive throughout; "KoreaDrive System" appears nowhere else.
+
+**11.2 The baseline comparison mixes boards.** Intro item 1 reads:
+
+> the official **public-board** score is 0.4256 (24th of 27) … KoreaDrive's
+> **public-board score** is 0.1113 above the organizer baseline labeled
+> Qwen3-VL-8B-Instruct (0.3143)
+
+The baselines are on the **General** board; the public board has none. The
+comparison itself is sound — the same submission scores 0.4256 on both boards, so
+the difference is real — but attributing it to the public board is exactly the
+board confusion the paper elsewhere works to avoid. Write it as:
+
+> The same submission appears on the General board, where the organizers publish
+> 13 baselines. Its 0.4256 is 0.1113 above their `Qwen3-VL-8B-Instruct` baseline
+> (0.3143), which uses the same backbone as this system, and exceeds 11 of the 13;
+> the strongest, `Cosmos3-Super`, reaches 0.5729.
+
+Drop *numerically* before *exceeds*; it hedges a plain count.
+
+**11.3 The abstract overclaims the MCQ result.** It says red-box grounding raises
+the configuration to 9/24, *"above the generic prompt at 8/24"*. §6.2 states the
+two are **statistically indistinguishable** at this sample size. The abstract
+should not assert an ordering the body declines to. Say *"to 9/24, matching the
+8/24 generic prompt"* or simply stop at 9/24.
+
+**11.4 The footnote commit is stale again** — `4e9d92a`. It moves with every
+push; set it once at submission.
+
+### Recommended
+
+**11.5 The abstract's last-but-one sentence is a table of contents.** *"We further
+provide diagnostic case studies, exploratory design implications, and
+reproducibility and limitations analyses."* Meanwhile the strongest quantitative
+result in the paper — the same backbone, run by the organizers, scoring 0.1113
+lower — is not in the abstract at all. Trading one for the other would be a
+clear gain.
+
+**11.6 §7.3 has a garbled clause.** *"FETV shows that violator-centric geometry
+motivates the need for stronger explicit structure."* Geometry does not motivate;
+its weakness does. E.g. *"FETV shows that violator-centric geometry is where
+explicit structure would help most."*
+
+### If the annotated frame is used
+
+`paper/camera_ready_src/frames/fetv_019_004_annotated.jpg` marks the road user
+v9–v11 designated as the violator, with a strip recording that v8 predicted
+`no_violation`. Two consequences: cite FETV and FishEye8K at the figure, and
+narrow the worked-PSI caption's *"frames are not redistributed under the benchmark
+data terms"* to PSI-VQA, which is the one that actually carries the TASI
+agreement.
+
+### Page budget
+
+16 pages against ECCV's 14-page main-text allowance, with references permitted
+beyond it. With 15 references at roughly two pages, the main text lands at about
+14 — inside, with no margin. Worth knowing that the accepted submission was 10
+pages, so the camera-ready has grown by six. If space is needed, §8 *Design
+Implications and Exploratory Prototypes* is the candidate: it is the only section
+that reports nothing scored, and Reviewer vmz20 explicitly warned against
+presenting those prototypes as evaluated systems.
