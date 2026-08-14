@@ -202,3 +202,57 @@ supported. Two are worth watching:
    *(section 0)*
 
 No new numbers were introduced anywhere in this document.
+
+---
+
+## 7. Added 2026-08-14, second pass — the same-backbone baseline
+
+Refetched the live boards. Two things.
+
+**`0.5748` is not on the board.** The name is right: the strongest TAR baseline
+carries `data.models_used = "Cosmos3-Super"`, which is what the web UI shows. Its
+score is `0.5728527671760983`, i.e. **0.5729**. Every numeric field of every row
+on `general/3` was scanned and nothing equals 0.5748; the nearest value anywhere
+is an unrelated row's `mcq_accuracy = 0.575`. Revert both occurrences.
+
+**All 13 baselines are named, and one of them is our backbone.**
+
+| Organizer baseline | TAR mean |
+|---|---:|
+| Cosmos3-Super | 0.5729 |
+| Cosmos3-Nano | 0.4613 |
+| **KoreaDrive** | **0.4256** |
+| Qwen3.5-27B | 0.4084 |
+| Cosmos-Reason2-32B | 0.3798 |
+| Gemini-3.1-Pro-Preview | 0.3659 |
+| Cosmos-Reason2-8B | 0.3598 |
+| Gemma-4-31B-It | 0.3445 |
+| **Qwen3-VL-8B-Instruct** | **0.3143** |
+| Qwen3.5-9B (with reasoning) | 0.3063 |
+| Qwen3.5-9B | 0.3063 |
+| Gemma-4-31B-It (with reasoning) | 0.3062 |
+| Qwen3.5-27B (with reasoning) | 0.2983 |
+| Qwen3-VL-32B-Instruct | 0.2875 |
+
+The organizers ran **the same checkpoint the paper uses**. `Qwen3-VL-8B-Instruct`
+scores 0.3143 against KoreaDrive's 0.4256: **+0.1113 from the task-specific
+control layer alone**, same model, same benchmark, same scorer. Their
+`Qwen3-VL-32B-Instruct` scores 0.2875, so the 8B backbone with control also
+exceeds their 32B run by **+0.1381**.
+
+This is a controlled comparison of exactly the thing the paper claims to study,
+and it is currently absent. It is much stronger than "exceeds 11 of 13
+baselines", which mixes thirteen different models together. Suggested wording:
+
+> On the TAR General board the organizers publish 13 baselines, including a run
+> of the same backbone this system uses. KoreaDrive's 0.4256 exceeds the
+> `Qwen3-VL-8B-Instruct` baseline (0.3143) by 0.1113 and the
+> `Qwen3-VL-32B-Instruct` baseline (0.2875) by 0.1381, isolating the contribution
+> of the inference-time control layer under an identical checkpoint. The
+> strongest baseline, `Cosmos3-Super`, reaches 0.5729.
+
+Keep the last sentence: the honest framing is that control adds 0.1113 over the
+same model and that a stronger model still leads.
+
+Evidence: `leaderboards/raw/general_3.json`, `data.models_used` on rows where
+`isBaseline` is true; refetched 2026-08-14.
