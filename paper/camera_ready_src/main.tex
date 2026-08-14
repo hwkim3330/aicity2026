@@ -5,6 +5,7 @@
 \usepackage{eccvabbrv}
 
 \usepackage{graphicx}
+\usepackage{lmodern}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{array}
@@ -19,7 +20,7 @@
 \newcommand{\tar}{TAR\xspace}
 \newcommand{\fetv}{FETV\xspace}
 \newcommand{\psivqa}{PSI-VQA\xspace}
-\newcommand{\qwen}{Qwen3-VL-8B-Instruct\xspace}
+\newcommand{\qwen}{Qwen3-VL-8B-\allowbreak Instruct\xspace}
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 \newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
@@ -36,25 +37,25 @@
 
 \maketitle
 \begin{abstract}
-Track 3 of the 2026 AI City Challenge evaluates traffic-video reasoning across Traffic Anomaly Reasoning (TAR), Fisheye Traffic Violation Understanding (FETV), and Pedestrian Situated Intent VQA (PSI-VQA). KoreaDrive uses a frozen Qwen3-VL-8B-Instruct Vision-Language Model (VLM) backbone with task-specific frame policies, prompt programs, output contracts, parsing, and optional calibration; no task-specific parameter update or adapter generated the official predictions. The three official runs use the same model identifier, bf16 precision, visual budget, and recovered weight revision, establishing a common frozen checkpoint across the three evaluations. Official scores were 0.4256 on TAR, 0.4634 on FETV, and 57.04 on PSI-VQA. Controlled analyses identify task-specific factors that materially change behavior: explicit red-box grounding raises the routed PSI Multi-Choice Question (MCQ) configuration from 3/24 to 9/24, above the generic prompt at 8/24, while the video-aware temporal configuration improves over random intervals and fitted metadata priors provide additional localization strength. We further provide diagnostic case studies, exploratory design implications, and reproducibility and limitations analyses. We release official artifacts, controlled analyses, and provenance records.
+Track 3 of the 2026 AI City Challenge evaluates traffic-video reasoning across Traffic Anomaly Reasoning (TAR), Fisheye Traffic Violation Understanding (FETV), and Pedestrian Situated Intent VQA (PSI-VQA). KoreaDrive applies deterministic task-specific frame, prompt, output-contract, parsing, and optional calibration controls to one frozen \qwen Vision-Language Model (VLM) backbone; no task-specific parameter update or adapter generated the leaderboard submissions. The three scored runs use the same model identifier, bf16 precision, visual budget, and recovered weight revision, establishing a common frozen checkpoint across the three evaluations. Public-board scores were 0.4256 on TAR, 0.4634 on FETV, and 57.04 on PSI-VQA. Controlled analyses show a task-dependent picture: explicit red-box grounding raises the routed PSI Multi-Choice Question (MCQ) configuration from 3/24 to 9/24 and is statistically indistinguishable from the 8/24 generic prompt; the video-aware temporal configuration improves over random intervals, and fitted metadata priors provide additional localization strength. A submission-artifact comparison further associates the largest late FETV gain with deterministic description formatting and timestamp handling, not with an isolated prompt change. On the TAR General board, the same KoreaDrive artifact is 0.1113 above the organizer baseline labeled Qwen3-VL-8B-Instruct, an external same-model-label reference whose exact configuration is unavailable.
 \keywords{Traffic domains \and Vision-language model \and Video-language understanding \and Capability analysis \and AI City Challenge}
 \end{abstract}
 
 \section{Introduction}
 Traffic-video reasoning requires more than event recognition. A useful system must bind questions to the correct target entity, follow that entity through time, infer causal and spatial relations, localize relevant intervals, and emit answers that satisfy heterogeneous evaluation contracts. The 10th AI City Challenge formalizes these demands through benchmarks spanning CCTV, fisheye intersection, and egocentric driving video~\cite{aicity2026track3,tang2026aicity}.
 
-This paper describes KoreaDrive System (Team 277; registered as \emph{Korea Drive} on the evaluation portal) across all three Track 3 evaluations: in-domain Traffic Anomaly Reasoning (\tar), out-of-domain Fisheye Traffic Violation Understanding (\fetv), and out-of-domain Pedestrian Situated Intent VQA (\psivqa). 
-A single frozen \qwen checkpoint is shared across the three evaluations. Task-specific control selection changes only the frame policy, prompt program, generation budget, output contract, parser, and optional calibrator. The official artifacts use bf16, up to 16 frames, 151,200 pixels per frame, and the recovered Qwen3-VL weight revision. %
-The controlled analyses show a task-dependent picture: explicit target grounding materially improves the routed PSI MCQ configuration, the video-aware temporal model captures signal beyond random intervals while simple fitted priors remain competitive, and output-contract handling can determine whether useful visual evidence becomes a valid benchmark answer. These analyses complement the official leaderboard results and separate shared-backbone capability from task-specific control effects.
+This paper describes KoreaDrive (Team 277; registered as \emph{Korea Drive} on the evaluation portal) across all three Track 3 evaluations: in-domain Traffic Anomaly Reasoning (\tar), out-of-domain Fisheye Traffic Violation Understanding (\fetv), and out-of-domain Pedestrian Situated Intent VQA (\psivqa). 
+A single frozen \qwen checkpoint is shared across the three evaluations. Task-specific control selection changes only the frame policy, prompt program, generation budget, output contract, parser, and optional calibrator. The scored artifacts use bf16, up to 16 frames, 151,200 pixels per frame, and the recovered Qwen3-VL weight revision. %
+The analyses show a task-dependent picture: explicit target grounding materially improves the routed PSI MCQ configuration, the shipped routed prompt does not outperform a generic prompt, the video-aware temporal model captures signal beyond random intervals while simple fitted priors remain competitive, and output-contract handling can determine whether useful visual evidence becomes a valid benchmark answer. These analyses complement the leaderboard results and separate shared-backbone capability from task-specific control effects.
 
 The main findings are:
 \begin{enumerate}[leftmargin=*,itemsep=2pt]
-    \item \textbf{TAR:} the official public-board score is 0.4256 (24th of 27). For reference, the separate TAR General board includes 13 organizer baselines. KoreaDrive's public-board score is 0.1113 above the organizer baseline labeled Qwen3-VL-8B-Instruct (0.3143) and numerically exceeds 11 of the 13 baselines; the strongest organizer baseline, Cosmos3-Super, scores 0.5729. Component reconstruction identifies MCQ-OE language similarity as the strongest TAR component and provides a complete reference for the nine scored task types.
-    \item \textbf{FETV:} KoreaDrive ranks 3rd of 8 on the public leaderboard with 0.4634. The description score is second-highest on that board, and field-level analysis shows a clear split between strong global or overlay-associated attributes and lower-scoring violator-centric geometry and violation fields.
+    \item \textbf{TAR:} the public-board score is 0.4256 (24th of 27). The same KoreaDrive submission appears on the separate TAR General board at 0.4256, which is 0.1113 above the organizer baseline labeled Qwen3-VL-8B-Instruct (0.3143) and above 11 of the 13 organizer baselines; the strongest organizer baseline, Cosmos3-Super, scores 0.5729. Because the organizer run exposes only a model label, it is an external same-model-label reference rather than a controlled same-checkpoint ablation.
+    \item \textbf{FETV:} KoreaDrive ranks 3rd of 8 on the public leaderboard with 0.4634. The description score is second-highest on that board, and field-level analysis shows a clear split between strong global or overlay-associated attributes and lower-scoring violator-centric geometry and violation fields. Between submitted artifacts \texttt{v6\_fewshot} and \texttt{v7}, the score rises from 0.4238 to 0.4584 while the ten non-temporal structured fields remain unchanged; description formatting and date/time handling move jointly.
     \item \textbf{PSI-VQA:} KoreaDrive ranks 5th of 7 on the public leaderboard with 57.04. OpenQA reaches 0.6019, above the top-ranked team's 0.5833, and temporal mIoU reaches 0.5708, within 0.0043 of the fourth-place team.
-    \item \textbf{Controlled component analysis:} adding explicit red-box re-localization to the routed prompt raises PSI MCQ from 3/24 (routed alone) to 9/24, surpassing the 8/24 generic (no-routing) baseline; TAR question-window sampling changes a matched 25-item comparison from 15/25 to 16/25; and temporal calibration quantifies how much performance is provided by video evidence versus fitted metadata priors.
+    \item \textbf{Component analysis:} adding explicit red-box re-localization to the routed prompt raises PSI MCQ from 3/24 (routed alone) to 9/24, statistically indistinguishable from the 8/24 generic (no-routing) baseline; TAR question-window sampling changes a matched 25-item comparison from 15/25 to 16/25; and temporal calibration quantifies how much performance is provided by video evidence versus fitted metadata priors.
 \end{enumerate}
-Across the three tasks, we release the official artifacts, configuration records, validators, controlled analyses, and provenance limitations needed to reproduce the reported analysis.
+Across the three tasks, we release the scored submission artifacts, configuration records, validators, controlled analyses, and provenance limitations needed to reproduce the reported analysis.
 
 \section{Related Work}
 \paragraph{Driving video question answering and reasoning.}
@@ -64,7 +65,7 @@ Autonomous-driving VQA has progressed from templated scene questions to video-ba
 The AI City Challenge has expanded from detection and tracking toward language-centric traffic understanding~\cite{aicity2024,tang2026aicity}. FishEye8K demonstrates the geometric difficulty of radial distortion and nonuniform resolution~\cite{fisheye8k}. PSI provides socially situated pedestrian behavior for autonomous driving~\cite{psi}; PSI-VQA reformulates this setting as binary, open-ended, multiple-choice, and temporal video QA. These domains require persistent identity and geometry beyond global language description.
 
 \paragraph{Video-language backbones and structured generation.}
-Qwen3-VL supports native video input, long context, and text-based temporal alignment~\cite{qwen3vl}. In this paper, \emph{frozen official submission} means that no task-specific parameter update, adapter, or checkpoint modification was applied when generating the submitted predictions; adaptation was limited to inference-time prompts, sampling policies, generation budgets, parsers, vocabulary normalization, and calibration. Our parser-and-fallback design is weaker than token-level constrained decoding: PICARD rejects invalid tokens through incremental parsing~\cite{picard}, and grammar-constrained decoding guarantees formal output structures without task-specific fine-tuning~\cite{gcd}. The observed missing-answer failures motivate replacing post-hoc extraction with such decoding-time constraints where model APIs permit them.
+Qwen3-VL supports native video input, long context, and text-based temporal alignment~\cite{qwen3vl}. In this paper, \emph{frozen submission} means that no task-specific parameter update, adapter, or checkpoint modification was applied when generating the submitted predictions; adaptation was limited to inference-time prompts, sampling policies, generation budgets, parsers, vocabulary normalization, and calibration. We reserve \emph{official} for challenge-defined metrics, scorers, and board results; our own files and execution path are called \emph{scored submission artifacts} and the \emph{leaderboard-submission pipeline}. Our parser-and-fallback design is weaker than token-level constrained decoding: PICARD rejects invalid tokens through incremental parsing~\cite{picard}, and grammar-constrained decoding guarantees formal output structures without task-specific fine-tuning~\cite{gcd}. The observed missing-answer failures motivate replacing post-hoc extraction with such decoding-time constraints where model APIs permit them.
 
 \section{Task Description}
 \subsection{Traffic Anomaly Reasoning (TAR)}
@@ -82,12 +83,12 @@ Position uses a 3$\times$3 center-square convention, while lane indices are rela
 \subsection{Pedestrian Situated Intent VQA (PSI-VQA)}
 PSI-VQA is submitted through the evaluation server as Track 8, the second Track 3 out-of-domain evaluation~\cite{aicity2026track3}. It uses 40 egocentric clips and four subtasks: binary crossing-intent classification, cue-style OpenQA, multiple-choice cue identification, and temporal localization of the driver-decision-critical interval. Cue answers are matched using sentence embeddings~\cite{sbert}; the final score equally weights the four normalized task scores.
 
-The four PSI subtasks impose distinct output contracts on the same pedestrian-intent setting: Yes/No text, cue lists, a single MCQ letter, and a temporal JSON interval. This separation lets us analyze semantic evidence, answer control, and calibration independently in \Cref{sec:controlled}.
+Each PSI subtask has a distinct output contract: Yes/No text, cue lists, a single MCQ letter, or a temporal JSON interval. This separation lets us analyze semantic evidence, answer control, and calibration independently in \Cref{sec:controlled}.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.95\textwidth]{fig_system_overview.pdf}
-\caption{KoreaDrive system overview. A single frozen Qwen3-VL-8B-Instruct backbone is shared across TAR (Track~3), FETV (Track~7/OOD-1), and PSI-VQA (Track~8/OOD-2). Task-specific control selection changes only inference-time controls. Pale-yellow rows denote prompt programs used in the official pipeline; orange dashed outlines map the components varied in Sec.~6 to their system locations: TAR frame sampling (Sec.~6.3), PSI MCQ target grounding (Sec.~6.2), and PSI temporal-prior calibration (Sec.~6.1). Results are reported separately in the tables and plots.}
+\includegraphics[width=\textwidth]{fig_system_overview.pdf}
+\caption{Architecture of the KoreaDrive leaderboard-submission pipeline. Benchmark-provided video and instructions enter one shared frozen Qwen3-VL-8B-Instruct backbone directly. A deterministic, non-learned task selector configures the frame, prompt, and output-control program for TAR, FETV, or PSI-VQA; no task-specific adapter is used. Pale-yellow boxes identify prompt programs used in the scored submissions, and orange tags link the corresponding variables to Sec.~6 analyses.}
 \label{fig:system}
 \end{figure}
 
@@ -103,31 +104,31 @@ answers, validates schemas, or applies temporal calibration. Runners write
 records incrementally, resume after interruption, and validate item coverage
 before upload.
 
-\Cref{fig:system} summarizes this design. The common input is a video clip plus a task instruction or question. All three official artifacts use \qwen in bf16 at revision \texttt{0c351dd01ed87e9c1b53cbc748cba10e6187ff3b}, with at most 16 frames and 151,200 pixels per frame. Only the control layer differs by evaluation: TAR uses question-window-aware sampling and mixed exact-choice/descriptive prompts; FETV generates a complete structured 13-field record in one call; and PSI-VQA selects subtask-specific programs together with type-correct extraction and a duration-stratified temporal prior. Prompt engineering was the primary task-specific adaptation used in the official inference pipeline, so the prompt-program rows are highlighted consistently in \Cref{fig:system}. Orange dashed outlines mark the exact components varied in the controlled analyses: TAR frame sampling (Sec.~6.3), PSI MCQ target grounding (Sec.~6.2), and PSI temporal-prior calibration (Sec.~6.1). Measured outcomes remain in the corresponding tables and plots.
+\Cref{fig:system} makes the two control paths explicit: benchmark-provided video and instructions feed the shared backbone directly, while the selector configures task-specific control modules around that backbone. All three scored artifacts use \qwen in bf16 at revision \texttt{0c351dd01ed87e9c1b53cbc748cba10e\allowbreak 6187ff3b}, with at most 16 frames and 151,200 pixels per frame. TAR uses question-window sampling and exact-choice or descriptive prompts; FETV generates one complete 13-field record; PSI-VQA selects subtask programs, type-correct extraction, and a duration-stratified prior. Yellow fill is descriptive and does not assert an aggregate prompt-only gain; measured effects are confined to the orange-tagged analyses in Sec.~6.
 
 
 \subsection{Output contracts and validation}
-BCQ and MCQ prompts request a normalized final token; temporal predictions request bare JSON; FETV requests a fixed schema. Parsers strip explanatory text, normalize vocabulary, and substitute type-correct fallbacks when parsing fails. These mechanisms ensure valid submission files but do not by themselves guarantee contract compliance. In the controlled PSI prompt study, 7/47 routed, 6/24 generic, and 4/24 box-aware generations omitted a parseable final letter. These rates come from the deliberately ambiguous training subset and are not estimates for the official test set; they quantify why decoding-time answer control remains important even when the underlying visual evidence is useful.
+BCQ and MCQ prompts request a normalized final token; temporal predictions request bare JSON; FETV requests a fixed schema. Parsers strip explanatory text, normalize vocabulary, and substitute type-correct fallbacks when parsing fails. These mechanisms ensure valid submission files but do not by themselves guarantee contract compliance. Using all available held-out generations per condition, 7/47 routed, 6/24 generic, and 4/24 box-aware outputs omitted a parseable final letter. The accuracy analysis in Sec.~6.2 instead uses only the 24 items common to all three conditions. These deliberately ambiguous training examples are not estimates for the official test set; they show why decoding-time answer control matters.
 
 \subsection{Task programs}
-For TAR, exact-choice prompts request short reasoning followed by a final token, while descriptive tasks receive longer budgets. For FETV, one call predicts the complete 13-field record, after which illegal fields and surface variants are normalized and the final description template is constructed. The official FETV pipeline does not include a detector, tracker, lane segmenter, or standalone OCR module. For PSI-VQA, cue answers are shortened to independently verifiable observations and task-specific parsers enforce the required answer type. The temporal submission uses a duration-stratified rule,
+For TAR, exact-choice prompts request short reasoning followed by a final token, while descriptive tasks receive longer budgets. For FETV, one call predicts the complete 13-field record, after which illegal fields and surface variants are normalized and the final description template is constructed. The submitted FETV pipeline does not include a detector, tracker, lane segmenter, or standalone OCR module. For PSI-VQA, cue answers are shortened to independently verifiable observations and task-specific parsers enforce the required answer type. The temporal submission uses a duration-stratified rule,
 \begin{equation}
 \hat I(d)=\begin{cases}\left[0.30d,0.70d\right],&d<10\ \mathrm{s},\\ \left[0.20d,0.62d\right],&d\ge10\ \mathrm{s}.\end{cases}
 \end{equation}
 with integer-second endpoints. These shipped constants were fitted on all 227 released training intervals; \Cref{sec:temporal} evaluates the same design under held-out refitting.
 
-\section{Official Results}
+\section{Leaderboard Results}
 \subsection{Leaderboard summary}
-The portal maintains separate public and general boards. All ranks in the paper refer to the public board. \Cref{tab:overall} lists the official artifacts and denominators. The leaderboards are independent and their scores are not combined.
+The portal maintains separate public and general boards. All ranks in the paper refer to the public board. \Cref{tab:overall} lists the scored submission artifacts and denominators. The leaderboards are independent and their scores are not combined.
 
 \begin{table}[!ht]
-\caption{Official public-board results and archived artifacts.}
+\caption{Organizer-scored public-board results and archived submission artifacts.}
 \label{tab:overall}
 \centering
 \small
 \begin{tabularx}{\textwidth}{@{}L{0.14\textwidth}L{0.15\textwidth}L{0.13\textwidth}Y@{}}
 \toprule
-Evaluation & Public rank & Score & Official artifact \\
+Evaluation & Public rank & Score & Submitted artifact \\
 \midrule
 TAR & 24 of 27 & 0.4256 & \texttt{submission\_qwen3vl8b\_v9.csv} \\
 FETV & 3 of 8 & 0.4634 & \texttt{fetv\_submission\_v11.json} \\
@@ -209,7 +210,7 @@ Rank & Team & Final & BCQ mF1 & OpenQA & MCQ Acc. & T-mIoU \\
 \end{table}
 
 
-\Cref{tab:tar} reports every TAR component. The nine scored components average 0.42561 and reconstruct the official mean. MCQ-OE denotes multiple-choice open-ended questions. The strongest component was MCQ-OE BERTScore-F1 (0.7664). On the separate TAR General board, the organizers publish 13 baseline entries. The baseline labeled Qwen3-VL-8B-Instruct scores 0.3143, 0.1113 below KoreaDrive's 0.4256; the Qwen3-VL-32B-Instruct baseline scores 0.2875, 0.1381 below. KoreaDrive's score is numerically above 11 of the 13 organizer baselines, while Cosmos3-Super is the strongest baseline at 0.5729. The board export exposes model labels but not the baselines' exact weight revision, precision, frame-sampling policy, or prompt program, so these are directly relevant same-backbone references rather than one-factor ablations.
+\Cref{tab:tar} reports every TAR component. The nine scored components average 0.42561 and reconstruct the official mean. MCQ-OE denotes multiple-choice open-ended questions. The strongest component was MCQ-OE BERTScore-F1 (0.7664). On the separate TAR General board, the organizers publish 13 baseline entries. The baseline labeled Qwen3-VL-8B-Instruct scores 0.3143, 0.1113 below KoreaDrive's 0.4256; the Qwen3-VL-32B-Instruct baseline scores 0.2875, 0.1381 below. KoreaDrive's score is numerically above 11 of the 13 organizer baselines, while Cosmos3-Super is the strongest baseline at 0.5729. The export exposes only model labels for these baseline rows, not their exact weight revisions, precision, frame policy, prompts, or decoding. We therefore treat them as external same-model-label references, not as same-checkpoint controls or evidence that any particular KoreaDrive component caused the margin.
 
 
 \subsection{Fisheye Traffic Violation Understanding (FETV)}
@@ -255,17 +256,22 @@ Routed + explicit red-box re-location & 9/24 (0.3750) & Beats routed 6--0, $p=0.
 \end{tabularx}
 \end{table}
 
+\subsection{FETV output-contract and timestamp transition}
+The FETV marker in \Cref{fig:system} denotes a historical submission-artifact comparison rather than a one-factor ablation. Between submitted artifacts \texttt{v6\_fewshot} and \texttt{v7}, the organizer-scored result rises from 0.4238 to 0.4584. The ten non-temporal structured fields---violation type, violator type, color, both positions, both lanes, intersection type, weather, and lighting---are byte-identical. Date accuracy changes from 0.995 to 1.000, time accuracy from 0.79 to 0.94, and the description score from 0.3645 to 0.4209. At the artifact level, 0/200 descriptions in \texttt{v6\_fewshot} and 200/200 in \texttt{v7} use the deterministic \texttt{On <date> at <time>,} opener, while only 37/200 time values remain unchanged.
+
+Because the final metric averages description score and categorical mean, the description change contributes 0.0282 and the categorical half contributes 0.0065, reconstructing a 0.0347 increase versus the reported 0.0346 after rounding. Thus approximately 81\% of this transition lies in the description half. Two components changed together, so the comparison supports only a joint association with deterministic output formatting and timestamp handling; it does not isolate either component and provides no prompt-only attribution.
+
 \subsection{Sampling and scorer sensitivity}
 The TAR comparison corresponds to the \emph{frame policy} block highlighted in \Cref{fig:system}. Timestamp-aware TAR sampling changes accuracy from 15/25 to 16/25 on the same questions. The matched comparison is directionally positive but too small to support a strong sampling claim. For PSI OpenQA, video-grouped five-fold selection finds two cues robust across four plausible metric variants, while the held-out local estimate of 0.7816 under one-to-one macro matching is higher than the official 0.6019. The gap quantifies the importance of validating against the organizer scorer rather than relying on a local reimplementation.
 
 A historical PSI comparison provides a complementary check. From submission v6 to v7, only the 126 OpenQA rows changed: Cue-F1 increased from 0.5970 to 0.6019 while all other components remained identical, and the final score increased by 0.12 points. This clean portal comparison confirms that the local cross-validation projection of 4.5--7.5 points was optimistic and reinforces the scorer-sensitivity result above.
 
 \subsection{Development-time adapter study}
-A small QLoRA adapter was trained on a BCQ/MCQ subset of the released TAR annotations and evaluated on a local proxy that excluded its training examples. The adapter produced 49 correct answers over 77 successfully evaluated items (0.636). The frozen-backbone result for that exact sample was not preserved; the nearest surviving baseline used a different sample together with few-shot prompting and five-sample self-consistency. Because a matched control is unavailable, the experiment cannot establish a fine-tuning gain. No fine-tuned checkpoint contributed to TAR, FETV, or PSI-VQA submissions, so the result is reported as development provenance rather than as an official ablation.
+A small QLoRA adapter was trained on a BCQ/MCQ subset of the released TAR annotations and evaluated on a local proxy that excluded its training examples. The adapter produced 49 correct answers over 77 successfully evaluated items (0.636). The frozen-backbone result for that exact sample was not preserved; the nearest surviving baseline used a different sample together with few-shot prompting and five-sample self-consistency. Because a matched control is unavailable, the experiment cannot establish a fine-tuning gain. No fine-tuned checkpoint contributed to TAR, FETV, or PSI-VQA submissions, so the result is reported as development provenance rather than as a controlled ablation.
 
 \section{Diagnostic Case Studies and Cross-Domain Interpretation}
 \subsection{FETV: coupled violator-centric fields}\label{sec:fetvcase}
-The official system predicts one complete FETV record in one generation, coupling
+The submitted system predicts one complete FETV record in one generation, coupling
 violator selection with violation type, vehicle attributes, position, and lane. In clip
 019\_004.mp4, one system version predicts no violation and \texttt{na} for all dependent
 fields; a later version predicts \texttt{red\_light}, a yellow car, Top-Left to Middle-Center
@@ -276,12 +282,19 @@ change. This observed co-movement is consistent with a single upstream
 violator/event decision governing several downstream fields, though the current
 evidence does not isolate the mechanism.
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.72\textwidth,trim=0 450 245 0,clip]{frames/fetv_019_004_annotated.jpg}
+\caption{FETV diagnostic from public clip \texttt{019\_004.mp4}~\cite{aicity2026track3,fisheye8k}. The orange box marks the yellow car designated as the violator by submitted artifacts v9--v11; v8 instead predicts \texttt{no\_violation} and \texttt{na} for every dependent field. The box visualizes a system prediction, not ground truth; scored-subset labels are not public. Global scene attributes remain unchanged across these artifacts.}
+\label{fig:fetvcase}
+\end{figure}
+
 \subsection{PSI: answer-contract failure after correct target grounding}
 The worked case in \Cref{fig:case} separates target perception from answer control. The model correctly follows the red-boxed target pedestrian and describes the ground-truth option, but the routed elimination procedure mis-negates that evidence, repeats prior reasoning, and reaches the token limit before emitting the required final letter. The submission builder then substitutes the type-correct fallback A. The visual evidence is therefore useful, while the benchmark answer is determined by the downstream reasoning and output contract.
 
 \begin{figure}[t]
 \centering
-\small
+\footnotesize
 \setlength{\fboxsep}{5pt}
 \begin{tabularx}{\textwidth}{@{}L{0.20\textwidth}Y@{}}
 \toprule
@@ -296,39 +309,37 @@ Observed behavior & The elimination step mis-negates the supported option, repea
 Submission effect & The parser substitutes the type-correct fallback \texttt{A}, so the answer-contract issue appears in the submission as an ordinary wrong answer. \\
 \bottomrule
 \end{tabularx}
-\caption{Worked PSI MCQ diagnostic case. The visual evidence and target pedestrian are correctly identified, but the reasoning/output-control path does not emit the required final letter before truncation. Frames are not redistributed under the benchmark data terms.}
+\caption{Worked PSI MCQ diagnostic case. The visual evidence and target pedestrian are correctly identified, but the reasoning/output-control path does not emit the required final letter before truncation. PSI-VQA frames are not redistributed under the benchmark data terms.}
 \label{fig:case}
 \end{figure}
 
 \subsection{Cross-domain interpretation}
-The official artifacts record the same model identifier, precision, and weight revision, so TAR, FETV, and PSI-VQA were scored under one frozen checkpoint. The strongest outputs appear in free-form descriptions, cue-style observations, and global scene attributes. FETV shows that violator-centric geometry motivates the need for stronger explicit structure, while the PSI case shows that correct target perception can still require tighter answer control. Across domains, the shared VLM therefore provides a reusable semantic backbone, and the dominant control need shifts among target grounding, geometry, temporal calibration, and format compliance.
+The scored submission artifacts record the same model identifier, precision, and weight revision, so TAR, FETV, and PSI-VQA were scored under one frozen checkpoint. The strongest outputs appear in free-form descriptions, cue-style observations, and global scene attributes. FETV shows that violator-centric geometry is where stronger explicit structure would help most, while the PSI case shows that correct target perception can still require tighter answer control. Across domains, the shared VLM therefore provides a reusable semantic backbone, and the dominant control need shifts among target grounding, geometry, temporal calibration, and format compliance.
 
 \section{Design Implications and Exploratory Prototypes}
-The following prototypes and configurations were not deployed in the official submission pipeline, though their maturity differs. The FETV prototype is exploratory and has no official score: a detector-agnostic design accepts tracked boxes, lane polygons, event flags, scene metadata, and overlay text, selecting a violator before computing position and direction-relative lane fields. Synthetic tests cover geometry and schema, but the required upstream detector, tracker, lane segmenter, and signal-state estimator are not implemented end to end. For PSI-VQA, the explicit red-box re-localization prompt is already validated via the controlled comparison in Section~6.2 (9/24 vs.\ 3/24 shipped, $p=0.0312$; statistically indistinguishable from the
-8/24 generic prompt at this sample size) though not deployed in the official pipeline. The resulting design direction is hybrid: detection and tracking can provide persistent identity, geometric modules can provide coordinates and
-lane relationships, constrained decoding can guarantee legal outputs, and the VLM can focus on ambiguous semantics and language generation.
+Neither prototype was deployed or scored. The exploratory FETV design would select a violator from tracked boxes, lane polygons, event flags, scene metadata, and overlay text, but lacks end-to-end perception modules. The PSI red-box prompt was evaluated only in Section~6.2 (9/24 vs.\ 3/24 shipped, $p=0.0312$; statistically indistinguishable from the 8/24 generic prompt) and was not deployed. Together, they motivate combining tracking and geometry, constrained decoding, and VLM semantics.
 
 
 \section{Reproducibility, Efficiency, Limitations, and Ethics}
 \paragraph{Artifacts and provenance.}
-The public repository\footnote{\url{https://github.com/hwkim3330/aicity2026}; artifact, reproduction, and camera-ready consistency records were checked against commit \texttt{4e9d92a}.} contains the three official artifacts, prompts, environment files, validators, hashes, leaderboard exports, controlled analyses, and case descriptions. All three official Qwen3-VL runs use the recovered Hub revision \texttt{0c351dd01ed87e9c1b53cbc748cba10e6187ff3b}. Exact PSI byte reproduction remains limited by unseeded five-sample voting for 55 BCQ records. FETV has a different provenance boundary: the released command reproduces the single-pass configuration rather than the final v11 chain. Re-running that configuration on the public clips matches \texttt{v6\_fewshot} on 1742/2600 fields (67.0\%). Two identical reruns agree bit-for-bit on all 13 fields for all 200 clips, showing that the residual difference is systematic rather than run-to-run variance. Six tested explanations---nondeterminism, cuDNN pinning, clip encoding, frame sampling, few-shot exemplars, and the NumPy upgrade---were ruled out; the repository does not establish a remaining cause. The v10-to-v11 description step is recovered exactly, while intermediate FETV code states remain a documented provenance gap. Exploratory \texttt{psi\_vqa\_submission\_v8\_final.csv} and \texttt{fetv\_structured\_pipeline.py} are explicitly excluded from official results.
+The public repository\footnote{\url{https://github.com/hwkim3330/aicity2026}; artifact, reproduction, camera-ready consistency records, and FETV figure assets were checked against commit \texttt{d100b24}.} contains the three scored submission artifacts, prompts, environment files, validators, hashes, leaderboard exports, controlled analyses, and case descriptions. All three scored Qwen3-VL runs use the recovered Hub revision \texttt{0c351dd01ed87e9c1b53cbc748cba10e6187ff3b}. Exact PSI byte reproduction remains limited by unseeded five-sample voting for 55 BCQ records. FETV has a different provenance boundary: the released command reproduces the single-pass configuration rather than the final v11 chain. Re-running that configuration on the public clips matches \texttt{v6\_fewshot} on 1742/2600 fields (67.0\%). Two identical reruns agree bit-for-bit on all 13 fields for all 200 clips, showing that the residual difference is systematic rather than run-to-run variance. Six tested explanations---nondeterminism, cuDNN pinning, clip encoding, frame sampling, few-shot exemplars, and the NumPy upgrade---were ruled out; the repository does not establish a remaining cause. The v10-to-v11 description step is recovered exactly, while intermediate FETV code states remain a documented provenance gap. Exploratory \texttt{psi\_vqa\_submission\_v8\_final.csv} and \texttt{fetv\_structured\_pipeline.py} are explicitly excluded from leaderboard results.
 
 \paragraph{Data use.}
-The official submissions and controlled analyses use only the AI City Challenge 2026 Track 3 benchmark data, released annotations, and benchmark-provided metadata under the applicable benchmark and source-dataset access terms; no private data or private models are used. Restricted video clips are not redistributed, and access remains through the original benchmark or source-dataset providers.
+The scored submissions and controlled analyses use only the AI City Challenge 2026 Track 3 benchmark data, released annotations, and benchmark-provided metadata under the applicable benchmark and source-dataset access terms; no private data or private models are used. Figure~\ref{fig:fetvcase} reproduces one downscaled frame from a public FETV clip with source attribution and marks a submitted system prediction rather than adding a ground-truth label. No PSI-VQA or TAR frames are redistributed, and access to those videos remains through the original benchmark or source-dataset providers.
 
 \paragraph{Efficiency.}
-Original challenge runs did not log runtime or peak memory. A reproduction run on 2026-08-03 used one RTX 3090 24~GB (PyTorch 2.10.0, Transformers 5.13.0). On 227 PSI temporal items, model loading took 18.7~s, inference 469.3~s (2.07~s/item), and peak allocated VRAM was 16.78~GiB. These measurements support the single-consumer-GPU claim but should not be read as timings of the official runs.
+Original challenge runs did not log runtime or peak memory. A reproduction run on 2026-08-03 used one RTX 3090 24~GB (PyTorch 2.10.0, Transformers 5.13.0). On 227 PSI temporal items, model loading took 18.7~s, inference 469.3~s (2.07~s/item), and peak allocated VRAM was 16.78~GiB. These measurements support the single-consumer-GPU claim but should not be read as timings of the scored runs.
 
 \paragraph{Limitations.}
-The official submissions use no task-specific parameter update or adapter. A small TAR QLoRA experiment was attempted during development, but its exact frozen control was not preserved, so it cannot support a quantitative fine-tuning claim. Some development decisions were informed by sequential leaderboard feedback, controlled prompt experiments are small, and local metric reimplementations can differ from official scorers. The temporal prior is benchmark-specific and its duration threshold is weakly identified. FETV's final v11 artifact contains intermediate processing steps whose exact historical code states were not all committed, although the artifact integrity, bit-stability of current reruns, and recovered v10-to-v11 description step are documented. Finally, post-hoc parsing can conceal answer-contract errors; token-level constrained decoding is a direct next step.
+No task-specific parameter update or adapter generated the scored submissions. The unmatched TAR QLoRA study cannot support a fine-tuning claim; prompt samples are small, some development used sequential leaderboard feedback, and local metrics can differ from organizer scorers. The temporal prior is benchmark-specific. Some intermediate FETV v11 code states were not committed, despite documented artifact integrity and exact recovery of the v10-to-v11 description step. Finally, post-hoc parsing can conceal answer-contract errors; token-level constrained decoding is a direct next step.
 
 \paragraph{Ethics.}
 Traffic and pedestrian video can reveal personal behavior and create privacy, bias, and misuse risks. We use data only under benchmark and source-dataset terms, do not redistribute restricted clips, and do not manually label test data. Pedestrian-intent outputs are uncertain decision-support signals, not ground truth about a person's future action.
 
 \section{Conclusion}
-KoreaDrive demonstrates that one frozen Qwen3-VL-8B-Instruct checkpoint can serve as a shared video-language backbone across three heterogeneous Track 3 evaluations when paired with lightweight task-specific control. The official submissions span in-domain TAR and two out-of-domain settings, FETV and PSI-VQA, without task-specific parameter updates. The controlled analyses identify where those inference-time controls matter: explicit target grounding recovers PSI MCQ performance, temporal calibration adds useful benchmark structure beyond raw video inference, and FETV results motivate stronger violator-centric geometry and consistency handling. The diagnostic cases further show that semantic perception and benchmark answer compliance should be treated as separate system capabilities. Overall, the results support a hybrid design in which the frozen VLM supplies reusable semantic reasoning while explicit grounding, geometry, calibration, and constrained output control provide the structure required by each evaluation domain.
+KoreaDrive uses one frozen Qwen3-VL-8B-Instruct backbone across TAR, FETV, and PSI-VQA with task-specific inference controls and no parameter updates. Controlled analyses identify explicit target grounding and temporal calibration as material controls, while FETV exposes the need for stronger violator-centric consistency. The cases further separate semantic evidence from answer-contract compliance. The resulting design is hybrid: the frozen VLM supplies reusable semantics, and explicit grounding, geometry, calibration, and constrained output provide benchmark-specific structure.
 
-\section*{Acknowledgements}
+\paragraph{Acknowledgements.}
 This work was supported by the Ministry of Science and ICT, the Institute of Information \& Communications Technology Planning \& Evaluation (IITP) grant funded by the Korea government (No.~RS-2025-02283230, Development of Autonomous Cooperative Driving Technology Based on Seamless Communication of Heterogeneous V2X for Autonomous Driving), and by the Korea Planning \& Evaluation Institute of Industrial Technology (KEIT) grant funded by the Ministry of Trade, Industry and Resources (MOTIR) (No.~RS-2024-00404601).
 
 \bibliographystyle{splncs04}
