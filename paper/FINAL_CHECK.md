@@ -312,3 +312,63 @@ historical comparisons in §6.3 and weaker than the paired PSI studies.
 
 If this is added, mark FETV's *Output / post-processing* box in Figure 1 with the
 matching section number so all three branches carry one.
+
+---
+
+## 9. Two review questions, answered from the data
+
+### 9.1 "Is there evidence the prompt program contributed to the improvement?"
+
+**No, and the one controlled prompt experiment in the paper points the other
+way.** Every piece of evidence in the repository:
+
+| Comparison | What varied | Result |
+|---|---|---|
+| §6.2 PSI MCQ, 24 paired items | **prompt program only** | shipped routed prompt **3/24**, generic no-routing prompt **8/24** |
+| FETV `v5 → v6_fewshot`, official scorer | few-shot prompt **plus other changes** | 11 of 13 fields moved — confounded, nothing attributable |
+| FETV `v6_fewshot → v7`, official scorer | output contract + timestamp | **+0.0346**, of which **+0.0282 (81%) is the description formatting** and +0.0065 is date/time; all eleven categorical fields byte-identical |
+| §6.3 TAR | frame policy | 15/25 → 16/25 |
+
+So: the only controlled test of a shipped prompt program found it **below** the
+generic prompt, and the largest clean official gain on FETV came from the
+**output contract**, not from prompting. The `v5 → v6_fewshot` step is the one
+place a prompt change might have helped, and it moved eleven of thirteen fields
+at once, so it cannot carry the claim.
+
+The defensible statement is that **output contracts and post-processing carry the
+measured gains, while prompt programs are the component the analysis found most
+fragile** — the box-aware variant recovers PSI MCQ to 9/24 by adding explicit
+grounding, which is again a change to what the prompt *specifies*, not evidence
+that the shipped prompt program helped.
+
+**This changes Figure 1.** Pale-yellow currently emphasises the prompt-program
+rows as the proposed design. Nothing measured supports that emphasis. Either
+move the highlight to the *Output / post-processing* rows, which is where the
+evidence is, or drop the fill entirely and let the orange §6 markers carry the
+figure. Keeping yellow on prompt programs asserts a contribution the paper
+cannot show.
+
+Do not fix this by adding a claim. If the intent is to present prompt programs
+as a design contribution, the honest framing is that they are the interface
+through which task specialization is expressed, with §6.2 showing that *what*
+the prompt specifies — explicit target grounding — is what moves the score.
+
+### 9.2 "Does 'official pipeline' mean organizer-provided?"
+
+No, but the paper never says so. `official` appears **41 times in two different
+senses**, undefined:
+
+- **Ours**: official artifacts (7), official submissions (3), official runs (2),
+  official pipeline (2), official predictions (1) — meaning *the runs we
+  submitted and that were scored*.
+- **The organizers'**: official mean (4), official scorer, official evaluator,
+  official public board — meaning *defined by the challenge*.
+
+In the Figure 1 caption the ambiguity is worst, because the same figure now also
+carries organizer baselines. A reader can reasonably parse "prompt programs used
+in the official pipeline" as "prompt programs the organizers supplied".
+
+Fix in the caption: **"used in the submitted pipeline"** or **"in the scored
+submissions"**. Elsewhere, define the term once at first use — *we write* official
+*for the submissions that were scored on the evaluation server* — and keep
+organizer-defined objects as *organizer scorer*, *organizer baseline*.
