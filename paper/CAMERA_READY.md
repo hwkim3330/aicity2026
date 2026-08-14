@@ -360,6 +360,40 @@ the other workloads: [`../BENCHMARKS.md`](../BENCHMARKS.md).
 
 ---
 
+## 10b. Organizer baselines exist on TAR, and one beats us
+
+Asked in review whether the challenge shipped a baseline model. It depends on
+the track, and the answer is not the one the team assumed.
+
+| Track | Organizer baselines | Best baseline | Korea Drive |
+|---|---:|---:|---:|
+| 2 Captioning | 1 | 47.9186 S2 | 32.6404 |
+| **3 TAR** | **13** | **0.5729 mean** | **0.4256** |
+| 6 Detection | 1 | 0.2324 mAP | not submitted |
+| 7 FETV | none | — | 0.4634 |
+| 8 PSI-VQA | none | — | 57.0400 |
+| 1, 4, 5 | none | — | — |
+
+They sit on the **General** board only, flagged `isBaseline`, which is why they
+are absent from the public tables the paper quotes.
+
+Two consequences:
+
+1. **State the TAR comparison.** 0.4256 beats 11 of the 13 baselines and trails
+   the best by 0.1472. The paper's in-domain headline number is below an
+   organizer baseline and should say so; a reader who opens the General board
+   sees it immediately.
+2. **The Figure 1 (a)/(b) asymmetry is correct for FETV and PSI-VQA.** Those two
+   boards carry no baseline at all, so "participant model/system" against
+   "frozen Qwen3-VL-8B" is an accurate contrast there and needs no baseline box.
+   On TAR it would be inaccurate — if Figure 1 is meant to cover all three
+   benchmarks, the TAR branch needs the baseline shown.
+
+Evidence: `leaderboards/raw/general_{2,3,6}.json`, rows where `isBaseline` is
+true.
+
+---
+
 ## 11. Do not claim
 
 - Do not present `psi_vqa_submission_v8_final.csv` or
