@@ -60,7 +60,17 @@ currently attributes it to the output contract instead of the prompt.
 *prompt program* box and leave `§6.1` alone on PSI's *output control*. The TAR and
 FETV tags are correct as drawn.
 
-### 3 · The footnote commit — do this last
+### 3 · Figure 1: the §6.4 tag covers a word
+
+On the TAR row the orange `§6.4` box overlaps the section label, which renders as
+**`FRAME POLIC`** — the final `Y` is hidden underneath. Verified by rasterising
+`fig_system_overview.pdf` at 140 dpi. The FETV and PSI rows do not collide,
+because `OUTPUT CONTROL` leaves room where `FRAME POLICY` does not.
+
+Widen that box, shorten the label, or move the tag to the box corner as on the
+other two rows.
+
+### 4 · The footnote commit — do this last
 
 Currently `7787a98`. Set it immediately before generating the final PDF.
 
