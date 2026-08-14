@@ -13,6 +13,16 @@ top left and the weather and lighting are properties of the whole scene, whereas
 identifying which road user committed the violation requires resolving the
 actual traffic situation under fisheye distortion.
 
+## Files
+
+- `fetv_019_004_t{00_00,01_50,03_00}.jpg` — unannotated frames.
+- `fetv_019_004_annotated.jpg` — **use this one in the paper.** The box marks the
+  road user that versions v9–v11 designated as the violator, with a caption strip
+  recording that v8 predicted `no_violation` with `na` for every dependent field.
+  It marks a *prediction*, not ground truth: FETV labels for the scored subset are
+  not public and the case study does not claim which record is correct.
+  Regenerate with `python3 scripts/annotate_fetv_case.py`.
+
 ## Source and attribution
 
 - Dataset: FETV, <https://github.com/MoyoG/FETV> — 200 public fisheye
