@@ -1,3 +1,60 @@
+# Camera-ready checklist
+
+**Status 2026-08-14, late:** all four previous items are applied, verbatim and
+correctly. Full re-verification of the updated source found **one** new problem
+and nothing else.
+
+- citations: 15 cited / 15 defined, none dangling, none unused
+- cross-references: one dangling, see item 1 below
+- numbers: **0 unverified** — every figure in the paper matches the portal export
+  or the artifacts
+- retired phrasing: `capability audit`, `negative result`, `two late system
+  versions`, `not retained`, `missing revision`, `official pipeline` — all zero
+  occurrences; `KoreaDrive System` appears once, as the §4 title, which is correct
+
+---
+
+## The one remaining item
+
+### 1 · `fig:fetvcase` is never referenced
+
+The new frame figure carries `\label{fig:fetvcase}` but no `\Cref` points at it.
+An orphan float has no textual anchor: LaTeX places it wherever it fits and the
+reader is never sent to it. §7.1 discusses exactly this clip, so the reference
+belongs in its first sentence.
+
+**Find**
+
+```
+In clip 019\_004.mp4, one system version predicts no violation
+```
+
+**Replace**
+
+```
+In clip 019\_004.mp4 (\Cref{fig:fetvcase}), one system version predicts no violation
+```
+
+### 2 · The footnote commit — do this last
+
+Currently `7787a98`. Set it immediately before generating the final PDF.
+
+---
+
+## Previously listed, now applied — verified verbatim
+
+| | |
+|---|---|
+| §3.1 | `BERTScore-F1 (\texttt{roberta-large}, rescaled with baseline)` |
+| §3.2 | `IDF-weighted BERTScore (\texttt{microsoft/deberta-xlarge-mnli})` |
+| §4.2 | `On the 24 items answered in all three conditions, 3/24 routed, 6/24 generic, and 4/24 box-aware …; across the routed condition's full 47-item run the rate is 7/47.` |
+| footnote | moved from `d100b24` to `7787a98`; still needs the final value |
+
+---
+
+<details>
+<summary>Earlier revision of this checklist</summary>
+
 # Camera-ready checklist — regenerated against the Overleaf source of 2026-08-14 evening
 
 Six of the eight earlier items are applied. **Three edits and one final step
@@ -138,3 +195,5 @@ says ten and is right; `paper/FINAL_CHECK.md` §14 records the fix.
 without margin. If space is needed, §8 *Design Implications and Exploratory
 Prototypes* reports nothing scored and Reviewer vmz20 warned against presenting
 those prototypes as evaluated systems.
+
+</details>
