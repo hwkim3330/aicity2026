@@ -7,6 +7,12 @@
 *.jpeg
 *.png
 *.webp
+
+# Exception: figure assets for the camera-ready paper. These are illustrative
+# frames used inside a published figure, not a copy of the dataset -- the blanket
+# image rules above exist to keep dataset dumps out, not to stop the paper from
+# carrying its own figures. Attribution and terms are in frames/README.md.
+!paper/camera_ready_src/frames/*.jpg
 *.mp4
 *.db3
 data/
