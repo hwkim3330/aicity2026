@@ -1,11 +1,49 @@
 # Poster content plan — AI City Challenge 2026, ECCV Workshop, 9 Sep, Malmö
 
-Presenter: Yooseung Wang. Size not yet announced, so this fixes **content and
-order**, not millimetres. Everything below already exists in the paper or the
-repository — nothing new has to be produced except the layout.
+Presenter: Yooseung Wang. **Board size confirmed 2026-08-19: 140 x 100 cm**
+(landscape), per the organizing committee. Everything below already exists in the
+paper or the repository — nothing new has to be produced except the layout.
 
-Designed as **four columns**; if the final board is portrait, run columns 1–2 in
-the upper half and 3–4 below.
+Landscape at 140 x 100 confirms the **four-column** plan; the portrait fallback
+noted earlier is no longer needed.
+
+## Layout, to millimetres
+
+Total 1400 x 1000 mm.
+
+| band | height | contents |
+| --- | ---: | --- |
+| top margin | 40 mm | — |
+| title band | 150 mm | title, authors, affiliation, board/score strip |
+| gap | 30 mm | — |
+| body | 700 mm | four columns |
+| bottom margin | 80 mm | QR code sits bottom-right of column 4 |
+
+Columns: side margins 50 mm each leaves 1300 mm. Three 30 mm gutters gives
+**four columns of 302 mm**. Keep the gutters empty — nothing spans columns except
+the title band.
+
+Type sizes, set for a 1.5–2 m viewing distance:
+
+| element | size |
+| --- | ---: |
+| title | 100 pt |
+| authors / affiliation | 44 pt |
+| section headers | 50 pt |
+| body | 30 pt |
+| table cells | 28 pt |
+| captions and caveats | 24 pt |
+
+**The caveats print at body size, not caption size**, wherever a caveat qualifies a
+headline number — specifically the same-model-label caveat under the +0.1113 table
+in 2.2. Shrinking a caveat below the claim it qualifies is how a poster overstates
+what a paper says.
+
+Figures are vector PDFs placed at column width (302 mm). The annotated FETV frame
+is raster at 900 px, which is 76 mm at 300 dpi and 152 mm at 150 dpi — **below
+column width**. Re-export it from the 1920x1920 original with
+`scripts/annotate_fetv_case.py` before printing, or place it at 150 mm and accept
+the white space rather than upscaling.
 
 ---
 
@@ -168,6 +206,27 @@ For questions, not for the board:
   IDF-weighted `deberta-xlarge-mnli` for FETV)
 
 ---
+
+## Deadlines fixed by the committee email, 2026-08-19
+
+Workshop is a half-day ECCV session on **8 September, 08:30-12:30**; badge pick-up
+from 08:00 and there is usually a queue on day one. Presentations are strongly
+expected on-site; a proxy presenter is the remedy if the author cannot attend, and
+virtual is accepted only for visa or medical reasons.
+
+Uploads go to the committee's Google Drive under the subfolder for our paper ID,
+by **4 September, 23:59 AoE**:
+
+| file | required? |
+| --- | --- |
+| `XX-paper.pdf` camera-ready | yes |
+| `XX-slides.pdf` | orals only |
+| `XX-oral.mp4`, 4 min | virtual presentations only |
+| `XX-poster.pdf` | optional, recommended |
+
+**Two things still need confirming before these can be produced:** our paper ID
+(the `XX` in every filename), and whether we are assigned an oral. Orals are 4
+minutes, strictly enforced, plus a group Q&A per track.
 
 ## Production notes
 
