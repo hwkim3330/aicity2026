@@ -72,3 +72,27 @@ board we can legitimately adopt as-is.
 
 **Line to hold:** their adapters are on the Hub, and running them would not be our
 work. Learning the method is what the organizers publish these repositories for.
+
+## Dense-frame: applicable, and how to test it without repeating today's mistake
+
+`scripts/inference.py` reads `MAX_FRAMES = int(os.environ.get("TAR_MAX_FRAMES", 16))`,
+so the frame budget is already an environment variable. No training, no code change,
+same checkpoint — exactly the condition UWIPL_ETRI describe.
+
+**Three constraints on doing it properly.**
+
+The camera-ready fixes 16 frames in three places (poster header, Table 1,
+`CAMERA_READY.md`). Any run at a different budget is a **different configuration**
+and must be reported as post-deadline, not folded into the paper result — which is
+what slide 9's own rule of thumb says.
+
+Today's v8 lesson applies directly: a 24-item paired win did not predict the
+leaderboard. So dense-frame gets **scored locally first** against the 227 labelled
+PSI clips in `psi_mcq_cv_results/`, and only goes to the portal if that moves. Not
+the other way round.
+
+And the GPU is committed to the CASCADE description run for roughly two more hours.
+
+**Order:** finish CASCADE → rerun PSI at `TAR_MAX_FRAMES=32` → score on the 227
+labelled clips → submit only if it improves → keep "16 frames" in the paper either
+way.
