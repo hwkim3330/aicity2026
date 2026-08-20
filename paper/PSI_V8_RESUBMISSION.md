@@ -64,3 +64,30 @@ PSI   v7  57.04   best submitted   ·  unsubmitted: v8, analysed above
 ```
 
 So apart from PSI v8, no dormant artifact would improve any rank.
+
+
+## Result: submitted 2026-08-20, and it was worse
+
+```
+General   Success   53.1938   0.5045  0.5636  0.6019  0.4505  0.5708
+```
+
+Against the previous General submission at **55.4135**. The box-aware variant
+**lost 2.2 points** on the full test set.
+
+**The 24-item advantage did not generalise.** Box-aware beat the shipped routed
+configuration 9/24 to 3/24 with all six discordant items in its favour, p = 0.0312 —
+and that held only on the items it was measured on. Predicting a full-test-set gain
+from it was my error, and I made it while having written the caveat that it "does not
+translate one-for-one" two paragraphs above the recommendation.
+
+This is the third time this project has seen it: `feedback_verify_fixes_against_real_leaderboard`
+already records local and theoretical fixes regressing real scores despite sound
+diagnosis, on Track 1 ByteTrack and Track 4 rerank. A paired win on a small
+hand-scored subset is not evidence about a leaderboard, no matter how good its
+p-value — the subset is small enough that a real effect there can be swamped by
+everything else the submission touches.
+
+**Standing conclusion: no dormant artifact in this project improves any rank.** TAR
+and FETV were already at their best; PSI v8 has now been tested and is worse. The
+re-opened submission window has nothing left to gain here.
