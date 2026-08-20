@@ -131,6 +131,21 @@ One sentence beneath: *adding an explicit instruction to re-locate the red-boxed
 pedestrian recovers the routed configuration; all six discordant pairs favour it
 (p = 0.0312). It does not exceed the generic prompt.*
 
+**And a second sentence, added 2026-08-20 — this must not be printed without it.**
+The box-aware configuration was uploaded to the re-opened evaluation on 20 August
+and scored **53.19 against the previous General submission's 55.41**. *The paired
+advantage on 24 items did not survive to the full test set.*
+
+That changes what this panel is for. It is no longer "a prompt fix that works",
+it is **the cleanest negative result on the poster**: a statistically significant
+paired win on a hand-scored subset, refuted by the only measurement that ranks
+anything. Present it that way. A visitor who sees 9/24 with p = 0.0312 and no
+follow-up will reasonably assume it generalised, and it did not.
+
+It is also the third instance in this project — Track 1 ByteTrack and Track 4 rerank
+regressed the same way — which makes it a point worth making rather than hiding:
+**small-subset paired significance is not evidence about a leaderboard.**
+
 **3.2 Temporal localization** — reuse `fig_psi_temporal.pdf`. Caption in one line:
 *the VLM carries real temporal signal (0.4617 vs 0.2741 random), and fitted
 metadata priors are stronger still (0.5566 held out).*
