@@ -227,3 +227,61 @@ already caught it once.
 match their videos, or the pipeline behaves differently on the train path. Until
 that is settled, this harness cannot gate a submission, and the dense-frame
 16-vs-32 comparison running today can be recorded but not acted on.
+
+### Grounding difficulty does not explain it either (same day)
+
+Reading three of the disagreements frame by frame, the model's description
+matched the video better than the label did in all three -- in each case the red
+box marked a small or distant subject while something more salient moved through
+the frame. That suggested the train split simply has harder grounding, which
+would have explained the gap *and* the poster's re-location finding at once.
+
+Measured instead of assumed. `scripts/red_box_stats.py` isolates the drawn
+overlay by colour on the first frame and reports its extent:
+
+| | items | videos | box area, median | under 0.1% of frame |
+| --- | ---: | ---: | ---: | ---: |
+| train | 321 | 118 | **0.01770** | 16% |
+| test | 91 | 42 | **0.01764** | 8% |
+
+The boxes are the same size. Grounding difficulty is refuted as the explanation,
+and with it the tidy story that the harness was merely measuring a harder split.
+
+Two smaller things fell out. Questions are not one per video -- train runs 2.7
+questions per video and test 2.2 -- so any per-video count taken as an item count
+is wrong, which is how a first pass here produced a bogus "227 vs 25". And the
+colour threshold finds a box on 69% of train videos against 29% of test, which is
+as likely to be the threshold as the data and is not evidence of anything on its
+own.
+
+So the 2x gap is recorded as unexplained. Seven candidate causes are ruled out
+above; three hand-read examples are not enough to conclude the labels are wrong,
+and that remains the only surviving hypothesis.
+
+### Box size matters and still does not close the gap (same day)
+
+Splitting the 321 train items by the measured box size:
+
+| subset | n | accuracy |
+| --- | ---: | ---: |
+| all | 321 | 0.2804 |
+| box detected | 227 | 0.2775 |
+| box not detected | 94 | 0.2872 |
+| box >= 1% of frame | 133 | **0.3008** |
+| box < 1% of frame | 94 | **0.2447** |
+
+Grounding is real -- a larger box is worth 5.6 points -- but the best subset
+available is 0.3008 against an official 0.6044, so it is a contributing factor
+and not the explanation. The lower tail does not help either: test's 5th
+percentile box (0.00008 of frame) is four times *smaller* than train's (0.00032),
+on 25 videos.
+
+One thing this does settle: the "227 labelled PSI clips" the earlier notes refer
+to is the subset with a detectable red box, and it scores 0.2775 against the full
+set's 0.2804. So the gap is not an artefact of which subset past runs used.
+
+Eight candidate causes are now ruled out. Of five disagreements read frame by
+frame, four had the model's description fitting the video better than the label
+did -- but five cases cannot establish a labelling error across 321, and settling
+it means a human reading a few dozen. Closing this thread here rather than
+guessing further.
