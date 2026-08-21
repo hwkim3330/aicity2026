@@ -296,3 +296,29 @@ Self-consistency voting (`4`) cost 0.55 MCQ accuracy points and was reverted in
 | `scripts/fetv_structured_pipeline.py` | post-challenge prototype; needs an upstream detector/tracker/lane/OCR stack that was never built |
 
 Neither has an official score, and neither may be presented as one.
+
+## Dense-frame inference: no effect (2026-08-21)
+
+UWIPL_ETRI report gains from a larger frame budget with no training and no code
+change, and `inference.py` already reads `TAR_MAX_FRAMES`, so this was the
+cheapest untested lever on Track 8. Run over all 321 labelled train MCQ items,
+same seed, same shuffled order, same prompt, same checkpoint -- only the budget
+differs:
+
+| | accuracy | parse failures |
+| --- | ---: | ---: |
+| 16 frames (shipped) | 0.2804 | 11.8% |
+| 32 frames | 0.2866 | 12.1% |
+
+Paired over the same 321 items, **2 items changed** -- both in favour of 32
+frames, none against, sign p = 0.5000. 319 of 321 answers are identical.
+
+That is not a small effect measured imprecisely, it is no effect: doubling the
+frames does not change what the model says. Parse failures are unmoved too, so
+the extra frames do not even lengthen the reasoning enough to reach a conclusion
+inside the 320-token budget.
+
+Not submitted, and the paper keeps 16 frames. Two independent reasons: there is
+nothing to submit, and this harness scores 0.2804 where the official MCQ scores
+0.6044 (`55/91`), so it could not have gated a submission even with a result --
+see POSTMORTEM.md, where eight candidate explanations for that gap are ruled out.
