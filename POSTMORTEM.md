@@ -185,3 +185,45 @@ It is that language generation transferred well, while spatial identity,
 geometry, and temporal consistency required explicit structured modules. The
 paper should validate that claim with clean video-grouped ablations and report
 official results separately from post-deadline experiments.
+
+## The PSI MCQ CV harness disagrees with the official score by 2x (2026-08-21)
+
+Running `scripts/psi_mcq_cv.py` over all 321 labelled train MCQ items at the
+shipped 16-frame budget scores **90/321 = 0.2804**. The official Track 8 MCQ
+score is **0.6044**, which is exactly `55/91` -- simple accuracy over the 91
+test items. Chance on a 4-option question is 0.25, so the harness says the
+pipeline is barely above guessing on the same task it scored 0.60 on.
+
+Everything checkable was checked and none of it explains the gap:
+
+* **labels** -- each `answer` field's letter matches the same-lettered option in
+  the question, text and all; the distribution is A 86 / B 80 / C 84 / D 71.
+* **prompt path** -- no `--variant`, so it uses `prompts.py`'s `psi_mcq` suffix
+  and calls `backend.answer(video, "psi_mcq", question)`, the same entry the
+  official run used.
+* **videos** -- 1280x720, ~6 s, 181 frames, zero missing for the sampled items.
+* **metric** -- `55/91` lands on 0.6044 exactly, so the official number is plain
+  accuracy and not a partial-credit variant.
+* **distribution** -- both splits are entirely the `ambiguous` subset with 33.0%
+  negative-polarity questions and four options each. If anything the test split
+  is *easier*: mean pairwise Jaccard between options is 0.139 against train's
+  0.163, so its distractors overlap the answer less.
+* **polarity** -- CROSS 0.332 vs NOT 0.290 on resolved items, so negation
+  handling is not the cause either.
+
+91 items give a binomial standard error of 5.1 points, so sampling does not cover
+a 32-point gap.
+
+**What this invalidates.** Every past decision taken on this harness loses its
+support, including the three stored runs in
+`track3_anomaly/psi_mcq_cv_results/` (0.128, 0.375, 0.333 -- all at or below
+chance) and the 24-item paired grounding study that the poster and the talk both
+report. That study's conclusion already failed to transfer: it won all six
+discordant pairs at p=0.0312 and then scored 53.19 against 55.41 on the real
+board. This is the same harness telling the same kind of lie, and the leaderboard
+already caught it once.
+
+**What is not yet known** is which side is wrong. Either the train labels do not
+match their videos, or the pipeline behaves differently on the train path. Until
+that is settled, this harness cannot gate a submission, and the dense-frame
+16-vs-32 comparison running today can be recorded but not acted on.
