@@ -362,3 +362,32 @@ The lesson is narrow and worth keeping: before comparing a local number to a
 leaderboard number, check that the leaderboard number was produced by the code
 you are about to run. A submission history that repeats a metric unchanged is
 the signal that it was not recomputed.
+
+## The answer-first result arrives after every deadline it could have served
+
+Chasing the "2x harness gap" ended in two places. The gap itself was a
+comparison that never held (previous section). But the harness built to chase it
+then produced a real finding: emitting the answer letter before the reasoning
+instead of after it moves PSI MCQ from 0.2804 to 0.4424 over all 321 labelled
+train items, 82W/30L, p < 1e-5, with parse failures going 11.8% → 0.0%. A third
+arm showed the effect is ordering alone -- adding a grounding sentence changed
+nothing (5W/5L, p=1.000). Details in
+[`track3_anomaly/ABLATIONS.md`](track3_anomaly/ABLATIONS.md).
+
+**It cannot be used.** Track 3/8 submissions closed 2026-07-11, the repository
+went to NVIDIA on 08-07, and camera-ready was 08-15. There is no artifact left to
+improve and no document left to put it in. The shipped MCQ rows score 0.6044 and
+came from a configuration predating this repository, so this variant cannot even
+be compared against what was actually submitted -- only against the current
+`psi_mcq` prompt, which was never scored by the organizers.
+
+Recording it because the mechanism is portable and the next VLM task with a token
+cap and a parsed letter will hit the same wall: **if a parser needs one token out
+of a capped generation, emit that token first.** 11.8% of items here ran past the
+cap mid-elimination and fell through to a literal `"A"`. Doubling the budget to
+640 tokens left that at 11.2% -- the model was not short of room, it declined to
+stop. Ordering makes running long harmless; a larger budget does not.
+
+The honest summary of the night's Track 3 work: one false alarm diagnosed and
+closed, one genuine finding produced too late to matter, one hypothesis (box-size
+grounding) refuted.
