@@ -1,23 +1,23 @@
 #!/usr/bin/env python3
 """Measure the red box the PSI questions refer to, per split.
 
-The harness scores 0.2804 on 321 labelled train MCQ items where the official
-test score is 0.6044 (exactly 55/91), and nothing about the labels, prompts,
-videos, metric or class balance explains it. Reading three of the disagreements
-frame by frame points at one thing: in each case the red box marks a small,
-distant subject while something much more salient moves through the frame, and
-the model describes the salient one.
+Written to test whether the train split has harder grounding than test, back
+when the shipped prompt's 0.2804 on train looked like it contradicted the
+official 0.6044. It did not contradict anything: the submission history shows
+the MCQ rows were written once on 2026-07-06 and carried forward unchanged
+through six submissions, and the `psi_mcq` prompt was first committed five days
+later, so the two numbers came from different configurations. See POSTMORTEM.md.
 
-That is the grounding failure the poster already reports -- re-locating the
-target explicitly took 3/24 to 9/24 on the paired MCQ study. If the train split
-simply has smaller and more distant boxes than the test split, both the 2x gap
-and the poster's finding have the same cause, and the harness is not broken so
-much as measuring a harder split.
+The measurement stands on its own and is why this file is kept. The boxes are
+the same size in both splits -- median area 0.01770 on train against 0.01764 on
+test -- so the split difference hypothesis is refuted. But box size does predict
+accuracy within a split: items whose box covers at least 1% of the frame score
+0.3008 against 0.2447 for the rest, 5.6 points, which is consistent with the
+poster's finding that re-locating the target explicitly moved 3/24 to 9/24.
 
-So: find the box and measure it. It is drawn in saturated red on the first
-frame, which a colour threshold isolates without a model. Reported per split:
-box area as a fraction of frame, and the vertical position of its centre, which
-is a rough proxy for distance in a forward-facing camera.
+The overlay is drawn rather than photographed, so it is far more saturated than
+any real red in the scene and a channel-margin threshold isolates it without a
+model.
 """
 from __future__ import annotations
 
