@@ -290,6 +290,30 @@ cd track3_anomaly/scripts && python3 make_psi_v7_openqa_prior.py --verify
 # OK: reconstruction matches ../submissions/psi_vqa_submission_v7.csv on all 328 records
 ```
 
+### The MCQ rows predate the prompt this repository ships (2026-08-21)
+
+The table above lists `prompts.py (psi_bcq, psi_mcq)` under Prompt/config, which
+reads as though the shipped `psi_mcq` produced the scored MCQ rows. It did not.
+
+MCQ accuracy is 0.6044 to four decimals on submissions 1, 2, 3, 5, 6 and 7 --
+only submission 4 differs -- while `temporal_miou` climbs 0.0287 -> 0.5708 across
+the same series. The MCQ rows were written once for submission 1 on 2026-07-06
+and carried forward, which is the same fact the section above states as "the 91
+MCQ rows are byte-identical to v6".
+
+`git log -S psi_mcq -- track3_anomaly/scripts/prompts.py` returns exactly one
+commit, `c441d15` on 2026-07-11 22:51, which **adds** that entry and removes
+nothing -- six hours after the final submission and five days after 0.6044 was
+first scored. So the configuration that earned the MCQ score is not in this
+repository, and running `reproduce_psi_vqa_official.sh` will regenerate those 91
+rows with a prompt that never produced them.
+
+Measured consequence: the shipped `psi_mcq` scores 0.2804 over the 321 labelled
+train MCQ items. That is not evidence the harness is broken -- it is what the
+current prompt does. It is also why a local MCQ number cannot be compared to
+0.6044; see POSTMORTEM.md, where nine hypotheses were spent on that comparison
+before the submission history settled it.
+
 ### Determinism
 
 Steps 4 (temporal prior) and 5 (OpenQA cues) are fully deterministic. MCQ,
