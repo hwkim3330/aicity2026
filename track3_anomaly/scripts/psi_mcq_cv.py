@@ -44,6 +44,38 @@ VARIANTS["describe_first"] = (
 )
 
 
+# Answer-first. The measured failure is truncation, not confusion: 11.8% of
+# items run past the token cap mid-elimination and never emit a letter, and
+# doubling the budget to 640 leaves that at 11.2% -- the model does not run out
+# of room, it declines to stop. Putting the letter before the reasoning makes
+# truncation harmless, because the only token the parser needs is already out.
+VARIANTS["answer_first"] = (
+    "\nThis question is about a PEDESTRIAN'S CROSSING INTENT. Focus only on "
+    "the pedestrian marked by the red bounding box at the start -- it may be "
+    "small or distant, and other people in the frame are not the subject.\n"
+    "Respond in exactly this order:\n"
+    "Final answer: <A, B, C or D>\n"
+    "Then, in two sentences, say what that pedestrian does (position relative "
+    "to the road, whether they are moving, and which way) and why the other "
+    "options are false for this video.\n"
+    "Give the letter first, before any reasoning."
+)
+
+# Same ordering, but with one explicit instruction to check the box's subject
+# against the salient one -- box size is worth 5.6 points (0.3008 vs 0.2447
+# accuracy above and below 1% of frame), so the failure it names is real.
+VARIANTS["answer_first_grounded"] = (
+    "\nThis question is about a PEDESTRIAN'S CROSSING INTENT. A red box marks "
+    "the subject in the first frame. It is often small or far away, and there "
+    "is frequently a nearer, more obvious pedestrian who is NOT the subject -- "
+    "describe the boxed one, not the eye-catching one.\n"
+    "Respond in exactly this order:\n"
+    "Final answer: <A, B, C or D>\n"
+    "Then two sentences: where the boxed pedestrian is relative to the road, "
+    "whether they are moving and in which direction.\n"
+    "Give the letter first, before any reasoning."
+)
+
 VARIANTS["box_aware"] = (
     "\nThis question is about a PEDESTRIAN'S CROSSING INTENT, not a "
     "collision. IMPORTANT: the red bounding box that marks the pedestrian "
@@ -138,8 +170,13 @@ def main():
     # wrap _generate_once so we can log the raw reasoning text
     raw_holder = {}
     orig_gen = backend._generate_once
-    def wrapped(inputs, mnt, do_sample):
-        out = orig_gen(inputs, mnt, do_sample)
+    # Signature-agnostic: `_generate_once` gained a `seed` argument when
+    # per-draw seeding was added, and this shim's fixed three-argument form
+    # made every item fail with an unexpected-keyword error while still
+    # reporting "FINAL acc: 0/0". Forwarding whatever it is called with keeps
+    # the shim from going stale again the next time that signature moves.
+    def wrapped(*args, **kwargs):
+        out = orig_gen(*args, **kwargs)
         raw_holder["text"] = out
         return out
     backend._generate_once = wrapped

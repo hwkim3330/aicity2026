@@ -231,7 +231,14 @@ class QwenVLBackend:
 
     @torch.inference_mode()
     def _generate_once(self, inputs, max_new_tokens, do_sample, seed=None):
-        gen_kwargs = dict(max_new_tokens=max_new_tokens)
+        # Budget override, mirroring TAR_MAX_FRAMES, so the token cap can be
+        # measured without editing the prompt spec. It matters: on 321 labelled
+        # PSI MCQ items at the shipped cap of 320, 38 generations (11.8%) run out
+        # mid-sentence and never emit a letter, and make_submission then writes
+        # the literal "A" -- which is right 26.3% of the time against a 25%
+        # chance baseline. Those items are decided by a coin flip.
+        floor = int(os.environ.get("TAR_MIN_NEW_TOKENS", "0"))
+        gen_kwargs = dict(max_new_tokens=max(max_new_tokens, floor))
         if do_sample:
             # Seeded per draw rather than once per process, so a resumed or
             # reordered run answers each question identically. Seeding only at

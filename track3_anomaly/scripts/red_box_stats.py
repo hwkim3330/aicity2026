@@ -60,7 +60,11 @@ def red_box(rgb: np.ndarray) -> tuple[float, float, float] | None:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", default="data/psi_vqa")
-    ap.add_argument("--out", default="data/psi_vqa/red_box_index.json")
+    # Deliberately not red_box_index.json: that name belongs to psi_box_detect.py,
+    # whose schema is t0/t1/cx/cy/h and which box_hint() reads. This file is
+    # area/cx/cy/found and overwriting the other one would have made --hint fail
+    # silently.
+    ap.add_argument("--out", default="data/psi_vqa/red_box_area_stats.json")
     args = ap.parse_args()
 
     root = Path(args.data)
