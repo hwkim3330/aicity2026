@@ -350,3 +350,17 @@ harness that reads 0.2804 where the official metric reads 0.6044, with eight
 candidate explanations for that gap ruled out in POSTMORTEM.md, and today already
 produced one case (AlpaSim, 10 scenes) where a clean-looking half-sample reversed
 completely when widened. Recorded, not acted on.
+
+### Final numbers, stopped at 214 of 321 (2026-08-21)
+
+Halted deliberately: the diagnostic question was answered and the GPU was worth
+more to the prompt-variant comparison, which can produce a submittable
+candidate. This one explicitly could not.
+
+| | 320 tokens | 640 tokens |
+| --- | ---: | ---: |
+| parse failures | 0.121 | **0.112** |
+| accuracy | 0.2897 | 0.3318 |
+
+Paired over the same 214 items: 640 better on 28, 320 better on 19, sign
+p = 0.2430. The budget is not what stops the model concluding.
