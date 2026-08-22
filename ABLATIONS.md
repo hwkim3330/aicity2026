@@ -322,3 +322,31 @@ Not submitted, and the paper keeps 16 frames. Two independent reasons: there is
 nothing to submit, and this harness scores 0.2804 where the official MCQ scores
 0.6044 (`55/91`), so it could not have gated a submission even with a result --
 see POSTMORTEM.md, where eight candidate explanations for that gap are ruled out.
+
+## Token budget: the truncation is not a budget problem (2026-08-21)
+
+11.8% of the 321 labelled train MCQ items run past the 320-token budget
+mid-sentence, never emit a letter, and fall through to a literal `"A"` that is
+right 26.3% of the time against a 25% chance baseline. Doubling the budget to
+640 tokens is the direct test of whether those items simply needed room to
+finish.
+
+They did not. At 168 items paired against the same items at 320 tokens:
+
+| | 320 tokens | 640 tokens |
+| --- | ---: | ---: |
+| parse failures | 11.8% | **11.2%** |
+| accuracy | 0.2733 | 0.3230 |
+
+Twice the budget recovers essentially none of the truncations. The model does not
+run out of room to conclude, it declines to conclude -- the prompt asks it to
+describe the pedestrian, then eliminate each option in turn, and it keeps
+eliminating. One of the earlier reads showed it looping ("not moving toward the
+camera. not moving away from the camera.") until the cap. So the lever is the
+`psi_mcq` suffix's structure, not `max_new_tokens`.
+
+The accuracy movement is not evidence of anything here. It is a partial run on a
+harness that reads 0.2804 where the official metric reads 0.6044, with eight
+candidate explanations for that gap ruled out in POSTMORTEM.md, and today already
+produced one case (AlpaSim, 10 scenes) where a clean-looking half-sample reversed
+completely when widened. Recorded, not acted on.
