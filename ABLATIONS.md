@@ -364,3 +364,42 @@ candidate. This one explicitly could not.
 
 Paired over the same 214 items: 640 better on 28, 320 better on 19, sign
 p = 0.2430. The budget is not what stops the model concluding.
+
+## Answer-first prompting: +0.162 on PSI MCQ, p < 1e-5 (2026-08-21)
+
+Over all 321 labelled train MCQ items, same seed and order, only the `psi_mcq`
+suffix differing:
+
+| | shipped | answer-first |
+| --- | ---: | ---: |
+| accuracy | 0.2804 | **0.4424** |
+| parse failures | 11.8% | **0.0%** |
+| median generation | 256 words | 85 words |
+
+Paired: the variant wins 82 items and loses 30, sign p < 1e-5.
+
+The change is only ordering. The shipped suffix has the model establish position,
+motion, gaze and context, then eliminate options one by one, then state a letter.
+The variant asks for `Final answer: X` first and two sentences of justification
+after.
+
+**This follows a diagnosis, and the competing explanation was ruled out first.**
+11.8% of items ran past the 320-token cap mid-elimination and never emitted a
+letter, falling through to a literal `"A"` worth 26.3% against 25% chance.
+Doubling the budget to 640 tokens left that at 11.2% -- the model was not short
+of room, it would not stop. Reordering removes the failure entirely because the
+token the parser needs is emitted before there is anything to run out of.
+
+**A process note against my own reading.** Watching the partial sums, the delta
+fell monotonically -- +0.241 at 29 items, +0.200 at 45, +0.194 at 62, +0.152 at
+79, +0.113 at 106 -- and the baseline climbed from 0.103 toward its full-set
+0.2804. I called that a hard early slice inflating the effect and predicted a
+final delta near +0.06. It finished at +0.162. Intermediate p-values also swung
+(0.023 at 62, back to 0.096 at 106). Having been burned by early optimism on
+AlpaSim's 10-scene gate the same day, I over-corrected into early pessimism. The
+only sound reading of a partial run is that it is partial.
+
+Not submitted yet: `answer_first_grounded` is still to run, and the shipped
+artifact's MCQ rows already score 0.6044 from a configuration that predates this
+repository, so what a better *current* prompt is worth against that number is a
+separate question.
