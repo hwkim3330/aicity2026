@@ -317,3 +317,48 @@ and the labelling hypothesis is now the weakest of the nine considered, not the
 strongest. What is left is a property of the two splits that none of the measured
 comparisons -- box size, polarity, option overlap, question length, class balance
 -- has captured.
+
+### The gap was a comparison that never held (2026-08-21, resolved)
+
+There is no 2x gap to explain. The two numbers were never produced by the same
+configuration.
+
+`leaderboards/submission_history.json` records MCQ accuracy per submission:
+
+| # | submitted | mcq_accuracy | temporal_miou |
+| ---: | --- | ---: | ---: |
+| 1 | 07-06 09:42 | **0.6044** | 0.0287 |
+| 2 | 07-07 13:12 | 0.6044 | 0.2268 |
+| 3 | 07-08 16:52 | 0.6044 | 0.4623 |
+| 4 | 07-09 11:28 | 0.5495 | 0.4623 |
+| 5 | 07-09 11:34 | 0.6044 | 0.4623 |
+| 6 | 07-11 07:53 | 0.6044 | 0.5708 |
+| 7 | 07-11 16:15 | 0.6044 | 0.5708 |
+
+MCQ is identical to four decimals across six of seven submissions while
+`temporal_miou` climbs from 0.0287 to 0.5708. The MCQ rows were written once and
+carried forward; the work went into temporal. So the 0.6044 was set on **07-06**.
+
+`git log -S psi_mcq -- scripts/prompts.py` returns exactly one commit, `c441d15`
+on 07-11 at 22:51, which *adds* the `psi_mcq` entry and removes nothing. The
+prompt this harness runs did not exist in the repository when 0.6044 was scored,
+and that commit lands six hours after the last submission.
+
+So today's comparison put a 07-11 prompt on the train split against a pre-07-06
+configuration's test score and called the difference unexplained. Nine hypotheses
+were tested against a gap that was an artefact of pairing the wrong two numbers:
+labels, prompt path, videos, metric definition, split distribution, polarity,
+grounding, subset selection, and reading twelve disagreements by eye.
+
+What stands from that work: the labels are sound, box size is worth 5.6 points,
+and the model does perform near chance on the train split with the current
+prompt. What falls: the claim that this harness disagrees with the official
+score, and with it the doubt cast on every decision made through it -- including
+the 24-item grounding study in the poster. That study still failed to transfer
+(53.19 against 55.41), which was always the stronger evidence and does not
+depend on any of this.
+
+The lesson is narrow and worth keeping: before comparing a local number to a
+leaderboard number, check that the leaderboard number was produced by the code
+you are about to run. A submission history that repeats a metric unchanged is
+the signal that it was not recomputed.
