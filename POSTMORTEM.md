@@ -285,3 +285,35 @@ frame, four had the model's description fitting the video better than the label
 did -- but five cases cannot establish a labelling error across 321, and settling
 it means a human reading a few dozen. Closing this thread here rather than
 guessing further.
+
+### Reading the disagreements by eye: the labels are mostly fine (2026-08-21)
+
+The last surviving hypothesis was that the train labels do not match their
+videos. Twelve disagreements were pulled up frame by frame -- five earlier plus a
+random sample of the rest. The result argues against it.
+
+| what the frames showed | count |
+| --- | ---: |
+| label correct, model simply wrong | 4 |
+| subject too small or distant to judge at all | 5 |
+| label appears to contradict the video | 3 |
+
+The three that look like label errors share a feature with the five unjudgeable
+ones: the red box marks a small, distant subject while a different, salient
+pedestrian moves through the frame. In `video_0153_track_23` the label says the
+pedestrian stood on the sidewalk while someone walks clearly across the road --
+but the box is a few pixels near the centre, not that person. So those are the
+grounding failure again, not mislabelling.
+
+Where the subject is visible enough to assess, the label is usually right and the
+model is wrong. `video_0112_track_13`: two pedestrians walking between parked
+cars, label says walking along the road, model says standing still. Model wrong.
+`video_0136_track_43`: a pedestrian in pink walking diagonally across a lot,
+label says walking diagonally, model says still on the sidewalk. Model wrong.
+
+So the harness is measuring something real: on this split the pipeline genuinely
+performs near chance. **The 2x gap with the official 0.6044 remains unexplained**
+and the labelling hypothesis is now the weakest of the nine considered, not the
+strongest. What is left is a property of the two splits that none of the measured
+comparisons -- box size, polarity, option overlap, question length, class balance
+-- has captured.
