@@ -1,93 +1,89 @@
-# FETV disqualification — appeal draft
+# FETV disqualification — assessment
 
 Korea Drive (Team 277), Track 7 / FETV, 2026 AI City Challenge.
 Written 2026-09-08 after the on-site announcement that Korea Drive was disqualified
-from FETV for using a different model. Every claim below is checkable from the
-organizers' own published records or from the public repository cited in our paper,
-`github.com/hwkim3330/aicity2026`.
+from FETV for using a different model.
 
-## The rule
+**Conclusion: the disqualification is most likely correct, and we should not contest
+it.** The stated reason ("a different model") does not match the record, but the
+underlying failure is real, is ours, and is already documented in this repository.
+Only the characterization is worth correcting, and only if asked.
 
-2026 FAQ, Q2:
+## Why the stated reason does not match the record
 
-> Task-specific prompts, parsing, and routing inside the pipeline are allowed, but
-> teams may not submit separately tuned or specialized systems per task type or per
-> test set.
+The rule (2026 FAQ Q2, repeated per leaderboard in Q7) is a unified-system
+requirement: "teams may not submit separately tuned or specialized systems per task
+type or per test set." It is not a model whitelist, so "a different model on FETV"
+must mean *different from TAR*.
 
-Q7 repeats it per leaderboard. So the requirement is one system across TAR, FETV and
-PSI-VQA — not membership of an approved model list. "A different model on FETV"
-therefore means *different from the TAR submission*.
+Three organizer-side records say otherwise:
 
-Q3 places the declaration duty in the technical report: "External data sources used
-must be declared in the technical report." The FAQ does not define a portal
-`models_used` field as the declaration of record.
+* the portal carries `models_used: qwen3` on the scored TAR submission;
+* *The 10th AI City Challenge* (arXiv 2608.17044) lists Team 277 in the Track 3 table
+  at 0.4256 attributing **Qwen3**, and lists Korea Drive on FETV at 3/8 public
+  (5/15 overall), 0.4634, with no ineligibility mark;
+* the camera-ready abstract states a "frozen Qwen3-VL-8B-Instruct inference pipeline …
+  no task-specific parameter update or adapter generated the official predictions,"
+  and the final PDF contains zero occurrences of "Qwen2.5".
 
-## What the scored runs were
+Every reproduce script in this repository also hardcodes or defaults to
+`Qwen/Qwen3-VL-8B-Instruct`. No adapter weights are tracked.
 
-| task | scored artifact | model | precision |
-| --- | --- | --- | --- |
-| TAR | `submission_qwen3vl8b_v9.csv`, 0.4256 | `Qwen/Qwen3-VL-8B-Instruct` | bf16 |
-| FETV | v11, 16 frames, 360x420 px/frame, greedy, 0.4634 | `Qwen/Qwen3-VL-8B-Instruct` | bf16 |
-| PSI-VQA | `psi_vqa_submission_v7.csv`, 57.04 | `Qwen/Qwen3-VL-8B-Instruct` | bf16 |
-
-One frozen backbone, no adapter, no per-task weights.
-
-## The organizers' own records already say this
-
-1. **The portal.** The scored TAR submission carries `models_used: qwen3`.
-2. **The challenge summary paper.** *The 10th AI City Challenge* (arXiv 2608.17044)
-   lists Team 277 in the Track 3 table at rank 24, mean 0.4256, attributing **Qwen3**
-   — the organizers' own attribution, not ours. The same paper lists Korea Drive on
-   the FETV board at 3/8 public (5/15 overall), 0.4634, with no ineligibility mark.
-3. **The camera-ready.** Its abstract states that Korea Drive "uses a frozen
-   Qwen3-VL-8B-Instruct inference pipeline with task-specific prompts, frame policies,
-   output contracts, parsing, and optional calibration; **no task-specific parameter
-   update or adapter generated the official predictions**," and that "the archived runs
-   record the same model identifier, bf16 precision, and visual budget." The final PDF
-   contains zero occurrences of "Qwen2.5" and zero of "4-bit".
-
-## What we got wrong, stated plainly
+## Why the disqualification is nonetheless sound
 
 The summary paper describes verification as: "Award-candidate teams were required to
 provide reproducible code and models." At FETV rank 3 we were inside that band, and
-the artifact a verifier would read is the repository cited in our paper. Two documents
-in it contradicted the runs.
+the repository handed over is the one cited in the paper.
 
-* **`track3_anomaly/README.md` — the most likely cause.** Under "Model choice" it read
-  "**TAR baseline:** `Qwen/Qwen2.5-VL-7B-Instruct`, 4-bit NF4" and "Qwen3-VL-8B was
-  later integrated for the official FETV and PSI-VQA runs. The earlier TAR baseline
-  retained Qwen2.5-VL-7B for environment stability." Read literally that is a
-  statement that TAR used one model and FETV/PSI used another — the exact violation
-  described to us. It was written on 2026-07-23 about the July exploratory baseline and
-  was never updated when Qwen3-VL-8B became the TAR submission. It was wrong, it was
-  ours, and it stood in the cited public repository throughout the verification window.
-  It is corrected as of this appeal; the git history shows both the original and the
-  correction.
+**The FETV artifact does not reproduce from it, and we knew.** Commit `84eb117`,
+2026-08-13, "FETV does not reproduce, and the repository said it would":
 
-* **The *submitted* manuscript misstated the TAR backbone** as Qwen2.5-VL-7B at 4-bit.
+* re-ran all 200 public clips with the revision pinned: **0 of 200 records matched**
+  the shipped v11 (re-measured today: `answer_description` differs on 200/200,
+  `answer_time` on 169/200, the categorical fields on 28-81 each);
+* the artifact is **the last of an eleven-step chain, not one run** — v7→v8 rewrote 56
+  rows, v8→v9 another 57, v9→v10 fifteen, v10→v11 ninety-two — while `REPRODUCE.md`
+  listed a single command and an expected SHA256 beside it;
+* only v10→v11 was recovered and verified exactly (`make_fetv_v11_descriptions.py
+  --verify`). **The commands behind v9 and v10 remain unrecorded**, so those two steps
+  cannot be reproduced by anyone, including us.
 
-Neither is a concealment, and the timeline is public and timestamped:
+Commit `b6949ae` the same day ruled out five candidate causes for the residual
+`answer_time` bias by measurement — run-to-run nondeterminism, the determinism pin,
+a different clip encode, frame-sampling drift, and the few-shot exemplars — and named
+no cause.
 
-* commit `a07a930`, **2026-08-03**, "Identify all three official artifacts, and correct
-  the TAR backbone" — pushed to `origin/main` before results were released. It added
-  `OFFICIAL_RESULTS.md` ("The TAR backbone was Qwen3-VL-8B, not Qwen2.5-VL-7B … this
-  contradicts the submitted paper … must be corrected in the camera-ready") and
-  `REPRODUCE.md` gap 2.
-* The camera-ready carried that correction through.
-* We missed `track3_anomaly/README.md` in that sweep. That omission is ours.
+A verifier who re-runs our code gets output that matches the submitted artifact on no
+record at all. That is a reproducibility failure on its own terms, and unrecorded
+row-rewriting steps applied to one test set are not something we can defend as the
+"task-specific prompts, parsing, and routing" the rule permits, because we cannot say
+what they did.
 
-The real Qwen2.5-VL-7B artifact in our logs is a *General*-type exploratory TAR entry
-(`test`, 0.3480) that was never among the scored submissions.
+## Our own documentation problem, separately
 
-## What we are asking
+`track3_anomaly/README.md` still read, until commit `9bc25e8` today, "**TAR baseline:**
+`Qwen/Qwen2.5-VL-7B-Instruct`, 4-bit NF4 … Qwen3-VL-8B was later integrated for the
+official FETV and PSI-VQA runs. The earlier TAR baseline retained Qwen2.5-VL-7B."
+Read literally that asserts different models per test set. It described the July
+exploratory baseline, was never updated when Qwen3-VL-8B became the TAR submission,
+and stood in the cited public repository throughout the verification window. It is
+the most plausible source of the "different model" wording.
 
-1. Re-check the FETV determination against the **scored artifacts** and the
-   camera-ready rather than the July baseline notes, given that the portal field and
-   the challenge summary paper both already attribute Qwen3 to Team 277.
-2. Tell us which document the determination rested on. If it was
-   `track3_anomaly/README.md`, we accept that the record we handed over said what it
-   said, and we would ask only that the correction and its 2026-08-03 predecessor be
-   noted.
+The submitted manuscript carried the same misstatement. We found it ourselves and
+published the correction in `a07a930` on **2026-08-03**, before results, in
+`OFFICIAL_RESULTS.md` and `REPRODUCE.md` gap 2, and carried it into the camera-ready —
+but missed the track README in that sweep.
 
-We are not contesting the ranking on merit. FETV was 0.4634 against the winner's
-0.4891.
+## Recommendation
+
+Do not file an appeal contesting the disqualification. If we write to the organizers
+at all, ask only two things, and concede the rest:
+
+1. Which finding the determination rested on, for our records.
+2. That the characterization be corrected to reproducibility rather than model
+   identity, if that is in fact what was found — the portal field, the summary paper
+   and the camera-ready all attribute one backbone to Team 277.
+
+And state plainly that we do not dispute the outcome: the FETV artifact is the end of
+a chain whose middle steps we did not record, and we published that finding ourselves
+on 2026-08-13.
