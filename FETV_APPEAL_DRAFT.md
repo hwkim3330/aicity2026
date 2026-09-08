@@ -35,7 +35,7 @@ The summary paper describes verification as: "Award-candidate teams were require
 provide reproducible code and models." At FETV rank 3 we were inside that band, and
 the repository handed over is the one cited in the paper.
 
-**The FETV artifact does not reproduce from it, and we knew.** Commit `84eb117`,
+**The FETV artifact does not reproduce byte-for-byte, and we knew.** Commit `84eb117`,
 2026-08-13, "FETV does not reproduce, and the repository said it would":
 
 * re-ran all 200 public clips with the revision pinned: **0 of 200 records matched**
@@ -48,16 +48,51 @@ the repository handed over is the one cited in the paper.
   --verify`). **The commands behind v9 and v10 remain unrecorded**, so those two steps
   cannot be reproduced by anyone, including us.
 
+### But byte-identity is the wrong test, and the score-level evidence is better
+
+The challenge summary paper states the metric: categorical attributes by macro-averaged
+F1, `date` by exact match, and **`time` correct if within seven seconds of the ground
+truth**. Under the metric rather than under `diff`:
+
+| measurement | shipped v11 vs reproduction |
+| --- | --- |
+| records byte-identical | 0 / 200 |
+| `answer_intersection_type` **actual score** (ground truth recovered, below) | 0.784068 vs **0.781971** |
+| `answer_time` within the 7 s scoring tolerance | **162 / 200** — score-equivalent |
+| other categorical fields, agreement | 60–72 % |
+
+So on the one field whose ground truth we can establish exactly, the reproduction
+scores within 0.002 of the submission, and four fifths of the timestamp differences
+are inside the tolerance the metric actually applies. The honest statement is that the
+pipeline reproduces the *result* closely wherever we can measure it, while the
+*artifact* does not reproduce at all — and that two of the eleven steps are
+unrecoverable, which is the part that cannot be argued away.
+
 Commit `b6949ae` the same day ruled out five candidate causes for the residual
 `answer_time` bias by measurement — run-to-run nondeterminism, the determinism pin,
 a different clip encode, frame-sampling drift, and the few-shot exemplars — and named
 no cause.
 
-A verifier who re-runs our code gets output that matches the submitted artifact on no
-record at all. That is a reproducibility failure on its own terms, and unrecorded
-row-rewriting steps applied to one test set are not something we can defend as the
-"task-specific prompts, parsing, and routing" the rule permits, because we cannot say
-what they did.
+Unrecorded row-rewriting steps applied to one test set are not something we can defend
+as the "task-specific prompts, parsing, and routing" the rule permits, because we
+cannot say what they did.
+
+### What the same investigation did establish
+
+`answer_intersection_type` is a property of the camera, not the clip: each fisheye
+source watches one fixed junction. Assuming per-source constancy leaves 512 possible
+assignments, and scoring v11 against each reproduces our official
+`0.7840684660961159` for **exactly one**, under macro-F1 and under no other metric.
+Six of the nine sources carry the junction name burned into the frame, and all six
+agree with the solved assignment (巷口 → T-intersection, 街口/路口 → four-way). The
+scoring model is now verified for all eight teams to machine precision:
+`final = (mean of the twelve categorical macro-F1 + description) / 2`.
+
+Correcting that one field — `fetv_fix_intersection.py`, 41 of 200 rows — takes the
+submission from the official **0.463436** to **0.472433**. It is recorded because it
+is provable, not because it changes anything: the board is closed, first place was
+0.489150, and none of the remaining gap is in a field whose ground truth we can
+recover.
 
 ## Our own documentation problem, separately
 
