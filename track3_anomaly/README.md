@@ -61,7 +61,24 @@ Format: `tao-vl-reason-v1.0` envelope — `{"format", "metadata", "media_root", 
 The original run did not persist a Hub revision/commit, so the revision is
 explicitly recorded as **not available** in [`REPRODUCE.md`](../REPRODUCE.md).
 
-**TAR baseline:** `Qwen/Qwen2.5-VL-7B-Instruct`, 4-bit NF4
+**Official TAR:** `Qwen/Qwen3-VL-8B-Instruct`, bf16 — the same backbone as FETV
+and PSI-VQA. The scored artifact is `submissions/submission_qwen3vl8b_v9.csv`
+(portal submission `9`, mean 0.4256), and the portal records `models_used:
+qwen3` for it. All three official runs used one model.
+
+> **Correction, superseding the section below.** Everything from "TAR baseline"
+> to the end of this section describes the *July exploratory baseline*, not the
+> scored submission, and this file was not updated when Qwen3-VL-8B became the
+> TAR submission. Read literally it says TAR used a different model from FETV
+> and PSI-VQA, which is false for every scored run. The contradiction was found
+> and published in [`../OFFICIAL_RESULTS.md`](../OFFICIAL_RESULTS.md) and
+> [`../REPRODUCE.md`](../REPRODUCE.md) gap 2 in commit `a07a930` on 2026-08-03;
+> this file was missed then and is corrected here. The Qwen2.5-VL-7B 4-bit
+> baseline below was submitted once as a *General*-type entry (`test`, 0.3480)
+> and was never a scored submission.
+
+**TAR baseline (superseded, July exploratory only):**
+`Qwen/Qwen2.5-VL-7B-Instruct`, 4-bit NF4
 (`bitsandbytes`, `bnb_4bit_use_double_quant=True`, compute dtype bf16).
 
 Rationale (see also the researched comparison against Qwen3-VL-8B,
@@ -78,8 +95,10 @@ InternVL3-8B, VideoLLaMA3-7B):
   bot and a CARLA simulation — hold ~9GB; the quantized model + KV cache
   fits in the remaining ~14GB, observed peak ~16GB total GPU usage during a
   smoke test).
-- Qwen3-VL-8B was later integrated for the official FETV and PSI-VQA runs.
-  The earlier TAR baseline retained Qwen2.5-VL-7B for environment stability.
+- Qwen3-VL-8B was later integrated, and it is what produced *all three*
+  official runs, TAR included. The sentence previously here — that the TAR
+  baseline "retained Qwen2.5-VL-7B" — described the exploratory baseline and
+  was never true of a scored submission. See the correction above.
 
 **Known gotcha (fixed during setup)**: loading Qwen2.5-VL with
 `transformers==5.0.0`'s new `core_model_loading.py` path caused a large
