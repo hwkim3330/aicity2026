@@ -13,7 +13,7 @@ evaluation tracks of the 2026 AI City Challenge.
 | 4 | 27 | Scored |
 | 5 | 10 | Scored |
 | 6 | - | Hafnia benchmark completed; two portal evaluations failed |
-| 7 | **3 of 8** | **Official podium finish** |
+| 7 | 3 of 8 | **Removed from the final FETV standings** — see [`TRACK7_DQ_EVIDENCE.md`](TRACK7_DQ_EVIDENCE.md) |
 | 8 | 5 of 7 | Scored |
 
 Ranks are the values returned for Team 277 by the final Public leaderboard
@@ -23,6 +23,15 @@ name the board when quoting a rank. Denominators for tracks 3, 7 and 8 are
 exported in [`leaderboards/`](leaderboards/), together with every row of all
 eight tracks on both boards as HTML, markdown, PDF and per-track images. Track 6 had two before-deadline submissions, both marked `Failed`,
 and therefore has no scored leaderboard row.
+
+Team 277 placed third on the FETV public board with 0.4634 but does **not**
+appear in the organizers' final Challenge Winners table, which lists only
+MR-CAS and UWIPL_ETRI with a separate "Verified Score" column. We were told at
+the workshop that the entry was removed for using a different model. What the
+evidence supports, question by question, is in
+[`TRACK7_DQ_EVIDENCE.md`](TRACK7_DQ_EVIDENCE.md); the reproducibility audit
+behind it is in [`REPRODUCE.md`](REPRODUCE.md), and the practices adopted so it
+does not recur are in [`REPRODUCIBILITY_RULES.md`](REPRODUCIBILITY_RULES.md).
 
 All three Track 3 evaluations used **Qwen3-VL-8B-Instruct in bf16**, including
 the in-domain TAR run — see [`OFFICIAL_RESULTS.md`](OFFICIAL_RESULTS.md).

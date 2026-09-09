@@ -1,7 +1,7 @@
-# Draft email — FETV eligibility determination
+# Draft email — FETV determination, with a byte-exact reproduction
 
-To: aicitychallenges@gmail.com
-Subject: Team 277 (Korea Drive) — FETV determination, and the reproduction we can now provide
+To: aicitychallenges@gmail.com (cc: the Track 7 organizer 왕유승 spoke with on site)
+Subject: Team 277 (Korea Drive) — FETV determination: byte-exact reproduction of our scored submission, and a request to re-examine
 
 ---
 
@@ -9,79 +9,94 @@ Dear AI City Challenge organizers,
 
 Thank you for running the 10th challenge and for completing the code and reproducibility
 reviews. We are writing about Team 277 (Korea Drive) and the FETV leaderboard, where we
-were told at the workshop that our entry was removed for using a different model.
+were told at the workshop that our entry was removed because we had used a different
+model.
 
-**We are not contesting the outcome.** We audited our own submission afterwards, found a
-real gap, and would rather report it accurately than argue. Two things below: what we can
-now reproduce, and what we cannot.
+Since the announcement we have audited our own submission. We can now provide a
+byte-exact reproduction of the scored artifact, and we would like to ask whether the
+determination can be re-examined against it. We also want to be straightforward about
+two things that reproduction does **not** cover, so that nothing here overstates what we
+have.
 
-## What we can now reproduce
-
-Our scored FETV artifact regenerates byte-for-byte from committed code:
+## 1. The scored FETV artifact now regenerates byte-for-byte
 
 ```
-cd track3_anomaly/scripts && python3 rebuild_fetv_v11.py --verify
+git clone https://github.com/hwkim3330/aicity2026
+cd aicity2026/track3_anomaly/scripts && python3 rebuild_fetv_v11.py --verify
 # rebuilt from v7: 200/200 rows identical to the shipped v11
 ```
 
-The output hashes to `39abdb0a8cca7a7fa18dbd31374ee353e032977df9928d54734a53e9ec43e835`,
-the same SHA256 as the submitted file. The script and every input it reads are public at
-https://github.com/hwkim3330/aicity2026.
+The rebuilt file hashes to
+`39abdb0a8cca7a7fa18dbd31374ee353e032977df9928d54734a53e9ec43e835`, the same SHA256 as
+the file we submitted. Every input it reads is in the public repository.
 
-This corrects our own earlier description of the pipeline. We had recorded it as an
-eleven-stage chain including two model re-inference passes, and concluded it could not be
-rebuilt. That was wrong. The intermediate that looked like a second inference stage was a
-second pass we ran and then discarded — the artifact after it is identical to the one
-before it on 199 of 200 rows — and everything from the first pass onward is deterministic
-post-processing over archived files with no model call.
+This also corrects our own earlier description of the pipeline. We had recorded it as an
+eleven-stage chain including two model re-inference passes and had concluded it could
+not be rebuilt. That was wrong: the stage that looked like a second inference pass was
+one we ran and then discarded — the artifact after it is identical to the one before it
+on 199 of 200 rows — and everything from the first pass onward is deterministic
+post-processing over archived files, with no model call.
 
-## What we cannot reproduce, stated plainly
+## 2. What the reproduction does not cover
 
-Two gaps remain, and the script names both rather than papering over them.
+Two gaps, stated plainly rather than left for you to find.
 
-1. **The first pass does not regenerate.** Re-running our published inference over the 200
-   clips produces output that matches no archived version exactly. We have ruled out seven
-   explanations by measurement — run-to-run nondeterminism, the determinism pin, clip
-   encoding, frame sampling, the few-shot exemplars, the NumPy upgrade, the model weights
-   (same cache blob hashes), and the prompt as committed. What remains is that the first
-   pass was written at 05:48 on 2026-07-11 and the pipeline was committed at 22:51 the
-   same day, so the code that produced it was an uncommitted working tree that no longer
-   exists. That is our failure of record-keeping, not a claim of bad luck.
+**The first pass does not regenerate.** Re-running our published inference over the 200
+clips produces output matching no archived version exactly. We have ruled out seven
+explanations by measurement — run-to-run nondeterminism, the determinism pin, clip
+encoding, frame sampling, the few-shot exemplars, the NumPy upgrade, the model weights
+(identical cache blob hashes), and the prompt as committed. What remains is that the
+first pass ran at 05:48 on 2026-07-11 while the pipeline was committed at 22:51 the same
+day, so the code that produced it was an uncommitted working tree that no longer exists.
+That is a record-keeping failure on our side.
 
-2. **Fifteen rows are a lookup table, not a derivation.** One step fills a violator type
-   and colour into 15 `no_violation` rows. Fourteen of those fifteen values are our own
-   model's output in our first two submissions and are traceable; one colour appears in no
-   archived artifact; and the selection of those 15 clips out of 64 equally qualified ones
-   follows no rule we can recover — edited and unedited candidates are statistically
-   indistinguishable. Something outside the pipeline chose them, and we cannot say what.
+**Fifteen rows are a lookup table, not a derivation.** One step writes a violator type
+and colour into 15 `no_violation` rows. Fourteen of those fifteen values are our own
+model's output in our first two submissions and are traceable; one colour appears in no
+archived artifact; and the selection of those 15 clips out of 64 equally qualified ones
+follows no rule we can recover. We cannot account for how they were chosen.
 
-We discovered the reproducibility problem ourselves on 2026-08-13 and published it in the
-same public repository, under the commit title "FETV does not reproduce, and the
-repository said it would," five weeks before the results. We should have caught it before
-submitting.
+We found the reproducibility problem ourselves on 2026-08-13 and published it in the same
+public repository, under the commit title "FETV does not reproduce, and the repository
+said it would," five weeks before results.
 
-## One point of fact about the model
+## 3. On the reason given
 
 All three of our scored runs — TAR, FETV and PSI-VQA — used a single frozen
 `Qwen/Qwen3-VL-8B-Instruct` in bf16, with no adapter and no task-specific parameter
-update. The evaluation portal carries `models_used: qwen3` on our scored TAR submission;
-the challenge summary paper attributes "Qwen3" to Team 277 in the Track 3 table; our
-camera-ready states a "frozen Qwen3-VL-8B-Instruct inference pipeline" throughout; and our
-team remains listed on the PSI-VQA board, which a unified-system finding would not leave
-standing.
+update. Four independent records agree: the portal carries `models_used: qwen3` on our
+scored TAR submission; the challenge summary paper attributes "Qwen3" to Team 277 in the
+Track 3 table; our camera-ready states a "frozen Qwen3-VL-8B-Instruct inference pipeline"
+throughout; and Team 277 remains listed on the PSI-VQA board, which a unified-system
+finding would not leave standing.
 
-Where the other impression could have come from is our own fault twice over. The
-manuscript we submitted misstated the TAR backbone as Qwen2.5-VL-7B at 4-bit; we found
-that ourselves on 2026-08-03, published the correction before results, and carried it into
-the camera-ready. A track-level README in the repository repeated the same error and was
-missed in that sweep; it is corrected now.
+We also trained one LoRA adapter on 2026-07-08 while exploring. It scored 0.636 on our
+local proxy against 0.772 for the few-shot base model, so it was abandoned; it was never
+used to produce any submission on any track, and the checkpoint no longer exists.
 
-## Two questions
+Where a different impression could have come from is our own fault. The manuscript we
+submitted misstated the TAR backbone as Qwen2.5-VL-7B at 4-bit. We found that ourselves
+on 2026-08-03, published the correction before results were released, and carried it
+into the camera-ready, whose final PDF contains no occurrence of "Qwen2.5". A
+track-level README in the repository repeated the error and was missed in that sweep; it
+is corrected now.
 
-1. Which finding does the FETV determination rest on in your records — model identity,
-   reproducibility, or something else? We would like our own record to be accurate.
-2. For future challenges, is byte-exact regeneration of the submitted artifact from a
-   single command the standard you apply to award candidates? We have adopted that
+## 4. What we are asking
+
+We note that the published FETV table lists a Verified Score alongside the public score,
+and that both listed teams moved in it — one by 0.026, which changed the award order.
+That suggests divergence under re-running is normally handled by re-scoring. Our
+questions follow from that:
+
+1. Which finding does our determination rest on in your records — model identity,
+   reproducibility, or something else? We would like our own record to be accurate,
+   whichever it is.
+2. Given the byte-exact rebuild above, can the FETV determination be re-examined? If the
+   two gaps in section 2 are themselves disqualifying under your standard, we accept
+   that without argument and would only ask that the reason be recorded as
+   reproducibility rather than model identity.
+3. For future challenges, is byte-exact regeneration of the submitted artifact from a
+   single command the standard applied to award candidates? We have adopted it
    internally and would rather match your requirement than guess at it.
 
 Thank you for your time, and congratulations to MR-CAS and UWIPL_ETRI.
