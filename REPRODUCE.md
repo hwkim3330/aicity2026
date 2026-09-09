@@ -303,6 +303,27 @@ produced with one revision of them; the commit preserved a later one. That singl
 prompt string is the whole of what cannot be recovered — and with it, v6, v7 and
 every artifact downstream.
 
+### Searching the first-pass configuration, and why it stops
+
+Since the stack is proven faithful, reproducing v6 reduces to finding the first-pass
+prompt of 2026-07-10. Five configurations were run over the same 25 clips and scored
+against v6 on the ten categorical fields:
+
+| first-pass configuration | categorical rows | field values | full rows |
+|---|---:|---:|---:|
+| few-shot off | 0/25 | 104/250 | 0/25 |
+| exemplar 1 only (`002_014`) | 2/25 | 111/250 | 0/25 |
+| exemplar 0 only (`001_001`) | 5/25 | 180/250 | 0/25 |
+| exemplars 0+1, prompt as committed in `c441d15` | 8/25 | ~180/250 | 0/25 |
+| exemplars 0+1, prompt as at `c57d81d` (2026-07-06) | 8/25 | — | 0/25 |
+| **exemplars 1,0 — reversed order** | **9/25** | **201/250** | 0/25 |
+
+Reversing the two exemplars is the closest anything gets, which says the exemplar block
+does matter and that the July ordering was probably not the committed one. It is still
+not a reproduction, so the prompt text differed as well — and prompt text is free-form,
+so the space is not enumerable. The search ends here, not because it was exhausted but
+because there is nothing left to enumerate over.
+
 ### The cause, as far as it can be stated
 
 Seven explanations, each closed by measurement rather than by argument. What the last
