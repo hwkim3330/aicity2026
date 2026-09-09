@@ -244,12 +244,32 @@ a measurement, not an argument:
 | NumPy, the only library that moved after 2026-07-11 (2.2.6 → 2.5.1 on 07-20) | venv pinned to 2.2.6 against the same torch | **ruled out** — 25/25 identical, 199 field matches against v6 either way |
 | The model weights being a different snapshot | compared cache blob content hashes | **ruled out** — the July cache (`track3_anomaly/hf_cache`, deleted and refetched 2026-08-21) and `~/.cache` hold the same four shard blobs, `d5d0aef0…`, `8be88fb5…`, `83de00ea…`, `0a88b98e…` |
 | **The prompt, which `c441d15` rewrote six hours after v11 was written** | re-ran 25 clips against the pre-`c441d15` prompt (`c57d81d`, 167 lines vs the current 357, no few-shot wiring) | **ruled out** — 0/25 rows exact; 234/350 field values against v7 versus 224/350 for the current prompt |
+| The video decoder | read the backend each run logged | **ruled out** — v4, v5, v6 and v8 all logged decord, as every re-run does; only v1-v3 used torchvision, before decord was installed on 07-07 |
 
 `huggingface_hub` (07-06), `transformers` (07-08), `torch` (07-08) and
 `safetensors` (07-06) all predate every artifact in the chain, and the installed
 versions on disk confirm it: `~/.local` holds transformers 5.13.0 and torch 2.10.0
 both dated 2026-07-08, with NumPy 2.5.1 on 07-20 the only later move. So the
 environment that produced the artifacts is the environment here.
+
+### The chain, corrected: where the model actually ran
+
+v7 is not a model run. Every model run left a log — v1 through v6, and v8 — and there is
+no v7 log. v6 → v7 rewrote the description on all 200 rows and the timestamp on 163 while
+changing **no categorical field at all**, which re-inference cannot do. The model run that
+feeds the final artifact is **v6**, and the stages after it are:
+
+| step | what it does | recovered? |
+|---|---|---|
+| v6 → v7, descriptions | `"On {date} at {time}, " + lowercased v6 description` | **yes, 199/200** — the exception is the one clip whose v6 date and time were placeholders |
+| v6 → v7, timestamps | 163 rewritten. The values appear in no earlier artifact. They are the burned-in wall clock at the clip's midpoint: durations 9.27 / 11.15 / 7.75 s give offsets of +5 / +6 / +4 s from the frame-0 clock, matching `round(duration/2)` exactly | **no** — a fourth clip, `001_010`, has offset +5 against a predicted +4, so the mechanism is identified but not reproducible to the second. The script that read the clock was never committed |
+| v7 → v9 | one row, `001_001.mp4`, set to the ground-truth example the FETV documentation publishes | yes |
+| v9 → v10 | 15 `no_violation` rows given a violator type and colour | **no** — a literal table; 14 of 15 values trace to v1/v2, one colour traces nowhere, and the selection of 15 из 64 candidates follows no rule |
+| v10 → v11 | the 93 violation descriptions templated from their own fields | yes, exact |
+
+`scripts/rebuild_fetv_v11.py --verify` runs the recovered part and regenerates the scored
+artifact byte-for-byte **from v7**. That is a chain reconstruction, not a reproduction of
+the submission: two of the steps upstream of v7 are in the "no" rows above.
 
 ### The cause, as far as it can be stated
 
