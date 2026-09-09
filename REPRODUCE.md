@@ -271,6 +271,38 @@ feeds the final artifact is **v6**, and the stages after it are:
 artifact byte-for-byte **from v7**. That is a chain reconstruction, not a reproduction of
 the submission: two of the steps upstream of v7 are in the "no" rows above.
 
+### The cause, identified by a positive reproduction
+
+The eight rows above rule things out. This one rules something *in*.
+
+On 2026-09-09 the 2026-07-11 second pass was re-run from the committed code and
+reproduced **byte-for-byte**, including the raw model output for all 134 clips it
+queried:
+
+| artifact | 2026-07-11 | re-run 2026-09-09 |
+|---|---|---|
+| `fetv_submission_v8.json` | `f3b17dec9e412133071776e5d42e0087e349e2ddf5c43229ff216e68f242523d` | identical |
+| `fetv_v8_secondpass_raw.json` (134 clips of raw VLM text) | `3e86f58b3f3da2c36190107049d7862421e8bb80ab87bd6e90f7ef596150c366` | identical |
+
+So the stack is faithful and deterministic two months on: weights, decoder, frame
+sampling, generation and environment all reproduce a real July run exactly. The
+FETV first pass is greedy — `fetv_structured` sets no `final_answer`, so it never
+enters the self-consistency branch — so sampling is not involved either.
+
+What is left is the first-pass prompt. At `c57d81d` (2026-07-06) `answer()` was
+`(video_path, task_type, question, samples=1)`: **no few-shot parameter, and zero
+mentions of exemplars anywhere in `inference.py` or `prompts.py`**. The entire
+few-shot machinery first appears in `c441d15` on 2026-07-11 22:51, adding
+`fewshot: bool = False` and 262 lines to `prompts.py`. But
+`fetv_submission_v6_fewshot.json` was written on **2026-07-10 12:16**, a day and a
+half earlier.
+
+The exemplars therefore lived only in an uncommitted working tree from roughly
+2026-07-09 to 2026-07-11 22:51, and were revised inside that window. v6 was
+produced with one revision of them; the commit preserved a later one. That single
+prompt string is the whole of what cannot be recovered — and with it, v6, v7 and
+every artifact downstream.
+
 ### The cause, as far as it can be stated
 
 Seven explanations, each closed by measurement rather than by argument. What the last

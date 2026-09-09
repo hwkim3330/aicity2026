@@ -1,0 +1,538 @@
+{
+ "001_000.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "001_001.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "001_003.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "001_004.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "001_006.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Middle-Right\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark motorcycle rode along the painted lane divider in the right lane, straddling the lane marking without a clear turning purpose, violating lane discipline as it moved from the top-right to the middle-right of the frame.\"\n}"
+ },
+ "001_007.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Middle-Right\",\n  \"answer_initial_lane\": \"1\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark motorcycle drifted across the lane divider from the top-right of the frame toward the middle-right, straddling the painted lane markings without a clear turning purpose, constituting a lane discipline violation.\"\n}"
+ },
+ "001_008.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Middle-Right\",\n  \"answer_final_position\": \"Bottom-Right\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"3\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark motorcycle entered the intersection from the middle-right of the frame, drifting across lane markings from lane 2 into lane 3 without a clear turning purpose, violating lane discipline.\"\n}"
+ },
+ "001_009.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Middle-Right\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark motorcycle rode along the painted lane divider in the middle-right of the frame, straddling the lane markings without a clear turning purpose, constituting a lane discipline violation.\"\n}"
+ },
+ "001_010.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "001_011.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Middle-Right\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark motorcycle rode along the painted lane divider in the right lane, straddling the lane marking without a clear turning purpose, which constitutes a lane discipline violation. The motorcycle entered from the top-right and exited toward the middle-right of the frame.\"\n}"
+ },
+ "001_012.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "001_013.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "001_014.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Center\",\n  \"answer_final_position\": \"Middle-Right\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"3\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark motorcycle entered the intersection from the top-center of the frame, drifting across lane markings from lane 2 into lane 3 without a clear turning purpose, violating lane discipline.\"\n}"
+ },
+ "001_015.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Middle-Right\",\n  \"answer_final_position\": \"Bottom-Right\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"3\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark motorcycle drifted across lane markings from the middle-right to the bottom-right of the frame, moving from lane 2 into lane 3 without a clear turning purpose, constituting a lane discipline violation.\"\n}"
+ },
+ "001_016.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Bottom-Right\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark motorcycle entered the frame from the top-right and traveled along the painted lane divider in the rightmost lane, straddling the lane markings without a clear turning purpose, constituting a lane discipline violation as it rode along the divider.\"\n}"
+ },
+ "001_017.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Bottom-Right\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark motorcycle rode along the painted lane divider in the right lane, straddling the lane markings without a clear turning purpose, violating lane discipline as it moved from the top-right to the bottom-right of the frame.\"\n}"
+ },
+ "001_020.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Middle-Right\",\n  \"answer_final_position\": \"Bottom-Right\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"3\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark motorcycle drifted across lane markings from the middle-right to the bottom-right of the frame, moving from lane 2 into lane 3 without a clear turning purpose, constituting a lane discipline violation.\"\n}"
+ },
+ "001_022.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "001_023.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Bottom-Right\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark motorcycle entered the frame from the top-right and traveled along the painted lane divider in the rightmost lane, straddling the lane markings without a clear turning purpose, constituting a lane discipline violation as it rode along the divider.\"\n}"
+ },
+ "001_024.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Middle-Right\",\n  \"answer_initial_lane\": \"1\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark motorcycle drifted across the lane divider from the top-right of the frame toward the middle-right, straddling the painted lane markings without a clear turning purpose, constituting a lane discipline violation.\"\n}"
+ },
+ "001_025.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "001_026.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "001_027.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Middle-Left\",\n  \"answer_final_position\": \"Bottom-Right\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"3\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark motorcycle drifted across lane markings from the middle-left to the bottom-right of the frame, weaving between lanes without a clear turning purpose, constituting a lane discipline violation.\"\n}"
+ },
+ "001_028.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "001_029.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Middle-Left\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"3\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark motorcycle drifted across lane markings without a clear turning purpose, moving from the top-right of the frame toward the middle-left while straddling the lane divider in a lane discipline violation.\"\n}"
+ },
+ "001_030.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"car\",\n  \"answer_color\": \"light\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Bottom-Left\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"3\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a light car entered the intersection from the top-right and drifted across lane markings into the adjacent lane without a clear turning purpose, violating lane discipline as it moved toward the bottom-left of the frame.\"\n}"
+ },
+ "001_031.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Bottom-Right\",\n  \"answer_final_position\": \"Middle-Right\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark motorcycle rode along the painted lane divider in the right lane, straddling the lane marking without a clear turning purpose, which constitutes a lane discipline violation. The motorcycle entered from the bottom-right and exited toward the middle-right of the frame.\"\n}"
+ },
+ "001_032.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Middle-Left\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"3\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark motorcycle drifted across lane markings without a clear turning purpose, moving from the top-right of the frame into the middle-left while straddling the lane divider, violating lane discipline.\"\n}"
+ },
+ "001_033.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Middle-Right\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark motorcycle rode along the painted lane divider in the right lane, straddling the lane marking without a clear turning purpose, violating lane discipline as it moved from the top-right to the middle-right of the frame.\"\n}"
+ },
+ "001_034.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Bottom-Right\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark motorcycle rode along the painted lane divider in the right lane, straddling the lane markings without a clear turning purpose, violating lane discipline as it moved from the top-right to the bottom-right of the frame.\"\n}"
+ },
+ "001_035.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "001_036.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Center\",\n  \"answer_final_position\": \"Middle-Left\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"3\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark motorcycle drifted across lane markings from the top-center of the frame into the middle-left, straddling the painted divider without a clear turning purpose, violating lane discipline.\"\n}"
+ },
+ "001_037.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "001_038.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Middle-Right\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark motorcycle rode along the painted lane divider in the right lane, straddling the lane marking without a clear turning purpose, violating lane discipline as it moved from the top-right to the middle-right of the frame.\"\n}"
+ },
+ "001_039.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "001_040.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Left\",\n  \"answer_final_position\": \"Middle-Right\",\n  \"answer_initial_lane\": \"1\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark motorcycle entered the intersection from the top-left and drifted across lane markings without a clear turning purpose, moving from lane 1 into lane 2 as it traveled toward the middle-right, constituting a lane discipline violation.\"\n}"
+ },
+ "002_001.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"red\",\n  \"answer_initial_position\": \"Bottom-Left\",\n  \"answer_final_position\": \"Middle-Right\",\n  \"answer_initial_lane\": \"1\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 17:02:45, a red motorcycle drifted across lane markings while traveling from the bottom-left to the middle-right of the frame, violating lane discipline by weaving between lanes without a clear turning purpose.\"\n}"
+ },
+ "002_006.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "002_007.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "002_008.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "002_010.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "002_012.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "002_017.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "002_018.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Bottom-Right\",\n  \"answer_final_position\": \"Middle-Right\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 17:21:47, a dark motorcycle rode along the painted lane divider in the middle-right of the frame, straddling the lane marking without a clear turning purpose, constituting a lane discipline violation.\"\n}"
+ },
+ "002_020.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Middle-Right\",\n  \"answer_final_position\": \"Bottom-Left\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"3\",\n  \"answer_description\": \"On 2018-07-17 at 17:07:12, a dark motorcycle drifted across lane markings without a clear turning purpose, moving from the middle-right to the bottom-left of the frame while straddling lanes 2 and 3 in a lane discipline violation.\"\n}"
+ },
+ "002_021.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "004_000.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "004_001.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "004_007.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"car\",\n  \"answer_color\": \"light\",\n  \"answer_initial_position\": \"Top-Center\",\n  \"answer_final_position\": \"Bottom-Right\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"3\",\n  \"answer_description\": \"On 2018-07-17 at 06:08:35, a light car entered the intersection from the top-center of the frame, drifting across lane markings from lane 2 into lane 3 without a clear turning purpose, violating lane discipline as it proceeded toward the bottom-right.\"\n}"
+ },
+ "004_008.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "004_009.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "004_011.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "004_013.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Center\",\n  \"answer_final_position\": \"Bottom-Left\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"3\",\n  \"answer_description\": \"On 2018-07-17 at 06:11:55, a dark motorcycle drifted across lane markings without a clear turning purpose, moving from the top-center of the frame toward the bottom-left while straddling the painted lane divider in a lane discipline violation.\"\n}"
+ },
+ "004_016.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "004_021.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "004_023.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "004_024.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "004_025.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "004_026.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "004_027.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "004_028.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Middle-Left\",\n  \"answer_final_position\": \"Middle-Right\",\n  \"answer_initial_lane\": \"1\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 06:11:59, a dark motorcycle entered the intersection from the middle-left and drifted across the lane divider into lane 2, straddling the painted markings without a clear turning purpose, constituting a lane discipline violation.\"\n}"
+ },
+ "004_030.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "004_032.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "005_003.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Middle-Right\",\n  \"answer_final_position\": \"Bottom-Left\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"3\",\n  \"answer_description\": \"On 2018-07-17 at 06:04:48, a dark motorcycle entered the intersection from the middle-right and drifted across lane markings without a clear turning purpose, moving from lane 2 into lane 3 as it traveled toward the bottom-left, violating lane discipline.\"\n}"
+ },
+ "005_005.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"bus\",\n  \"answer_color\": \"yellow\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Bottom-Left\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"3\",\n  \"answer_description\": \"On 2018-07-17 at 06:05:52, a yellow bus drifted across lane markings while turning through the intersection, moving from the top-right to the bottom-left and straddling the lane divider without a clear turning purpose, constituting a lane discipline violation.\"\n}"
+ },
+ "005_006.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "005_009.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "005_011.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"car\",\n  \"answer_color\": \"light\",\n  \"answer_initial_position\": \"Top-Left\",\n  \"answer_final_position\": \"Bottom-Right\",\n  \"answer_initial_lane\": \"1\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 18:18:43, a light car entered the intersection from the top-left and drifted across lane markings into the adjacent lane without a clear turning purpose, violating lane discipline as it exited toward the bottom-right.\"\n}"
+ },
+ "005_014.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "005_015.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "005_016.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "005_018.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "005_021.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "005_026.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "006_000.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "006_003.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "006_004.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "006_006.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "006_012.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"car\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Bottom-Right\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 06:31:49, a dark car entered the frame from the top-right and traveled through the intersection while straddling the lane markings, failing to maintain proper lane discipline as it moved toward the bottom-right.\"\n}"
+ },
+ "006_015.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "006_016.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "006_017.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Middle-Left\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"3\",\n  \"answer_description\": \"On 2018-07-17 at 06:53:23, a dark motorcycle entered the frame from the top-right and traveled across the intersection, straddling lane markings between lanes 2 and 3 without a clear turning purpose, constituting a lane discipline violation.\"\n}"
+ },
+ "006_018.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "006_019.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "006_021.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "006_023.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "006_024.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "006_027.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "006_028.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "006_030.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Middle-Left\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"3\",\n  \"answer_description\": \"On 2018-07-17 at 06:08:09, a dark motorcycle drifted across lane markings without a clear turning purpose, moving from the top-right of the frame toward the middle-left, straddling the lane divider in a lane discipline violation.\"\n}"
+ },
+ "006_031.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "009_004.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "009_005.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Middle-Right\",\n  \"answer_final_position\": \"Bottom-Left\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"3\",\n  \"answer_description\": \"On 2018-07-17 at 19:32:05, a dark motorcycle entered the frame from the middle-right and traveled across the intersection, drifting from lane 2 into lane 3 without a clear turning purpose, violating lane discipline by straddling lane markings while moving through the intersection.\"\n}"
+ },
+ "009_006.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "009_008.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "010_000.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Middle-Left\",\n  \"answer_final_position\": \"Middle-Right\",\n  \"answer_initial_lane\": \"1\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 20:00:56, a dark motorcycle drifted across the lane divider from the middle-left to the middle-right of the frame, straddling lane markings without a clear turning purpose, constituting a lane discipline violation.\"\n}"
+ },
+ "010_002.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "010_003.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "010_004.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "016_000.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Middle-Left\",\n  \"answer_initial_lane\": \"1\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 06:05:05, a dark motorcycle entered the intersection from the top-right and drifted across lane markings without a clear turning purpose, moving from lane 1 into lane 2 as it traveled toward the middle-left, constituting a lane discipline violation.\"\n}"
+ },
+ "016_003.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_use_control\",\n  \"answer_violator_type\": \"bus\",\n  \"answer_color\": \"light\",\n  \"answer_initial_position\": \"Top-Left\",\n  \"answer_final_position\": \"Middle-Right\",\n  \"answer_initial_lane\": \"1\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 06:05:16, a light-colored bus entered the intersection from the top-left and proceeded to turn right into lane 2, which is designated for straight-through traffic only, constituting a lane-use-control violation.\"\n}"
+ },
+ "016_004.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "016_007.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"light\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Middle-Left\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"3\",\n  \"answer_description\": \"On 2018-07-17 at 06:05:32, a light motorcycle entered the intersection from the top-right and drifted across lane markings into the adjacent lane without a clear turning purpose, violating lane discipline as it moved toward the middle-left of the frame.\"\n}"
+ },
+ "016_008.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "019_000.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"lane_discipline\",\n  \"answer_violator_type\": \"car\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Left\",\n  \"answer_final_position\": \"Bottom-Right\",\n  \"answer_initial_lane\": \"1\",\n  \"answer_final_lane\": \"3\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark car entered the intersection from the top-left of the frame and drifted across lane markings, moving from lane 1 into lane 3 without a clear turning purpose, violating lane discipline.\"\n}"
+ },
+ "019_001.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "019_009.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "019_011.mp4": {
+  "pass": "A",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "004_004.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"On 2018-07-17 at 06:06:33, traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "004_006.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"On 2018-07-17 at 06:07:22, traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "005_000.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"On 2018-07-17 at 06:02:58, traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "005_002.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"red_light\",\n  \"answer_violator_type\": \"car\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Middle-Left\",\n  \"answer_initial_lane\": \"1\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 06:04:19, a dark car entered the intersection from the top-right of the frame, crossing into the middle-left, against a red signal. The vehicle cut through cross traffic while other vehicles were stopped, indicating a red-light violation.\"\n}"
+ },
+ "005_004.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"red_light\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Middle-Left\",\n  \"answer_initial_lane\": \"1\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 06:05:25, a dark motorcycle entered the intersection against a red signal, moving from the top-right of the frame toward the middle-left. The vehicle cut through cross traffic while the signal was red, violating right-of-way rules.\"\n}"
+ },
+ "005_013.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"On 2018-07-17 at 06:22:39, traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "005_022.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"On 2018-07-17 at 06:06:40, traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "005_024.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"red_light\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Bottom-Left\",\n  \"answer_initial_lane\": \"1\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 06:08:28, a dark motorcycle entered the intersection from the top-right of the frame, crossing into the bottom-left, against a red signal. The vehicle cut through active cross traffic, violating right-of-way rules.\"\n}"
+ },
+ "005_025.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"red_light\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"light\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Middle-Left\",\n  \"answer_initial_lane\": \"1\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 06:45:52, a light motorcycle entered the intersection from the top-right of the frame, crossing into the middle-left, while cross traffic was clearly flowing with the right of way, indicating a red-light violation.\"\n}"
+ },
+ "006_001.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"On 2018-07-17 at 06:01:13, traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "006_002.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"red_light\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Bottom-Right\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 06:01:29, a dark motorcycle entered the intersection from the top-right of the frame while traffic signals were red, cutting through cross traffic in a red-light violation. The vehicle traveled straight through the intersection and exited toward the bottom-right.\"\n}"
+ },
+ "006_005.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"red_light\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Middle-Left\",\n  \"answer_initial_lane\": \"1\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 06:03:15, a dark motorcycle entered the intersection from the top-right of the frame, crossing into the middle-left, against a red signal. The vehicle cut through active cross traffic, indicating a red-light violation.\"\n}"
+ },
+ "006_007.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"On 2018-07-17 at 06:09:30, traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "006_009.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"On 2018-07-17 at 06:15:06, traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "006_020.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"On 2018-07-17 at 06:16:29, traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "006_029.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"On 2018-07-17 at 06:56:02, traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "006_032.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"On 2018-07-17 at 06:40:50, traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "006_033.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"On 2018-07-17 at 06:56:53, traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "006_035.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"On 2018-07-17 at 06:08:00, traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "009_000.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"On 2018-07-17 at 19:01:00, traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "009_002.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"On 2018-07-17 at 19:19:23, traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "019_002.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"red_light\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"red\",\n  \"answer_initial_position\": \"Top-Right\",\n  \"answer_final_position\": \"Middle-Left\",\n  \"answer_initial_lane\": \"1\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a red motorcycle entered the intersection against a red signal, moving from the top-right of the frame toward the middle-left. The vehicle cut through active cross traffic, violating right-of-way rules.\"\n}"
+ },
+ "019_004.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"no_violation\",\n  \"answer_violator_type\": \"na\",\n  \"answer_color\": \"na\",\n  \"answer_initial_position\": \"na\",\n  \"answer_final_position\": \"na\",\n  \"answer_initial_lane\": \"na\",\n  \"answer_final_lane\": \"na\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, traffic moved normally through the intersection with no violation.\"\n}"
+ },
+ "019_005.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"red_light\",\n  \"answer_violator_type\": \"car\",\n  \"answer_color\": \"yellow\",\n  \"answer_initial_position\": \"Top-Left\",\n  \"answer_final_position\": \"Middle-Left\",\n  \"answer_initial_lane\": \"1\",\n  \"answer_final_lane\": \"1\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a yellow car entered the intersection from the top-left of the frame while cross traffic was flowing with the right of way, indicating a red light violation as it proceeded into the intersection without yielding.\"\n}"
+ },
+ "019_008.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"red_light\",\n  \"answer_violator_type\": \"motorcycle\",\n  \"answer_color\": \"dark\",\n  \"answer_initial_position\": \"Middle-Right\",\n  \"answer_final_position\": \"Bottom-Left\",\n  \"answer_initial_lane\": \"2\",\n  \"answer_final_lane\": \"3\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a dark motorcycle entered the intersection from the middle-right of the frame, crossing into lane 3 and proceeding toward the bottom-left, violating a red signal as it cut through active cross traffic.\"\n}"
+ },
+ "019_010.mp4": {
+  "pass": "B",
+  "raw_text": "{\n  \"answer_violation_type\": \"red_light\",\n  \"answer_violator_type\": \"bus\",\n  \"answer_color\": \"red\",\n  \"answer_initial_position\": \"Top-Left\",\n  \"answer_final_position\": \"Middle-Right\",\n  \"answer_initial_lane\": \"1\",\n  \"answer_final_lane\": \"2\",\n  \"answer_description\": \"On 2018-07-17 at 12:00:00, a red bus entered the intersection from the top-left of the frame and proceeded through the intersection despite visible red traffic signals, cutting through cross traffic in a red-light violation.\"\n}"
+ }
+}
