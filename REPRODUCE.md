@@ -100,12 +100,37 @@ coverage stays at 960/960.
 | Output | `track3_anomaly/submissions/reproduced_fetv_v11.json` |
 | Records | 200 |
 | Official artifact | `track3_anomaly/submissions/fetv_submission_v11.json` |
-| SHA256 of that artifact | `39abdb0a8cca7a7fa18dbd31374ee353e032977df9928d54734a53e9ec43e835` — verified present; **not** a value the command above reproduces |
+| SHA256 of that artifact | `39abdb0a8cca7a7fa18dbd31374ee353e032977df9928d54734a53e9ec43e835` — **reproduced byte-for-byte** by `scripts/rebuild_fetv_v11.py`, which rebuilds it from the archived v7. Not reproduced by the first-pass command above, which regenerates neither v7 nor v11 |
 | Official result | rank 3, final 0.4634 (description 0.4238, categorical mean 0.5031) |
+
+### Regenerating v11: what works and what does not
+
+```bash
+cd track3_anomaly/scripts && python3 rebuild_fetv_v11.py --verify
+# rebuilt from v7: 200/200 rows identical to the shipped v11
+```
+
+That is byte-exact — the rebuilt file hashes to the same
+`39abdb0a8cca7a7fa18dbd31374ee353e032977df9928d54734a53e9ec43e835`. It supersedes the
+earlier claim here that the chain was eleven stages and that two of them were model
+re-inference. They were not: v8 was a second pass that was tried and discarded, v9
+equals v7 on 199 of 200 rows, and everything from v7 forward is deterministic
+post-processing over archived files with no model call.
+
+Two things still do not regenerate, and the script says so rather than hiding them:
+
+* **v7 itself.** The first pass over the 200 clips does not reproduce; seven
+  explanations are ruled out by measurement in the table below, and what remains is
+  that v7 was written at 05:48 on 2026-07-11 while the pipeline was committed at 22:51
+  the same day, so the code that produced it was an uncommitted working tree.
+* **The 15-row edit in v9 → v10**, carried as a literal table. 14 of its 15
+  (violator_type, colour) pairs are the model's own output in the first two
+  submissions; `001_013.mp4`'s colour appears in no archived artifact; and the choice
+  of those 15 clips out of 64 equally qualified ones has no rule that survives testing.
 
 ### What third place does rest on
 
-Regenerating v11 from code is out of reach, but the result does not depend on
+Regenerating v11 from the videos is out of reach, but the result does not depend on
 that. FETV's ground truth is not published — the Drive folder linked from
 [github.com/MoyoG/FETV](https://github.com/MoyoG/FETV) carries the 200 clips and
 nothing else, and `evaluate.py` there needs a `groundtruth.json` that is not
