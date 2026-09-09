@@ -1,7 +1,7 @@
-# Draft email — FETV determination, with a byte-exact reproduction
+# Draft email — FETV determination and our reproducibility audit
 
 To: aicitychallenges@gmail.com (cc: the Track 7 organizer 왕유승 spoke with on site)
-Subject: Team 277 (Korea Drive) — FETV determination: byte-exact reproduction of our scored submission, and a request to re-examine
+Subject: Team 277 (Korea Drive) — FETV determination: our reproducibility audit, and one question about the reason recorded
 
 ---
 
@@ -12,13 +12,16 @@ reviews. We are writing about Team 277 (Korea Drive) and the FETV leaderboard, w
 were told at the workshop that our entry was removed because we had used a different
 model.
 
-Since the announcement we have audited our own submission. We can now provide a
-byte-exact reproduction of the scored artifact, and we would like to ask whether the
-determination can be re-examined against it. We also want to be straightforward about
-two things that reproduction does **not** cover, so that nothing here overstates what we
-have.
+Since the announcement we have audited our own submission end to end. **The artifact
+does not reproduce**, and we are not asking you to reverse the decision on that point.
+What we can now do is say exactly where it stops reproducing, which we could not do
+before, and we have one question about the reason recorded against us.
 
-## 1. The scored FETV artifact now regenerates byte-for-byte
+## 1. What does regenerate, and from where — stated precisely
+
+Our pipeline produced eleven intermediate files. Only one of them is a model run whose
+output feeds the final artifact; the rest are post-processing. Starting from the fourth
+intermediate, the scored submission regenerates byte-for-byte
 
 ```
 git clone https://github.com/hwkim3330/aicity2026
@@ -37,11 +40,13 @@ one we ran and then discarded — the artifact after it is identical to the one 
 on 199 of 200 rows — and everything from the first pass onward is deterministic
 post-processing over archived files, with no model call.
 
-## 2. What the reproduction does not cover
+That is **not** a reproduction of our submission. It starts from an archived
+intermediate, and two of the steps upstream of it are themselves unrecoverable. We say
+so here because the SHA match above would otherwise read as more than it is.
 
-Two gaps, stated plainly rather than left for you to find.
+## 2. The three points where it stops reproducing
 
-**The first pass does not regenerate.** Re-running our published inference over the 200
+**The model run does not regenerate.** Re-running our published inference over the 200
 clips produces output matching no archived version exactly. We have ruled out seven
 explanations by measurement — run-to-run nondeterminism, the determinism pin, clip
 encoding, frame sampling, the few-shot exemplars, the NumPy upgrade, the model weights
@@ -50,11 +55,18 @@ first pass ran at 05:48 on 2026-07-11 while the pipeline was committed at 22:51 
 day, so the code that produced it was an uncommitted working tree that no longer exists.
 That is a record-keeping failure on our side.
 
-**Fifteen rows are a lookup table, not a derivation.** One step writes a violator type
-and colour into 15 `no_violation` rows. Fourteen of those fifteen values are our own
-model's output in our first two submissions and are traceable; one colour appears in no
-archived artifact; and the selection of those 15 clips out of 64 equally qualified ones
-follows no rule we can recover. We cannot account for how they were chosen.
+**The timestamp correction does not regenerate.** The step after the model run rewrote
+163 of 200 timestamps. Those values appear in no earlier artifact, and reading the
+clock burned into the video shows them falling four to six seconds after each clip's
+first frame at no fixed offset. They were produced by a script that read the burned-in
+clock and was never committed. The description rewrite in the same step *is* recovered
+and matches 199 of 200 rows exactly.
+
+**Fifteen rows are a lookup table, not a derivation.** A later step writes a violator
+type and colour into 15 `no_violation` rows. Fourteen of those fifteen values are our
+own model's output in our first two submissions and are traceable; one colour appears in
+no archived artifact; and the selection of those 15 clips out of 64 equally qualified
+ones follows no rule we can recover. We cannot account for how they were chosen.
 
 We found the reproducibility problem ourselves on 2026-08-13 and published it in the same
 public repository, under the commit title "FETV does not reproduce, and the repository
@@ -91,10 +103,9 @@ questions follow from that:
 1. Which finding does our determination rest on in your records — model identity,
    reproducibility, or something else? We would like our own record to be accurate,
    whichever it is.
-2. Given the byte-exact rebuild above, can the FETV determination be re-examined? If the
-   two gaps in section 2 are themselves disqualifying under your standard, we accept
-   that without argument and would only ask that the reason be recorded as
-   reproducibility rather than model identity.
+2. If the finding was reproducibility, we accept it — section 2 is our own account of
+   why, and we would only ask that the reason be recorded as reproducibility rather than
+   model identity, since the four records above all show one backbone.
 3. For future challenges, is byte-exact regeneration of the submitted artifact from a
    single command the standard applied to award candidates? We have adopted it
    internally and would rather match your requirement than guess at it.

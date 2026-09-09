@@ -84,24 +84,39 @@ would have landed on PSI first.
 
 Not model identity. The FETV artifact has a reproducibility problem, and it is specific.
 
-**What now works.** `track3_anomaly/scripts/rebuild_fetv_v11.py --verify` regenerates
-the scored submission from the archived first pass with 200/200 rows identical, and the
-output hashes to `39abdb0a8cca7a7fa18dbd31374ee353e032977df9928d54734a53e9ec43e835` —
-the same SHA256 as the submitted file. The chain is four deterministic steps, no model
-call, correcting our own earlier description of it as eleven stages with two
-re-inference passes.
+**What now works, and what that is worth.** `rebuild_fetv_v11.py --verify` regenerates
+the scored submission with 200/200 rows identical, hashing to
+`39abdb0a8cca7a7fa18dbd31374ee353e032977df9928d54734a53e9ec43e835`, the same SHA256 as
+the submitted file. But it starts from **v7**, an archived intermediate, and two of the
+steps upstream of v7 do not reproduce. Calling that "a byte-exact reproduction of our
+submission" would be false, and an earlier version of this file came close to doing so.
 
-**What still does not.** Two gaps, and they are the reason the removal is defensible:
+The real model run is **v6**, not v7. Every model run left a log — v1 through v6, and
+v8 — and there is no v7 log; v6 → v7 changed the description on all 200 rows and the
+timestamp on 163, and **no categorical field at all**, which a re-inference could not do.
 
-1. **The first pass does not regenerate.** Re-running the published inference over the
-   200 clips matches no archived version exactly. Seven explanations are ruled out by
-   measurement in `REPRODUCE.md` — nondeterminism, the determinism pin, clip encoding,
-   frame sampling, few-shot exemplars, the NumPy upgrade, the model weights (identical
-   cache blob hashes), and the committed prompt. What remains is that the first pass ran
-   at 05:48 on 2026-07-11 while the pipeline was committed at 22:51 the same day: the
-   code that produced it was an uncommitted working tree that no longer exists.
+**What still does not reproduce.** Three points, and they are why the removal is
+defensible:
 
-2. **Fifteen rows are a lookup table.** One step writes a violator type and colour into
+1. **The model run (v6) does not regenerate.** Re-running the published inference
+   matches no archived version exactly — 82 of 200 rows on the categorical fields alone.
+   Eight explanations are ruled out by measurement in `REPRODUCE.md`: nondeterminism, the
+   determinism pin, clip encoding, frame sampling, few-shot exemplars, the NumPy upgrade,
+   the model weights (identical cache blob hashes), the committed prompt, and the video
+   decoder (v4-v6 and v8 all logged decord, as our re-runs do; only v1-v3 used
+   torchvision). What remains is that these runs happened between the commit of
+   2026-07-06 and the archive commit of 2026-07-11 22:51, so the code that produced them
+   was an uncommitted working tree that no longer exists.
+
+2. **The v6 → v7 timestamp correction does not regenerate.** It rewrote 163 of 200
+   timestamps. Those values appear in no earlier artifact, and the clock burned into the
+   video puts them four to six seconds after each clip's first frame at no fixed offset —
+   an uncommitted script read the on-screen clock. The description rewrite in the same
+   step *is* recovered: `"On {date} at {time}, " + lowercased v6 description` matches 199
+   of 200 rows, the exception being the one clip whose v6 date and time were placeholder
+   garbage.
+
+3. **Fifteen rows are a lookup table.** One step writes a violator type and colour into
    15 `no_violation` rows. Fourteen of the fifteen values are our own model's output in
    the first two submissions; `001_013.mp4`'s colour appears in no archived artifact;
    and the choice of those 15 clips out of 64 equally qualified ones follows no rule
