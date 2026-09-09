@@ -217,10 +217,24 @@ a measurement, not an argument:
 | Frame sampling landing elsewhere | recomputed the sampled indices | **ruled out** — 14 frames at 0, 8, … 104; both candidate timestamps are among them |
 | The FETV few-shot exemplars | `FETV_FEWSHOT=0` | **ruled out** — 193 field matches with them, 135 without, so the artifacts had them on |
 | NumPy, the only library that moved after 2026-07-11 (2.2.6 → 2.5.1 on 07-20) | venv pinned to 2.2.6 against the same torch | **ruled out** — 25/25 identical, 199 field matches against v6 either way |
+| The model weights being a different snapshot | compared cache blob content hashes | **ruled out** — the July cache (`track3_anomaly/hf_cache`, deleted and refetched 2026-08-21) and `~/.cache` hold the same four shard blobs, `d5d0aef0…`, `8be88fb5…`, `83de00ea…`, `0a88b98e…` |
+| **The prompt, which `c441d15` rewrote six hours after v11 was written** | re-ran 25 clips against the pre-`c441d15` prompt (`c57d81d`, 167 lines vs the current 357, no few-shot wiring) | **ruled out** — 0/25 rows exact; 234/350 field values against v7 versus 224/350 for the current prompt |
 
 `huggingface_hub` (07-06), `transformers` (07-08), `torch` (07-08) and
-`safetensors` (07-06) all predate every artifact in the chain, so the environment
-that produced them is the environment here.
+`safetensors` (07-06) all predate every artifact in the chain, and the installed
+versions on disk confirm it: `~/.local` holds transformers 5.13.0 and torch 2.10.0
+both dated 2026-07-08, with NumPy 2.5.1 on 07-20 the only later move. So the
+environment that produced the artifacts is the environment here.
+
+### The cause, as far as it can be stated
+
+Seven explanations, each closed by measurement rather than by argument. What the last
+row leaves is the one thing no test can reach: v11 was written at 16:44 on 2026-07-11
+and the pipeline was committed at 22:51 the same day, so the code that produced it was
+the working tree in between — six hours of uncommitted edits that were never recorded
+and no longer exist. Reverting to the last commit before the run gets closer (234 vs
+224 field values out of 350) and does not reproduce. The artifact is not recoverable,
+and this is the reason.
 
 ### What is actually missing
 
