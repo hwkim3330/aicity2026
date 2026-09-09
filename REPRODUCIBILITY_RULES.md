@@ -60,10 +60,13 @@ and was removed. Same team, same model, same paper — the difference is reprodu
    official run. One was recovered afterwards by argument rather than by record, which
    is not the same thing and cannot be checked by a third party.
 
-8. **Fill in every declaration field, even the optional ones.** The Track 7 portal entry
-   left `models_used` empty while Track 3 declared `qwen3`. The FAQ puts the declaration
-   duty in the technical report, so this was not itself a violation, but it removed the
-   one portal-side statement that would have contradicted the misstated paper.
+8. **Check whether a declaration field exists before assuming you skipped it.** An
+   earlier version of this file blamed us for leaving `models_used` empty on Track 7.
+   That was wrong: the portal export shows 27 of 27 teams carrying the field on Track 3
+   and **0 of 8 on Track 7, 0 of 7 on Track 8** — the FETV and PSI-VQA forms had no such
+   field. The declaration duty sits in the technical report, which is where ours is.
+   The rule that survives is the general one: verify a claim about your own record
+   against the record before repeating it.
 
 ## The check to run before any future submission
 

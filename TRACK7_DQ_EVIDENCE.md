@@ -22,6 +22,7 @@ the final review re-runs a team's published code and scores the output.
 | camera-ready abstract | "frozen Qwen3-VL-8B-Instruct inference pipeline … no task-specific parameter update or adapter generated the official predictions" |
 | this repository | every reproduce script hardcodes or defaults to `Qwen/Qwen3-VL-8B-Instruct`; no adapter weights are tracked |
 | PSI-VQA board | Team 277 still listed at rank 5, which a unified-system finding would not leave standing |
+| portal `models_used` | present for 27 of 27 teams on the TAR board and for **0 of 8 on FETV, 0 of 7 on PSI-VQA** — those forms had no such field, so the empty FETV declaration is universal and says nothing about any team |
 
 ## Q. Was LoRA used? The paper mentions fine-tuning.
 
