@@ -1,5 +1,25 @@
 # Korea Drive: AI City Challenge 2026
 
+> **For a reviewer checking Track 7 eligibility.** Start here, in this order:
+>
+> 1. [`MODEL_EVIDENCE.md`](MODEL_EVIDENCE.md) — which model produced the FETV
+>    artifacts, and how to verify it in one command. Re-running our published
+>    second pass regenerates the 2026-07-11 output byte-for-byte, including the
+>    raw model text for all 134 clips it queried.
+> 2. [`REPRODUCE.md`](REPRODUCE.md) — what reproduces and what does not. The
+>    scored FETV artifact does **not** reproduce from the clips, and that section
+>    says so plainly along with the nine explanations ruled out by measurement.
+> 3. [`TRACK7_DQ_EVIDENCE.md`](TRACK7_DQ_EVIDENCE.md) — our own audit, including
+>    the parts that are against us.
+>
+> Two files in this repository are **post-challenge analysis and were never
+> submitted**: `track3_anomaly/scripts/fetv_fix_intersection.py` and its output
+> `track3_anomaly/submissions/fetv_submission_v12.json`. They recover ground
+> truth by inverting our own leaderboard score, which the FAQ prohibits. They
+> were written on 2026-09-08, after the standings were published, are excluded
+> from every submission, and are kept visible rather than removed. The
+> legitimate counterpart is `fetv_honest_intersection.py`.
+
 Research and submission code for Korea Drive (Team 277) across all eight
 evaluation tracks of the 2026 AI City Challenge.
 

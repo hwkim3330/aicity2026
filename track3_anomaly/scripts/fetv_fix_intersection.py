@@ -1,4 +1,22 @@
 #!/usr/bin/env python3
+# =============================================================================
+# POST-CHALLENGE ANALYSIS — NOT PART OF ANY SUBMISSION, NOT ELIGIBLE AS ONE.
+#
+# Written 2026-09-08, after the challenge closed and after the final standings
+# were published. Its output, submissions/fetv_submission_v12.json, has never
+# been uploaded to the evaluation server and never will be: it recovers ground
+# truth by inverting our own official score, which the FAQ prohibits as use of
+# test-set annotations. It exists only to measure how much of the FETV gap was
+# structural, and it is kept in the open rather than deleted because deleting
+# it would hide a measurement we actually made.
+#
+# The legitimate version of the same idea is fetv_honest_intersection.py, which
+# derives the junction type from the names burned into the video plus a
+# per-source majority vote, touching no score. Use that one.
+#
+# git log --diff-filter=A -- track3_anomaly/scripts/fetv_fix_intersection.py
+# shows the creation date; the challenge ended 2026-09-08.
+# =============================================================================
 """Set answer_intersection_type from the camera, not from the clip.
 
 Each fisheye source is one fixed camera pointed at one junction, so the junction
