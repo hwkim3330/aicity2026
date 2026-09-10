@@ -61,12 +61,22 @@ Reproducing 134 clips of raw generation bit for bit is only possible with the sa
 weights. No declaration field can be as strong as that, and anyone can run it:
 
 ```bash
-python3 track3_anomaly/scripts/fetv_second_pass.py \
+# paths are relative to track3_anomaly/, which is where the script resolves them
+cd track3_anomaly
+python3 scripts/fetv_second_pass.py \
   --base submissions/fetv_submission_v7.json \
-  --clips <FETV_public_clips> --quant bf16 \
+  --clips data/fetv/FETV_public_clips --quant bf16 \
   --out /tmp/x.json --sidecar /tmp/x_raw.json
-sha256sum /tmp/x.json /tmp/x_raw.json
+sha256sum /tmp/x.json /tmp/x_raw.json submissions/fetv_submission_v8.json \
+          submissions/fetv_v8_secondpass_raw.json
 ```
+
+Expect `/tmp/x.json` to match `fetv_submission_v8.json` at
+`f3b17dec9e412133071776e5d42e0087e349e2ddf5c43229ff216e68f242523d` and
+`/tmp/x_raw.json` to match `fetv_v8_secondpass_raw.json` at
+`3e86f58b3f3da2c36190107049d7862421e8bb80ab87bd6e90f7ef596150c366`. The run queries
+134 clips and takes about 25 minutes on one RTX 3090. The clips are the public FETV
+set, linked from [github.com/MoyoG/FETV](https://github.com/MoyoG/FETV).
 
 Every FETV script in the repository also names the model directly:
 `scripts/reproduce_fetv_official.sh` hardcodes `TAR_MODEL_ID="Qwen/Qwen3-VL-8B-Instruct"`,

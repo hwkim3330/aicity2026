@@ -1,8 +1,15 @@
-# FETV disqualification — assessment
+# FETV disqualification — assessment as of 2026-09-08
+
+> **Superseded in part.** This was written on 2026-09-08, the day of the on-site
+> announcement, before two things happened: the team asked the Track 7 organizer for a
+> re-review on 2026-09-09 and it was granted, and on the same day the 2026-07-11 second
+> pass was reproduced byte-for-byte, which settles the model-identity question that this
+> file could then only argue from records. Its recommendation not to write to the
+> organizers has been overtaken by events. The findings about what does and does not
+> reproduce still stand; see [`REPRODUCE.md`](REPRODUCE.md) for the current state and
+> [`REVIEWERS.md`](REVIEWERS.md) for where to start.
 
 Korea Drive (Team 277), Track 7 / FETV, 2026 AI City Challenge.
-Written 2026-09-08 after the on-site announcement that Korea Drive was disqualified
-from FETV for using a different model.
 
 **Conclusion: the disqualification is most likely correct, and we should not contest
 it.** The stated reason ("a different model") does not match the record, but the
