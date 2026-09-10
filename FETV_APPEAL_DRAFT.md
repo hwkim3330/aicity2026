@@ -88,7 +88,7 @@ agree with the solved assignment (巷口 → T-intersection, 街口/路口 → f
 scoring model is now verified for all eight teams to machine precision:
 `final = (mean of the twelve categorical macro-F1 + description) / 2`.
 
-Correcting that one field — `fetv_fix_intersection.py`, 41 of 200 rows — takes the
+Correcting that one field — `postchallenge_analysis/fetv_fix_intersection.py`, 41 of 200 rows — takes the
 submission from the official **0.463436** to **0.472433**. It is recorded because it
 is provable, not because it changes anything: the board is closed, first place was
 0.489150, and none of the remaining gap is in a field whose ground truth we can

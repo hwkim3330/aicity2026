@@ -13,7 +13,7 @@ F1, `date` by exact match, `time` correct within seven seconds.
 
 ## Banked: intersection_type, 0.463436 -> 0.472433
 
-Ground truth recovered exactly; see `scripts/fetv_fix_intersection.py`. This is the
+Ground truth recovered exactly; see `postchallenge_analysis/fetv_fix_intersection.py`. This is the
 only improvement in this file that is proven rather than assumed.
 
 ## The no_violation over-prediction is real, and it is not the lever
