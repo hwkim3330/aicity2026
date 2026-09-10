@@ -137,7 +137,7 @@ in [`EMAIL_TO_ORGANIZERS.md`](EMAIL_TO_ORGANIZERS.md).
 
 ## What is not worth doing
 
-`fetv_submission_v12.json` scores 0.4724 against the official 0.4634 by setting
+`postchallenge_analysis/fetv_submission_v12.json` scores 0.4724 against the official 0.4634 by setting
 `answer_intersection_type` from ground truth recovered by inverting our own leaderboard
 score. That is test-set annotation recovery and the FAQ prohibits it; it exists in this
 repository as a measurement, not as a submission. The same insight taken honestly —
