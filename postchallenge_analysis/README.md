@@ -2,8 +2,8 @@
 
 Everything in this directory was written **after** the 10th AI City Challenge closed and
 after the final standings were published on 2026-09-08. None of it is part of any
-submission, none of it can be, and none of it is offered as evidence in the Track 7
-re-review.
+submission, none of it can be, and none of it was offered as evidence in the Track 7
+review (resolved 2026-09-29, see [`../docs/track7_review/`](../docs/track7_review/)).
 
 It is separated from `track3_anomaly/scripts/` so that no one reading the pipeline can
 mistake it for pipeline code, and it is kept rather than deleted because it records a

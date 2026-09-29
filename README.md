@@ -13,7 +13,7 @@ evaluation tracks of the 2026 AI City Challenge.
 | 4 | 27 | Scored |
 | 5 | 10 | Scored |
 | 6 | - | Hafnia benchmark completed; two portal evaluations failed |
-| 7 | 3 of 8 | Removed from the final FETV standings; under re-review — [`REVIEWERS.md`](REVIEWERS.md) |
+| 7 | 3 of 8 | Scored · third in the official ranking on a verified score of 0.4618 — [review](docs/track7_review/) |
 | 8 | 5 of 7 | Scored |
 
 Ranks are the values returned for Team 277 by the final Public leaderboard
@@ -24,14 +24,15 @@ exported in [`leaderboards/`](leaderboards/), together with every row of all
 eight tracks on both boards as HTML, markdown, PDF and per-track images. Track 6 had two before-deadline submissions, both marked `Failed`,
 and therefore has no scored leaderboard row.
 
-Team 277 placed third on the FETV public board with 0.4634 but does **not**
-appear in the organizers' final Challenge Winners table, which lists only
-MR-CAS and UWIPL_ETRI with a separate "Verified Score" column. We were told at
-the workshop that the entry was removed for using a different model. What the
-evidence supports, question by question, is in
-[`TRACK7_DQ_EVIDENCE.md`](TRACK7_DQ_EVIDENCE.md); the reproducibility audit
-behind it is in [`REPRODUCE.md`](REPRODUCE.md), and the practices adopted so it
-does not recur are in [`REPRODUCIBILITY_RULES.md`](REPRODUCIBILITY_RULES.md).
+**Track 7 (FETV): third place.** The entry scored 0.4634 on the public board and
+was initially left out of the final standings. On 2026-09-29 the Organizing
+Committee confirmed that Team 277 used the same frozen Qwen3-VL-8B-Instruct model
+across the relevant tracks, with no task-specific adapters or parameter updates,
+so the submission satisfies the unified-system requirement; on its verified score
+of **0.4618** Korea Drive is listed third. The review record is in
+[`docs/track7_review/`](docs/track7_review/), the reproducibility audit in
+[`REPRODUCE.md`](REPRODUCE.md), and the practices adopted since in
+[`REPRODUCIBILITY_RULES.md`](REPRODUCIBILITY_RULES.md).
 
 All three Track 3 evaluations used **Qwen3-VL-8B-Instruct in bf16**, including
 the in-domain TAR run — see [`OFFICIAL_RESULTS.md`](OFFICIAL_RESULTS.md).
@@ -89,9 +90,12 @@ not a verified Hafnia-generated evaluator artifact. See the postmortem.
 
 ### Track 7 · FETV out-of-domain
 
-| Final | Description | Categorical mean |
-|---:|---:|---:|
-| **0.4634** | 0.4238 | 0.5031 |
+| Final (public board) | Verified (organizers) | Description | Categorical mean |
+|---:|---:|---:|---:|
+| **0.4634** | **0.4618** | 0.4238 | 0.5031 |
+
+Component scores are from the public-board evaluation; the organizers published
+only the verified total.
 
 | Violation | Violator | Color | Start pos. | End pos. | Start lane | End lane |
 |---:|---:|---:|---:|---:|---:|---:|

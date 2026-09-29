@@ -10,7 +10,9 @@ and gives different ranks (see [`leaderboards/`](leaderboards/)).
 | Track 7 FETV | **3 of 8** | 0.4634 | [`fetv_submission_v11.json`](track3_anomaly/submissions/fetv_submission_v11.json) |
 | Track 8 PSI-VQA | **5 of 7** | 57.0400 | [`psi_vqa_submission_v7.csv`](track3_anomaly/submissions/psi_vqa_submission_v7.csv) |
 
-FETV: description 0.4238, categorical mean 0.5031.
+FETV: description 0.4238, categorical mean 0.5031. The organizers' verified score
+for the same submission is **0.4618**, on which Team 277 is third in the official
+Track 7 ranking (confirmed 2026-09-29, [`docs/track7_review/`](docs/track7_review/)).
 PSI-VQA: BCQ mF1 0.5045, Open QA Cue-F1 0.6019, MCQ 0.6044, temporal mIoU 0.5708.
 
 All three artifacts were identified from the portal's Team 277 submission

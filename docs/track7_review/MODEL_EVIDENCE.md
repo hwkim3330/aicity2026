@@ -4,15 +4,15 @@ Requested 2026-09-09 for the letter to the Track 7 organizer. This file says exa
 what the record is, where it came from, **and what it does not cover** — the last part
 matters more than the first.
 
-![portal records for Team 277](leaderboards/images/evidence_models_used_team277.png)
+![portal records for Team 277](../../leaderboards/images/evidence_models_used_team277.png)
 
 ## The record
 
 | | |
 |---|---|
-| File | [`leaderboards/raw/public_3.json`](leaderboards/raw/public_3.json) (identical entry in [`general_3.json`](leaderboards/raw/general_3.json)) |
+| File | [`leaderboards/raw/public_3.json`](../../leaderboards/raw/public_3.json) (identical entry in [`general_3.json`](../../leaderboards/raw/general_3.json)) |
 | Source | `https://eval.aicitychallenge.org/aicity2026/submission/leaderboard/stats/<dtype>/3` — the portal's own API, exported verbatim |
-| Snapshot | 2026-08-03, recorded in [`leaderboards/track3_tar_final.json`](leaderboards/track3_tar_final.json) (`exported_from_portal: true`) |
+| Snapshot | 2026-08-03, recorded in [`leaderboards/track3_tar_final.json`](../../leaderboards/track3_tar_final.json) (`exported_from_portal: true`) |
 
 ```json
 { "teamId": 277, "teamName": "Korea Drive",

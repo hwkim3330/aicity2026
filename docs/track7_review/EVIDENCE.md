@@ -1,5 +1,9 @@
 # Track 7 (FETV) removal — the questions, and what the repository can prove
 
+> **Resolved 2026-09-29.** The organizers confirmed the unified system and reinstated
+> Team 277 in third place on a verified score of 0.4618 — see [`README.md`](README.md).
+> This file is kept as written during the review.
+
 Korea Drive, Team 277. Written 2026-09-09, after the workshop announcement that our
 FETV entry was removed. This file exists so the questions being asked internally have
 one answer each, with something checkable behind it rather than a recollection.
@@ -131,9 +135,8 @@ By contrast the PSI-VQA artifact reproduces exactly, verified on all 328 records
 **A caution about the verbal reason.** The reason given on site was "a different
 model", and no reproducibility concern was mentioned. Everything above is our own
 reading of the evidence, not a statement of what the organizers found. The first thing
-to ask them is which finding the determination actually rests on — that question, and
-one about the standard applied to award candidates, are the whole content of the draft
-in [`EMAIL_TO_ORGANIZERS.md`](EMAIL_TO_ORGANIZERS.md).
+to ask them is which finding the determination actually rests on. (The organizers'
+answer, 2026-09-29, rested on model identity alone and found it satisfied.)
 
 ## What is not worth doing
 

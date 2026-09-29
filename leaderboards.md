@@ -86,7 +86,8 @@ Our status: working baseline in `/home/kim/aicity2026/track1_3dperception` (YOLO
 Final result (full test set, 2026-07-11): **Korea Drive (Team 277) finished
 3rd**. The final submitted candidate is preserved as
 `track3_anomaly/submissions/fetv_submission_v11.json` (0.4634). UWIPL_ETRI
-finished 1st.
+finished 1st on this board. In the organizers' verified ranking Team 277 is also
+third, on a verified score of 0.4618 (confirmed 2026-09-29).
 
 | Rank | Team ID | Team | Final Score | Description Score | Categorical Mean |
 |---|---|---|---|---|---|
